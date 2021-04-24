@@ -1,11 +1,11 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.js',
-    publicPath: 'dist/'
+    publicPath: '/dist'
   },
   module: {
     rules: [
@@ -40,12 +40,15 @@ module.exports = {
           ],
         },
         { 
-        test: /\.m?tsx?$/, 
+        test: /\.m?tsx$/, 
           loader: "ts-loader" 
         },
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
-  },
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    alias: {
+      'mapbox-gl': '../../node_modules/mapbox-gl/dist/mapbox-gl.js'
+    }
+  }
 };

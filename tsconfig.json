@@ -6,6 +6,7 @@
       "outDir": "./dist",
       "rootDir": "./src",
       "allowSyntheticDefaultImports":true,
-      "emitDecoratorMetadata": true
+      "emitDecoratorMetadata": true,
+      "jsx": "react-jsx"
     },
   }
