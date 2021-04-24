@@ -8,6 +8,11 @@ export const GET_TOP_USERS = gql`
             photos {
                 caption,
                 url,
+                width,
+                height,
+                zoom,
+                offsetX,
+                offsetY
                 user {
                     profile_url,
                     display

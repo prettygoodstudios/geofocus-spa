@@ -27,8 +27,8 @@ const styles = makeStyles({
         width: "30vw"
     },
     feedImgWrapper: {
-        width: "30vw",
-        height: "300px",
+        width: "400px",
+        height: "400px",
         overflow: "hidden"
     }
 });
@@ -38,7 +38,12 @@ type ApiData = {
     profile_url: string,
     photos: {
         caption: string,
-        url: string
+        url: string,
+        width: number,
+        height: number,
+        zoom: number,
+        offsetX: number,
+        offsetY: number
     }[]
 }
 
@@ -66,11 +71,16 @@ const UserFeed = (): ReactElement => {
                         <h2>{display}</h2>
                     </div>
                     <div className={classes.feedBody}>
-                        {photos.map(({caption, url}, id: number) => {
+                        {photos.map(({caption, url, zoom, width, height, offsetX, offsetY}, id: number) => {
                             return (
                             <div key={id}>
                                 <div className={classes.feedImgWrapper}>
-                                    <img src={url} className={classes.feedImg}/>
+                                    <img src={url} className={classes.feedImg} style={{
+                                        width: width*zoom,
+                                        height: height*zoom,
+                                        marginLeft: offsetX,
+                                        marginTop: offsetY
+                                    }}/>
                                 </div>
                                 <p>{caption}</p>
                             </div>
