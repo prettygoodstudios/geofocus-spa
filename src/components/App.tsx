@@ -1,4 +1,5 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { makeStyles } from '@material-ui/styles';
 import UserFeed from './UserFeed';
 
 
@@ -8,10 +9,21 @@ const client = new ApolloClient({
     cache: new InMemoryCache()
 });
 
+const useStyles = makeStyles({
+    body: {
+        fontFamily: "Avenir"
+    }
+})
+
 const App = () => {
-    return <ApolloProvider client={client}>
-        <UserFeed/>
-    </ApolloProvider>
+    const classes = useStyles();
+    return (
+    <div className={classes.body}>
+        <ApolloProvider client={client}>
+            <UserFeed/>
+        </ApolloProvider>
+    </div>
+    )
 }
 
 export default App;

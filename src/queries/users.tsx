@@ -12,7 +12,8 @@ export const GET_TOP_USERS = gql`
                 height,
                 zoom,
                 offsetX,
-                offsetY
+                offsetY,
+                views,
                 user {
                     profile_url,
                     display

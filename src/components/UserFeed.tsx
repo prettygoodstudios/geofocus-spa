@@ -4,12 +4,19 @@ import { ReactElement } from "react";
 import { GET_TOP_USERS } from "../queries/users";
 import Error from "../widgets/Error";
 import Loading from "../widgets/Loading";
+import Profile from "../widgets/Profile";
 
 const styles = makeStyles({
     feedHead: {
         display: "flex",
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "flex-start",
+        alignItems: "center",
+        height: "100px",
+        backgroundColor: "#ececec",
+        borderRadius: "20px",
+        margin: "20px 0px",
+        padding: "0px 20px"
     },
     profileImg: {
         width: "50px",
@@ -43,7 +50,8 @@ type ApiData = {
         height: number,
         zoom: number,
         offsetX: number,
-        offsetY: number
+        offsetY: number,
+        views: number
     }[]
 }
 
@@ -67,11 +75,10 @@ const UserFeed = (): ReactElement => {
                 return (
                 <>
                     <div className={classes.feedHead} >
-                        <img src={profile_url} className={classes.profileImg}/>
-                        <h2>{display}</h2>
+                        <Profile display={display} profileUrl={profile_url} size="50px" font="2em"/>
                     </div>
                     <div className={classes.feedBody}>
-                        {photos.map(({caption, url, zoom, width, height, offsetX, offsetY}, id: number) => {
+                        {photos.map(({caption, url, zoom, width, height, offsetX, offsetY, views}, id: number) => {
                             return (
                             <div key={id}>
                                 <div className={classes.feedImgWrapper}>
@@ -82,7 +89,8 @@ const UserFeed = (): ReactElement => {
                                         marginTop: offsetY
                                     }}/>
                                 </div>
-                                <p>{caption}</p>
+                                <Profile display={display} profileUrl={profile_url} size="20px" font="1em"/>
+                                <p>{views} views - {caption}</p>
                             </div>
                             )
                         })}
