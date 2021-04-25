@@ -1,6 +1,7 @@
 export type UserData = {
     display: string,
-    profileUrl: string
+    profileUrl: string,
+    slug: string
 }
 
 export type PhotoData = {
@@ -18,5 +19,6 @@ export type PhotoData = {
 export type ApiData = {
     display: string,
     profile_url: string,
+    slug: string,
     photos: PhotoData[]
 }

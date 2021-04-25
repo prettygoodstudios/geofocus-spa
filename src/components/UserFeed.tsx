@@ -17,25 +17,10 @@ const styles = makeStyles({
         height: "100px",
         backgroundColor: "#ececec",
         borderRadius: "20px",
-        margin: "20px 0px",
+        margin: "20px 20px",
         padding: "0px 20px"
-    },
-    feedBody: {
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        justifyContent: "space-evenly"
-    },
-    feedImg: {
-        width: "30vw"
-    },
-    feedImgWrapper: {
-        width: "400px",
-        height: "400px",
-        overflow: "hidden"
     }
 });
-
 
 const UserFeed = (): ReactElement => {
     const {loading, error, data} = useQuery(GET_TOP_USERS);
@@ -52,22 +37,21 @@ const UserFeed = (): ReactElement => {
 
     return <div className="user-feed">
         {
-            data.topUsers.map(({display, profile_url, photos} : ApiData, id: number) => {
+            data.topUsers.map(({display, profile_url, photos, slug} : ApiData, id: number) => {
                 photos = photos.map(p => ({
                     ...p,
                     user: {
                         display,
-                        profileUrl: profile_url
+                        profileUrl: profile_url,
+                        slug
                     }
                 }))
                 return (
                 <>
                     <div className={classes.feedHead} >
-                        <Profile display={display} profileUrl={profile_url} size="50px" font="2em"/>
+                        <Profile display={display} profileUrl={profile_url} slug={slug} size="50px" font="2em"/>
                     </div>
-                    <div className={classes.feedBody}>
-                        <Gallery photos={photos}/>
-                    </div>
+                    <Gallery photos={photos}/>
                 </>
                 )
             }) 

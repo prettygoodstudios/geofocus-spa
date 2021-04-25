@@ -5,6 +5,7 @@ export const GET_TOP_USERS = gql`
         topUsers {
             profile_url,
             display,
+            slug,
             photos {
                 caption,
                 url,
@@ -24,21 +25,25 @@ export const GET_TOP_USERS = gql`
 `;
 
 export const GET_USER = (slug: string) => gql`
-user(slug:"${slug}"){
-    display,
-    bio,
-    profile_url,
-    zoom,
-    width,
-    height,
-    offsetX,
-    offsetY,
-    photos{
-      views,
-      width,
-      height,
-      zoom,
-      caption
+    query GetUser {
+        user(slug:"${slug}"){
+            display,
+            bio,
+            profile_url,
+            zoom,
+            width,
+            height,
+            offsetX,
+            offsetY,
+            slug,
+            photos{
+                views,
+                width,
+                height,
+                zoom,
+                caption,
+                url
+            }
+        }
     }
-  }
 `;

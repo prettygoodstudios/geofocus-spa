@@ -8,6 +8,7 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import UserPage from './UserPage';
 
 const client = new ApolloClient({ 
     uri: "http://localhost:4000/",
@@ -27,6 +28,9 @@ const App = () => {
         <Router>
             <ApolloProvider client={client}>
                 <Switch>
+                    <Route path="/user/:slug">
+                        <UserPage/>
+                    </Route>
                     <Route path="/">
                         <UserFeed/>
                     </Route>

@@ -38,7 +38,7 @@ const Gallery = ({photos}: {photos: PhotoData[]}) : ReactElement => {
                         marginTop: offsetY
                     }}/>
                 </div>
-                <Profile display={user.display} profileUrl={user.profileUrl} size="20px" font="1em"/>
+                <Profile display={user.display} profileUrl={user.profileUrl} slug={user.slug} size="20px" font="1em"/>
                 <p>{views} views - {caption}</p>
             </div>
             )
