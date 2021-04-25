@@ -2,7 +2,9 @@ import { useQuery } from "@apollo/client";
 import { makeStyles } from "@material-ui/styles";
 import { ReactElement } from "react";
 import { GET_TOP_USERS } from "../queries/users";
+import { ApiData } from "../types";
 import Error from "../widgets/Error";
+import Gallery from "../widgets/Gallery";
 import Loading from "../widgets/Loading";
 import Profile from "../widgets/Profile";
 
@@ -17,12 +19,6 @@ const styles = makeStyles({
         borderRadius: "20px",
         margin: "20px 0px",
         padding: "0px 20px"
-    },
-    profileImg: {
-        width: "50px",
-        height: "50px",
-        borderRadius: "50%",
-        overflow: "hidden"
     },
     feedBody: {
         display: "flex",
@@ -40,21 +36,6 @@ const styles = makeStyles({
     }
 });
 
-type ApiData = {
-    display: string,
-    profile_url: string,
-    photos: {
-        caption: string,
-        url: string,
-        width: number,
-        height: number,
-        zoom: number,
-        offsetX: number,
-        offsetY: number,
-        views: number
-    }[]
-}
-
 
 const UserFeed = (): ReactElement => {
     const {loading, error, data} = useQuery(GET_TOP_USERS);
@@ -71,29 +52,21 @@ const UserFeed = (): ReactElement => {
 
     return <div className="user-feed">
         {
-            data.users.map(({display, profile_url, photos} : ApiData, id: number) => {
+            data.topUsers.map(({display, profile_url, photos} : ApiData, id: number) => {
+                photos = photos.map(p => ({
+                    ...p,
+                    user: {
+                        display,
+                        profileUrl: profile_url
+                    }
+                }))
                 return (
                 <>
                     <div className={classes.feedHead} >
                         <Profile display={display} profileUrl={profile_url} size="50px" font="2em"/>
                     </div>
                     <div className={classes.feedBody}>
-                        {photos.map(({caption, url, zoom, width, height, offsetX, offsetY, views}, id: number) => {
-                            return (
-                            <div key={id}>
-                                <div className={classes.feedImgWrapper}>
-                                    <img src={url} className={classes.feedImg} style={{
-                                        width: width*zoom,
-                                        height: height*zoom,
-                                        marginLeft: offsetX,
-                                        marginTop: offsetY
-                                    }}/>
-                                </div>
-                                <Profile display={display} profileUrl={profile_url} size="20px" font="1em"/>
-                                <p>{views} views - {caption}</p>
-                            </div>
-                            )
-                        })}
+                        <Gallery photos={photos}/>
                     </div>
                 </>
                 )

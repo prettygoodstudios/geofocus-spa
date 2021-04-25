@@ -2,7 +2,7 @@ import {gql} from "@apollo/client";
 
 export const GET_TOP_USERS = gql`
     query GetUsers {
-        users {
+        topUsers {
             profile_url,
             display,
             photos {
@@ -21,4 +21,24 @@ export const GET_TOP_USERS = gql`
             }
         }
     }
+`;
+
+export const GET_USER = (slug: string) => gql`
+user(slug:"${slug}"){
+    display,
+    bio,
+    profile_url,
+    zoom,
+    width,
+    height,
+    offsetX,
+    offsetY,
+    photos{
+      views,
+      width,
+      height,
+      zoom,
+      caption
+    }
+  }
 `;
