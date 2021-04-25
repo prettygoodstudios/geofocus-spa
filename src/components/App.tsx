@@ -10,6 +10,7 @@ import {
 
 import UserPage from './UserPage';
 import PhotoPage from './PhotoPage';
+import Nav from './Nav';
 
 const client = new ApolloClient({ 
     uri: "http://localhost:4000/",
@@ -28,6 +29,7 @@ const App = () => {
     <div className={classes.body}>
         <Router>
             <ApolloProvider client={client}>
+                <Nav/>
                 <Switch>
                     <Route path="/user/:slug">
                         <UserPage/>
