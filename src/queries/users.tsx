@@ -14,6 +14,7 @@ export const GET_TOP_USERS = gql`
                 zoom,
                 offsetX,
                 offsetY,
+                slug,
                 views,
                 user {
                     profile_url,
@@ -42,7 +43,8 @@ export const GET_USER = (slug: string) => gql`
                 height,
                 zoom,
                 caption,
-                url
+                url,
+                slug
             }
         }
     }

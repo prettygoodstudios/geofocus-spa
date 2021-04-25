@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/styles";
 import { ReactElement } from "react";
+import {Link} from "react-router-dom";
+
 import { PhotoData } from "../types";
+
 
 import Profile from "./Profile";
 
@@ -27,7 +30,7 @@ const Gallery = ({photos}: {photos: PhotoData[]}) : ReactElement => {
     const classes = styles();
 
     return <div className={classes.feedBody}>
-        {photos.map(({caption, url, zoom, width, height, offsetX, offsetY, views, user}: PhotoData, id: number) => {
+        {photos.map(({caption, url, zoom, width, height, offsetX, offsetY, views, user, slug}: PhotoData, id: number) => {
             return (
             <div key={id}>
                 <div className={classes.feedImgWrapper}>
@@ -40,6 +43,7 @@ const Gallery = ({photos}: {photos: PhotoData[]}) : ReactElement => {
                 </div>
                 <Profile display={user.display} profileUrl={user.profileUrl} slug={user.slug} size="20px" font="1em"/>
                 <p>{views} views - {caption}</p>
+                <Link to={`/photo/${slug}`}>View</Link>
             </div>
             )
         })}

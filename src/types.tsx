@@ -13,7 +13,8 @@ export type PhotoData = {
     offsetX: number,
     offsetY: number,
     views: number,
-    user: UserData
+    user: UserData,
+    slug: string
 }
 
 export type ApiData = {

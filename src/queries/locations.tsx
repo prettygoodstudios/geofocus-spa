@@ -18,7 +18,8 @@ export const GET_LOCATIONS = gql`
                     width,
                     height,
                     zoom
-                }
+                },
+                slug
             }
         }
     }

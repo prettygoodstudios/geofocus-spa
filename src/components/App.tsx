@@ -5,10 +5,11 @@ import UserFeed from './UserFeed';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link
+    Route
 } from "react-router-dom";
+
 import UserPage from './UserPage';
+import PhotoPage from './PhotoPage';
 
 const client = new ApolloClient({ 
     uri: "http://localhost:4000/",
@@ -30,6 +31,9 @@ const App = () => {
                 <Switch>
                     <Route path="/user/:slug">
                         <UserPage/>
+                    </Route>
+                    <Route path="/photo/:slug">
+                        <PhotoPage/>
                     </Route>
                     <Route path="/">
                         <UserFeed/>

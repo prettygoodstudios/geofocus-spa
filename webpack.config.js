@@ -50,5 +50,10 @@ module.exports = {
     alias: {
       'mapbox-gl': '../../node_modules/mapbox-gl/dist/mapbox-gl.js'
     }
-  }
+  },
+  devServer: {
+    historyApiFallback: true,
+    contentBase: './',
+    hot: true
+ }
 };
