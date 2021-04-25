@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { makeStyles } from "@material-ui/styles";
 import { ReactElement } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { GET_PHOTO } from "../queries/photo";
 import { PhotoData } from "../types";
 import Error from "../widgets/Error";
@@ -34,13 +35,13 @@ const PhotoPage = (): ReactElement =>  {
         return <Loading/>
     }
 
-    const {views, url, caption, user} : PhotoData = data.photo;
+    const {views, url, caption, user, location} : PhotoData = data.photo;
 
     return <>
         <div className={classes.imgContainer}>
             <img src={url} className={classes.img}/>
             <Profile slug={user.slug} display={user.display} profileUrl={user.profile_url} size="20px" font="15px"/>
-            {views} views - {caption}
+            <Link to={`/location/${location.slug}`}>{location.title}</Link> - {views} views - {caption}
         </div>
     </>
 }

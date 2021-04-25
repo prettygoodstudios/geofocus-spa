@@ -27,7 +27,7 @@ const LocationPage = () : ReactElement => {
     return <>
         <Banner title={title} photo={photos[0]}/>
         <p>{address}, {city}, {state}</p>
-        <Gallery photos={photos}/>
+        <Gallery photos={photos} query={true}/>
     </>
 }
 

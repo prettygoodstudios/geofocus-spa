@@ -29,7 +29,7 @@ const UserPage = () : ReactElement => {
         <Banner photo={photos[0]}>
             <Profile display={display} profileUrl={profile_url} slug={slug} size="300px" font="40px" color="white"/>
         </Banner>
-        <Gallery photos={photos}/>
+        <Gallery photos={photos} query={true}/>
     </>
 }
 
