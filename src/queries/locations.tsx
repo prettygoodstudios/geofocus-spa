@@ -55,7 +55,11 @@ export const GET_LOCATION = (slug: string) => gql`
                     profile_url
                 },
                 slug,
-              	caption
+              	caption,
+                location {
+                    title,
+                    slug
+                }
             }
         }
     }

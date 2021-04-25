@@ -17,6 +17,10 @@ export const GET_PHOTO = (slug: string) => gql`
                 offsetX,
                 offsetY,
                 slug
+            },
+            location {
+                title,
+                slug
             }
         }
     }

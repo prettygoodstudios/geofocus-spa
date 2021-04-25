@@ -14,7 +14,8 @@ export type PhotoData = {
     offsetY: number,
     views: number,
     user: UserData,
-    slug: string
+    slug: string,
+    location: LocationData
 }
 
 export type ApiData = {
@@ -31,5 +32,6 @@ export type LocationData = {
     city: string,
     latitude: number,
     longitude: number,
-    photos: PhotoData[]
+    photos: PhotoData[],
+    slug: string
 }

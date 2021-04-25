@@ -30,7 +30,7 @@ const Gallery = ({photos}: {photos: PhotoData[]}) : ReactElement => {
     const classes = styles();
 
     return <div className={classes.feedBody}>
-        {photos.map(({caption, url, zoom, width, height, offsetX, offsetY, views, user, slug}: PhotoData, id: number) => {
+        {photos.map(({caption, url, zoom, width, height, offsetX, offsetY, views, user, slug, location}: PhotoData, id: number) => {
             return (
             <div key={id}>
                 <div className={classes.feedImgWrapper}>
@@ -42,7 +42,7 @@ const Gallery = ({photos}: {photos: PhotoData[]}) : ReactElement => {
                     }}/>
                 </div>
                 <Profile display={user.display} profileUrl={user.profile_url} slug={user.slug} size="20px" font="1em"/>
-                <p>{views} views - {caption}</p>
+                <p><Link to={`/location/${location.slug}`}>{location.title}</Link> - {views} views - {caption}</p>
                 <Link to={`/photo/${slug}`}>View</Link>
             </div>
             )

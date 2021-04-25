@@ -2,15 +2,21 @@ import { makeStyles } from "@material-ui/styles";
 import { ReactElement } from "react";
 import { Link } from "react-router-dom";
 
+type StyleType = {
+    size: string, 
+    font: string, 
+    color: string
+}
+
 const useStyles = makeStyles({
-    profileImg: ({size}: {size: string, font: string}) => ({
+    profileImg: ({size}: StyleType) => ({
         width: size,
         height: size,
         borderRadius: "50%",
         overflow: "hidden",
         marginRight: "10px"
     }),
-    text: ({font}: {size: string, font: string}) => ({
+    text: ({font}: StyleType) => ({
         fontSize: font
     }),
     main: {
@@ -18,10 +24,10 @@ const useStyles = makeStyles({
         flexDirection: "row",
         alignItems: "center"
     },
-    link: {
-        color: "black",
+    link: ({color}: StyleType) => ({
+        color,
         textDecoration: "none"
-    }
+    })
 });
 
 
@@ -30,15 +36,17 @@ const Profile = ({
     profileUrl,
     size,
     font,
-    slug
+    slug,
+    color = "black"
 }: {
     display: string,
     profileUrl: string,
     size: string,
     font: string,
-    slug: string
+    slug: string,
+    color?: string
 }): ReactElement => {
-    const classes = useStyles({size, font});
+    const classes = useStyles({size, font, color});
     return <div className={classes.main}>
         <img src={profileUrl} className={classes.profileImg}/>
         <Link to={`/user/${slug}`} className={classes.link}>

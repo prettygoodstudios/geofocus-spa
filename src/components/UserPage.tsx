@@ -25,20 +25,11 @@ const UserPage = () : ReactElement => {
 
     const {user: {photos, display, profile_url}} = data;
 
-    const mappedPhotos = photos.map((p: UserData) => ({
-        ...p,
-        user: {
-            display,
-            profile_url: profile_url,
-            slug
-        }
-    }))
-
     return <>
-        <Banner photo={mappedPhotos[0]}>
-            <Profile display={display} profileUrl={profile_url} slug={slug} size="300px" font="40px"/>
+        <Banner photo={photos[0]}>
+            <Profile display={display} profileUrl={profile_url} slug={slug} size="300px" font="40px" color="white"/>
         </Banner>
-        <Gallery photos={mappedPhotos}/>
+        <Gallery photos={photos}/>
     </>
 }
 
