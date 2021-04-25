@@ -24,6 +24,8 @@ const LocationPage = () : ReactElement => {
 
     const {title, address, city, state, photos} = location;
 
+    photos.sort((a, b) => b.views - a.views);
+
     return <>
         <Banner title={title} photo={photos[0]}/>
         <p>{address}, {city}, {state}</p>

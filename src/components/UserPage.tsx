@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import { ReactElement } from "react";
 import { useParams } from "react-router";
 import { GET_USER } from "../queries/users";
-import { UserData } from "../types";
+import { ApiData } from "../types";
 import Banner from "../widgets/Banner";
 import Error from "../widgets/Error";
 import Gallery from "../widgets/Gallery";
@@ -23,7 +23,9 @@ const UserPage = () : ReactElement => {
         return <Loading/>
     }
 
-    const {user: {photos, display, profile_url}} = data;
+    const {user: {photos, display, profile_url}} : {user: ApiData} = data;
+
+    photos.sort((a, b) => b.views - a.views);
 
     return <>
         <Banner photo={photos[0]}>

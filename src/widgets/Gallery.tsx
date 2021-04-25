@@ -32,15 +32,15 @@ const styles = makeStyles({
         width: "80vw",
         fontSize: "30px",
         borderRadius: "50px",
-        borderWidth: "3px",
+        border: "4px solid black",
         margin: "20px 0px",
-        borderColor: "black",
+        outline: "none"
     },
     container: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center"
-    }
+    },
 });
 
 const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}) : ReactElement => {
@@ -64,7 +64,6 @@ const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}
         })
     }
 
-
     return  <div className={classes.container}>
         {query && <input type="text" placeholder="Search..." value={queryTerm} onChange={({target}) => setQuery(target.value)} className={classes.search}></input>}
         <div className={classes.feedBody}>
@@ -85,6 +84,9 @@ const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}
                 </div>
                 )
             })}
+            {
+                filteredPhotos.length === 0 && <h2>Sorry there are no photos available.</h2>
+            }
         </div>
     </div>
 }
