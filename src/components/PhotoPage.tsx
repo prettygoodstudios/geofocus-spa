@@ -36,12 +36,10 @@ const PhotoPage = (): ReactElement =>  {
 
     const {views, url, caption, user} : PhotoData = data.photo;
 
-    user.profileUrl = data.photo.user.profile_url;
-
     return <>
         <div className={classes.imgContainer}>
             <img src={url} className={classes.img}/>
-            <Profile slug={user.slug} display={user.display} profileUrl={user.profileUrl} size="20px" font="15px"/>
+            <Profile slug={user.slug} display={user.display} profileUrl={user.profile_url} size="20px" font="15px"/>
             {views} views - {caption}
         </div>
     </>

@@ -1,6 +1,6 @@
 export type UserData = {
     display: string,
-    profileUrl: string,
+    profile_url: string,
     slug: string
 }
 
@@ -21,5 +21,15 @@ export type ApiData = {
     display: string,
     profile_url: string,
     slug: string,
+    photos: PhotoData[]
+}
+
+export type LocationData = {
+    title: string,
+    address: string,
+    state: string,
+    city: string,
+    latitude: number,
+    longitude: number,
     photos: PhotoData[]
 }

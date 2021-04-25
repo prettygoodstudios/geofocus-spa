@@ -42,7 +42,7 @@ const UserFeed = (): ReactElement => {
                     ...p,
                     user: {
                         display,
-                        profileUrl: profile_url,
+                        profile_url: profile_url,
                         slug
                     }
                 }))

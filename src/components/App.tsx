@@ -11,6 +11,7 @@ import {
 import UserPage from './UserPage';
 import PhotoPage from './PhotoPage';
 import Nav from './Nav';
+import LocationPage from './LocationPage';
 
 const client = new ApolloClient({ 
     uri: "http://localhost:4000/",
@@ -36,6 +37,9 @@ const App = () => {
                     </Route>
                     <Route path="/photo/:slug">
                         <PhotoPage/>
+                    </Route>
+                    <Route path="/location/:slug">
+                        <LocationPage/>
                     </Route>
                     <Route path="/">
                         <UserFeed/>
