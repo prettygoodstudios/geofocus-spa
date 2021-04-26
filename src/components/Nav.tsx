@@ -42,7 +42,7 @@ const Nav = (): ReactElement => {
     return <div className={classes.nav}>
         <Link to="/" className={classes.title}>GeoFocus</Link>
         {user ? 
-            <Profile display={user.display} profileUrl={user.profile_url} slug={user.slug} size="30px" font="20px"/>
+            <Profile display={user.display} profileUrl={user.profile_url} slug={user.slug} size="30px" font="20px" path="me"/>
             : 
             !loading && <Link to="/login">Login</Link>
         }

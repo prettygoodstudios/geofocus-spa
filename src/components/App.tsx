@@ -16,6 +16,7 @@ import LoginPage from './LoginPage';
 import { UserContext } from '../helpers/UserContext';
 import { useMemo, useReducer } from 'react';
 import { reducer } from '../helpers/Reducer';
+import MePage from './MePage';
 
 const client = new ApolloClient({ 
     cache: new InMemoryCache(),
@@ -56,6 +57,9 @@ const App = () => {
                         </Route>
                         <Route path="/login">
                             <LoginPage/>
+                        </Route>
+                        <Route path="/me">
+                            <MePage/>
                         </Route>
                         <Route path="/">
                             <h1>Welcome to GeoFocus!</h1>

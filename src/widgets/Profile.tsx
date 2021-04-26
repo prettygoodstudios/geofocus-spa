@@ -37,19 +37,21 @@ const Profile = ({
     size,
     font,
     slug,
-    color = "black"
+    color = "black",
+    path = "user"
 }: {
     display: string,
     profileUrl: string,
     size: string,
     font: string,
     slug: string,
-    color?: string
+    color?: string,
+    path?: string
 }): ReactElement => {
     const classes = useStyles({size, font, color});
     return <div className={classes.main}>
         <img src={profileUrl} className={classes.profileImg}/>
-        <Link to={`/user/${slug}`} className={classes.link}>
+        <Link to={`/${path}/${slug}`} className={classes.link}>
             <h2 className={classes.text}>{display}</h2>
         </Link>
         
