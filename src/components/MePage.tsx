@@ -12,8 +12,6 @@ import Profile from "../widgets/Profile";
 
 
 const MePage = () : ReactElement => {
-    const {slug} : {slug: string} = useParams();
-    
 
     const {state, dispatch} = useContext(UserContext);
 
@@ -24,7 +22,7 @@ const MePage = () : ReactElement => {
         return <div>We are currenlty working on finding your info.</div>
     }
 
-    const {user: {photos, display, profile_url}} : {user: ApiData} = state;
+    const {user: {photos, display, slug, profile_url}} : {user: ApiData} = state;
 
     photos.sort((a, b) => b.views - a.views);
 
