@@ -1,9 +1,9 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { ReactElement, useContext } from "react";
-import { Redirect, useParams } from "react-router";
+import { Redirect } from "react-router";
 import { SET_USER } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
-import { GET_USER, LOGOUT } from "../queries/users";
+import { LOGOUT } from "../queries/users";
 import { ApiData } from "../types";
 import Banner from "../widgets/Banner";
 import Gallery from "../widgets/Gallery";
@@ -17,6 +17,11 @@ const MePage = () : ReactElement => {
 
     const [clearCookies, result] = useMutation(LOGOUT);
 
+    
+
+    if (!state.user && state.loaded){
+        return <Redirect to="/"/>;
+    }
 
     if(!state.user){
         return <div>We are currenlty working on finding your info.</div>
@@ -34,6 +39,8 @@ const MePage = () : ReactElement => {
             });
         });
     }
+
+    
 
     return <>
         <Banner photo={photos[0]}>

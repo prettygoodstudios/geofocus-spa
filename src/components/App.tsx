@@ -34,7 +34,8 @@ const App = () => {
     const classes = useStyles();
 
     const [state, dispatch] = useReducer(reducer, {
-        user: null
+        user: null,
+        loaded: false
     });
 
     const context = useMemo(() => ({state, dispatch}), [state, dispatch]);

@@ -5,7 +5,8 @@ export const reducer = (state: any, {type, payload} : {type: string, payload: an
         case SET_USER:
             return {
                 ...state,
-                user: payload
+                user: payload,
+                loaded: true
             }
         default:
             return {

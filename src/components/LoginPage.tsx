@@ -75,10 +75,13 @@ const LoginPage = (): ReactElement => {
     const {email, password, error} = state;
 
     return <div className={classes.form}>
-        <input type="placeholder" placeholder="Email" value={email} onChange={({target: {value}}) => dispatch({
+        <h2>Login</h2>
+        <label htmlFor="email">Email</label>
+        <input type="placeholder" name="email" placeholder="Email" value={email} onChange={({target: {value}}) => dispatch({
             type: SET_EMAIL,
             payload: value
         })}/>
+        <label htmlFor="password">Password</label>
         <input type="password" placeholder="Password" value={password} onChange={({target: {value}}) => dispatch({
             type: SET_PASSWORD,
             payload: value
