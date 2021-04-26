@@ -97,3 +97,38 @@ export const LOGIN = gql`
         }
     }
 `;
+
+
+export const ME = gql`
+    query me {
+        me {
+            display,
+            bio,
+            profile_url,
+            zoom,
+            width,
+            height,
+            offsetX,
+            offsetY,
+            slug,
+            photos{
+                views,
+                width,
+                height,
+                zoom,
+                caption,
+                url,
+                slug,
+                location {
+                    title,
+                    slug
+                },
+                user {
+                    profile_url,
+                    display,
+                    slug
+                }
+            }
+        }
+    }
+`;

@@ -18,8 +18,9 @@ import { useMemo, useReducer } from 'react';
 import { reducer } from '../helpers/Reducer';
 
 const client = new ApolloClient({ 
+    cache: new InMemoryCache(),
     uri: "http://localhost:4000/graphql",
-    cache: new InMemoryCache()
+    credentials: "include"
 });
 
 const useStyles = makeStyles({
@@ -70,3 +71,4 @@ const App = () => {
 }
 
 export default App;
+
