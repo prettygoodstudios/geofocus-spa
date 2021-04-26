@@ -24,6 +24,7 @@ const Nav = (): ReactElement => {
     const classes = useStyles();
     return <div className={classes.nav}>
         <Link to="/" className={classes.title}>GeoFocus</Link>
+        <Link to="/login">Login</Link>
     </div>
 }
 

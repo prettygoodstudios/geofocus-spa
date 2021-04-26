@@ -63,3 +63,37 @@ export const GET_USER = (slug: string) => gql`
         }
     }
 `;
+
+export const LOGIN = gql`
+    mutation Login($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
+            display,
+            bio,
+            profile_url,
+            zoom,
+            width,
+            height,
+            offsetX,
+            offsetY,
+            slug,
+            photos{
+                views,
+                width,
+                height,
+                zoom,
+                caption,
+                url,
+                slug,
+                location {
+                    title,
+                    slug
+                },
+                user {
+                    profile_url,
+                    display,
+                    slug
+                }
+            }
+        }
+    }
+`;
