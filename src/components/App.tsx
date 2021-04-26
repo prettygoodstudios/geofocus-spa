@@ -13,6 +13,9 @@ import PhotoPage from './PhotoPage';
 import Nav from './Nav';
 import LocationPage from './LocationPage';
 import LoginPage from './LoginPage';
+import { UserContext } from '../helpers/UserContext';
+import { useMemo, useReducer } from 'react';
+import { reducer } from '../helpers/Reducer';
 
 const client = new ApolloClient({ 
     uri: "http://localhost:4000/graphql",
@@ -27,30 +30,39 @@ const useStyles = makeStyles({
 
 const App = () => {
     const classes = useStyles();
+
+    const [state, dispatch] = useReducer(reducer, {
+        user: null
+    });
+
+    const context = useMemo(() => ({state, dispatch}), [state, dispatch]);
+
     return (
     <div className={classes.body}>
         <Router>
             <ApolloProvider client={client}>
-                <Nav/>
-                <Switch>
-                    <Route path="/user/:slug">
-                        <UserPage/>
-                    </Route>
-                    <Route path="/photo/:slug">
-                        <PhotoPage/>
-                    </Route>
-                    <Route path="/location/:slug">
-                        <LocationPage/>
-                    </Route>
-                    <Route path="/login">
-                        <LoginPage/>
-                    </Route>
-                    <Route path="/">
-                        <h1>Welcome to GeoFocus!</h1>
-                        <h2>These are our top users.</h2>
-                        <UserFeed/>
-                    </Route>
-                </Switch>
+                <UserContext.Provider value={context}>
+                    <Nav/>
+                    <Switch>
+                        <Route path="/user/:slug">
+                            <UserPage/>
+                        </Route>
+                        <Route path="/photo/:slug">
+                            <PhotoPage/>
+                        </Route>
+                        <Route path="/location/:slug">
+                            <LocationPage/>
+                        </Route>
+                        <Route path="/login">
+                            <LoginPage/>
+                        </Route>
+                        <Route path="/">
+                            <h1>Welcome to GeoFocus!</h1>
+                            <h2>These are our top users.</h2>
+                            <UserFeed/>
+                        </Route>
+                    </Switch>
+                </UserContext.Provider>
             </ApolloProvider>
         </Router>
     </div>

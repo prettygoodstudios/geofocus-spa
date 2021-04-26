@@ -1,6 +1,8 @@
 import { makeStyles } from "@material-ui/styles";
-import { ReactElement } from "react";
+import { ReactElement, useContext } from "react";
 import {Link} from "react-router-dom";
+import { UserContext } from "../helpers/UserContext";
+import Profile from "../widgets/Profile";
 
 const useStyles = makeStyles({
     nav: {
@@ -22,9 +24,16 @@ const useStyles = makeStyles({
 
 const Nav = (): ReactElement => {
     const classes = useStyles();
+
+    const {state: {user}, dispatch} = useContext(UserContext);
+
     return <div className={classes.nav}>
         <Link to="/" className={classes.title}>GeoFocus</Link>
-        <Link to="/login">Login</Link>
+        {user ? 
+            <Profile display={user.display} profileUrl={user.profile_url} slug={user.slug} size="30px" font="20px"/>
+            : 
+            <Link to="/login">Login</Link>
+        }
     </div>
 }
 
