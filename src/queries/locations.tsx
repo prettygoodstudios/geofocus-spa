@@ -84,3 +84,18 @@ export const UPDATE_LOCATION = gql`
         }
     }
 `;
+
+export const CREATE_LOCATION = gql`
+    mutation createLocation($title: String!, $address: String!, $city: String!, $state: String!, $country: String!) {
+        createLocation(title: $title, address: $address, city: $city, state: $state, country: $country) {
+            slug,
+            title,
+            address,
+            state,
+            city,
+            latitude,
+            longitude,
+            country
+        }
+    }
+`;

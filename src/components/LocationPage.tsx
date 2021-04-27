@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { ReactElement, useContext, useState } from "react";
 import { useParams } from "react-router";
+import { SET_LOCATION } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { GET_LOCATION } from "../queries/locations";
 import { LocationData } from "../types";
@@ -12,9 +13,17 @@ import LocationFormPage from "./LocationFormPage";
 
 const LocationPage = () : ReactElement => {
     const {slug} : {slug: string} = useParams();
-    const {error, loading, data} = useQuery(GET_LOCATION(slug));
 
     const context = useContext(UserContext);
+
+    const {error, loading} = useQuery(GET_LOCATION(slug), {
+        onCompleted: (data) => {
+            context.dispatch({
+                type: SET_LOCATION,
+                payload: data.location
+            });
+        }
+    });
 
     const [editing, setEditing] = useState(false);
 
@@ -26,7 +35,11 @@ const LocationPage = () : ReactElement => {
         return <Loading/>
     }
 
-    const {location} : {location: LocationData} = data;
+    const {location} : {location: LocationData} = context.state;
+
+    if (!location) {
+        return <Loading/>
+    }
 
     const {title, address, city, state, photos, country} = location;
 

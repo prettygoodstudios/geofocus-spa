@@ -5,7 +5,8 @@ import UserFeed from './UserFeed';
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    Link
 } from "react-router-dom";
 
 import UserPage from './UserPage';
@@ -17,6 +18,7 @@ import { UserContext } from '../helpers/UserContext';
 import { useMemo, useReducer } from 'react';
 import { reducer } from '../helpers/Reducer';
 import MePage from './MePage';
+import LocationFormPage from './LocationFormPage';
 
 const client = new ApolloClient({ 
     cache: new InMemoryCache(),
@@ -53,6 +55,9 @@ const App = () => {
                         <Route path="/photo/:slug">
                             <PhotoPage/>
                         </Route>
+                        <Route path="/location/form/create">
+                            <LocationFormPage create={true}/>
+                        </Route>
                         <Route path="/location/:slug">
                             <LocationPage/>
                         </Route>
@@ -65,6 +70,7 @@ const App = () => {
                         <Route path="/">
                             <h1>Welcome to GeoFocus!</h1>
                             <h2>These are our top users.</h2>
+                            {context.state.user && <Link to="/location/form/create">Create a new Location</Link>}
                             <UserFeed/>
                         </Route>
                     </Switch>
