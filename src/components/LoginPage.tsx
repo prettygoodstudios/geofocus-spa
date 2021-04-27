@@ -5,6 +5,7 @@ import { Redirect } from "react-router";
 import { SET_USER } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { LOGIN } from "../queries/users";
+import Form, {FormInput} from "../widgets/Form";
 
 const useStyles = makeStyles({
     form: {
@@ -18,6 +19,7 @@ const LoginPage = (): ReactElement => {
 
     const SET_EMAIL = "SET_EMAIL";
     const SET_PASSWORD = "SET_PASSWORD";
+    const SET_ERROR = "SET_ERROR";
 
     const [login, result] = useMutation(LOGIN);
     const {data} = result;
@@ -38,6 +40,11 @@ const LoginPage = (): ReactElement => {
                 return {
                     ...state,
                     password: payload
+                }
+            case SET_ERROR:
+                return {
+                    ...state,
+                    error: payload
                 }
             default:
                 return {
@@ -65,6 +72,11 @@ const LoginPage = (): ReactElement => {
                     payload: data.login
                 });
             }
+        }).catch(({message}) => {
+            dispatch({
+                type: SET_ERROR,
+                payload: message
+            })
         });
     }
 
@@ -74,20 +86,31 @@ const LoginPage = (): ReactElement => {
 
     const {email, password, error} = state;
 
+    const inputs: FormInput[] = [
+        {
+            label: "Email",
+            type: "email",
+            value: email,
+            dispatch: ({target: {value}}) => dispatch({
+                type: SET_EMAIL,
+                payload: value
+            })
+        },
+        {
+            label: "Password",
+            type: "password",
+            value: password,
+            dispatch: ({target: {value}}) => dispatch({
+                type: SET_PASSWORD,
+                payload: value
+            })
+        }
+    ];
+
     return <div className={classes.form}>
         <h2>Login</h2>
-        <label htmlFor="email">Email</label>
-        <input type="placeholder" name="email" placeholder="Email" value={email} onChange={({target: {value}}) => dispatch({
-            type: SET_EMAIL,
-            payload: value
-        })}/>
-        <label htmlFor="password">Password</label>
-        <input type="password" placeholder="Password" value={password} onChange={({target: {value}}) => dispatch({
-            type: SET_PASSWORD,
-            payload: value
-        })}/>
+        <Form inputs={inputs} error={error}/>
         <button onClick={() => submit()}>Login</button>
-        {result.error && <p>Incorrect credentials provided.</p>}
     </div>
 }
 
