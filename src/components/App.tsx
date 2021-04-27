@@ -19,6 +19,7 @@ import { useMemo, useReducer } from 'react';
 import { reducer } from '../helpers/Reducer';
 import MePage from './MePage';
 import LocationFormPage from './LocationFormPage';
+import PhotoUploadPage from './PhotoUploadPage';
 
 const client = new ApolloClient({ 
     cache: new InMemoryCache(),
@@ -51,6 +52,9 @@ const App = () => {
                     <Switch>
                         <Route path="/user/:slug">
                             <UserPage/>
+                        </Route>
+                        <Route path="/photo/upload/new/:slug">
+                            <PhotoUploadPage/>
                         </Route>
                         <Route path="/photo/:slug">
                             <PhotoPage/>

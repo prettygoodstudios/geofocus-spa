@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { ReactElement, useContext, useState } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { SET_LOCATION } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { GET_LOCATION } from "../queries/locations";
@@ -48,6 +49,7 @@ const LocationPage = () : ReactElement => {
     return <>
         <Banner title={title} photo={photos[0]}/>
         <p>{address}, {city}, {state}, {country}</p>
+        { context.state?.user && <Link to={`/photo/upload/new/:slug`}>Add Photo</Link>}
         { context.state?.user?.slug === location?.user?.slug && <button onClick={() => setEditing(!editing)}>{ editing ? "Cancel" : "Edit"}</button>}
         { editing && <LocationFormPage create={false}/> }
         <Gallery photos={photos} query={true}/>
