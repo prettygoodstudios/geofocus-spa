@@ -10,6 +10,7 @@ export const GET_LOCATIONS = gql`
             city,
             latitude,
             longitude,
+            country,
             photos {
                 url,
                 user {
@@ -35,6 +36,10 @@ export const GET_LOCATION = (slug: string) => gql`
             city,
             latitude,
             longitude,
+            country,
+            user {
+                slug
+            },
             photos {
                 url,
                 width,
@@ -61,6 +66,21 @@ export const GET_LOCATION = (slug: string) => gql`
                     slug
                 }
             }
+        }
+    }
+`;
+
+export const UPDATE_LOCATION = gql`
+    mutation updateLocation($title: String!, $address: String!, $city: String!, $state: String!, $country: String!, $slug: String!) {
+        updateLocation(title: $title, address: $address, city: $city, state: $state, country: $country, slug: $slug) {
+            slug,
+            title,
+            address,
+            state,
+            city,
+            latitude,
+            longitude,
+            country
         }
     }
 `;

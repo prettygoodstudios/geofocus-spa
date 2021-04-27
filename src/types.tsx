@@ -33,5 +33,7 @@ export type LocationData = {
     latitude: number,
     longitude: number,
     photos: PhotoData[],
-    slug: string
+    slug: string,
+    user: UserData,
+    country: string
 }
