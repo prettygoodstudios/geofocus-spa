@@ -49,8 +49,8 @@ const LocationPage = () : ReactElement => {
     return <>
         <Banner title={title} photo={photos[0]}/>
         <p>{address}, {city}, {state}, {country}</p>
-        { context.state?.user && <Link to={`/photo/upload/new/:slug`}>Add Photo</Link>}
-        { context.state?.user?.slug === location?.user?.slug && <button onClick={() => setEditing(!editing)}>{ editing ? "Cancel" : "Edit"}</button>}
+        { context.state?.user && <Link to={`/photo/upload/new/${location.slug}`}>Add Photo</Link>}
+        { context.state?.user?.slug === location.user?.slug && <button onClick={() => setEditing(!editing)}>{ editing ? "Cancel" : "Edit"}</button>}
         { editing && <LocationFormPage create={false}/> }
         <Gallery photos={photos} query={true}/>
     </>

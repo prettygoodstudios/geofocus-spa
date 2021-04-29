@@ -20,11 +20,17 @@ import { reducer } from '../helpers/Reducer';
 import MePage from './MePage';
 import LocationFormPage from './LocationFormPage';
 import PhotoUploadPage from './PhotoUploadPage';
+import {createUploadLink} from "apollo-upload-client";
+
+const link = createUploadLink({
+    uri: "http://localhost:4000/graphql",
+    credentials: "include"
+});
+
 
 const client = new ApolloClient({ 
     cache: new InMemoryCache(),
-    uri: "http://localhost:4000/graphql",
-    credentials: "include"
+    link
 });
 
 const useStyles = makeStyles({
