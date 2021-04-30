@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import { ReactElement, useState } from "react";
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/lib/ReactCrop.scss';
-import { useParams } from "react-router";
+import { Redirect, useParams } from "react-router";
 import { UPLOAD_PHOTO } from "../queries/photo";
 
 const useStyles = makeStyles({
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 });
 
 const PhotoUploadPage = (): ReactElement => {
-    const [crop, setCrop] = useState({ aspect: 1 } as any);
+    const [crop, setCrop] = useState({ aspect: 1, minWidth: 400, maxWidth: 400 } as any);
     const [src, setSrc] = useState({} as any);
 
     const {slug}: {slug: string} = useParams();
@@ -26,8 +26,17 @@ const PhotoUploadPage = (): ReactElement => {
     const classes = useStyles();
 
     const [upload] = useMutation(UPLOAD_PHOTO, {
-        onCompleted: ({data}) => {
-            console.log(data.upload);
+        onCompleted: ({upload}) => {
+            setSrc({
+                ...src,
+                uploaded: upload.slug
+            });
+        },
+        onError: ({message}) => {
+            setSrc({
+                ...src,
+                error: message
+            });
         }
     });
 
@@ -37,11 +46,17 @@ const PhotoUploadPage = (): ReactElement => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = ({target}) => {
-            setSrc({
-                ...src,
-                url: target!.result!.toString(),
-                file: file
-            });
+            const img = new Image()
+            img.onload = () => {
+                setSrc({
+                    ...src,
+                    url: target!.result!.toString(),
+                    file: file,
+                    width: img.width,
+                    height: img.height
+                });
+            }
+            img.src = target!.result!.toString();
         }
     }
 
@@ -49,12 +64,16 @@ const PhotoUploadPage = (): ReactElement => {
         upload({
             variables: {
                 ...src,
-                ...crop,
-                offsetX: crop.x,
-                offsetY: crop.y,
-                location: slug
+                offsetX: -crop.x,
+                offsetY: -crop.y,
+                location: slug,
+                zoom: 1 
             }
         });
+    }
+
+    if (src.uploaded) { 
+        return <Redirect to={`/photo/${src.uploaded}`}/>
     }
     
 
@@ -70,6 +89,7 @@ const PhotoUploadPage = (): ReactElement => {
             caption: target.value
         })}></input>
         <button onClick={uploadFile}>Upload!</button>
+        {src.error && <p>{src.error}</p>}
     </div>
 }
 

@@ -28,8 +28,8 @@ export const GET_PHOTO = (slug: string) => gql`
 
 
 export const UPLOAD_PHOTO = gql`
-    mutation UploadPhoto($file: Upload!, $location: String, $offsetX: Float, $offsetY: Float $width: Float, $height: Float, $caption: String) {
-        upload(file: $file, location: $location, offsetX: $offsetX, offsetY: $offsetY, width: $width, height: $height, caption: $caption){
+    mutation UploadPhoto($file: Upload!, $location: String, $offsetX: Float, $offsetY: Float $width: Float, $height: Float, $caption: String, $zoom: Float) {
+        upload(file: $file, location: $location, offsetX: $offsetX, offsetY: $offsetY, width: $width, height: $height, caption: $caption, zoom: $zoom){
             slug,
             url
         }

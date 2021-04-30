@@ -84,6 +84,8 @@ export const LOGIN = gql`
                 caption,
                 url,
                 slug,
+                offsetX,
+                offsetY,
                 location {
                     title,
                     slug
@@ -119,6 +121,8 @@ export const ME = gql`
                 caption,
                 url,
                 slug,
+                offsetX,
+                offsetY,
                 location {
                     title,
                     slug
