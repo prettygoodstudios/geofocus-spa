@@ -7,7 +7,7 @@ import { PhotoData } from "../types";
 
 import Profile from "./Profile";
 
-export const GALLER_IMG_SIZE = 400;
+export const GALLERY_IMG_SIZE = 400;
 
 const styles = makeStyles({
     feedBody: {
@@ -21,12 +21,12 @@ const styles = makeStyles({
         width: "30vw"
     },
     feedImgWrapper: {
-        width: `${GALLER_IMG_SIZE}px`,
-        height: `${GALLER_IMG_SIZE}px`,
+        width: `${GALLERY_IMG_SIZE}px`,
+        height: `${GALLERY_IMG_SIZE}px`,
         overflow: "hidden"
     },
     card: {
-        width: `${GALLER_IMG_SIZE}px`
+        width: `${GALLERY_IMG_SIZE}px`
     },
     search: {
         padding: "20px",
@@ -49,7 +49,7 @@ const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}
 
     const [queryTerm, setQuery] = useState("");
 
-    let filteredPhotos = photos;
+    let filteredPhotos = photos ? photos : [];
 
     if (queryTerm !== "") {
         filteredPhotos = filteredPhotos.filter((p : PhotoData) => {
@@ -64,6 +64,7 @@ const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}
             return retVal;
         })
     }
+
 
     return  <div className={classes.container}>
         {query && <input type="text" placeholder="Search..." value={queryTerm} onChange={({target}) => setQuery(target.value)} className={classes.search}></input>}

@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/styles";
-import { ChangeEventHandler, ReactElement } from "react";
+import { ChangeEventHandler, ReactChild, ReactChildren, ReactElement } from "react";
 
 export type FormInput = {
     label: string,
@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     }
 });
 
-const Form = ({error, inputs}: {error: string|undefined, inputs: FormInput[]}): ReactElement => {
+const Form = ({error, inputs, children}: {error: string|undefined, inputs: FormInput[], children?: ReactChildren|ReactChild}): ReactElement => {
     
     const classes = useStyles();
 
@@ -30,6 +30,7 @@ const Form = ({error, inputs}: {error: string|undefined, inputs: FormInput[]}): 
                 </>
             })
         }
+        {children}
         {error && <p>{error}</p>}
     </div>
 }

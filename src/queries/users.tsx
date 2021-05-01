@@ -144,3 +144,39 @@ export const LOGOUT = gql`
         logout
     }
 `;
+
+export const REGISTER = gql`
+    mutation register($display: String, $email: String, $password: String, $bio: String, $file: Upload!, $offsetX: Float, $offsetY: Float $width: Float, $height: Float, $zoom: Float) {
+        register(display: $display, email: $email, password: $password, bio: $bio, file: $file, offsetX: $offsetX, offsetY: $offsetY, width: $width, height: $height, zoom: $zoom) {
+            display,
+            bio,
+            profile_url,
+            zoom,
+            width,
+            height,
+            offsetX,
+            offsetY,
+            slug,
+            photos{
+                views,
+                width,
+                height,
+                zoom,
+                caption,
+                url,
+                slug,
+                offsetX,
+                offsetY,
+                location {
+                    title,
+                    slug
+                },
+                user {
+                    profile_url,
+                    display,
+                    slug
+                }
+            }
+        }
+    }
+`;

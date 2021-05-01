@@ -1,7 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { makeStyles } from "@material-ui/styles";
 import { ReactElement, useState } from "react";
-import 'react-image-crop/lib/ReactCrop.scss';
 import { Redirect, useParams } from "react-router";
 import { UPLOAD_PHOTO } from "../queries/photo";
 import PhotoUploader from "../widgets/PhotoUploader";
