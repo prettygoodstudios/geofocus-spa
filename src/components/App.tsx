@@ -21,6 +21,7 @@ import MePage from './MePage';
 import LocationFormPage from './LocationFormPage';
 import PhotoUploadPage from './PhotoUploadPage';
 import {createUploadLink} from "apollo-upload-client";
+import RegistrationPage from './RegistrationPage';
 
 const link = createUploadLink({
     uri: "http://localhost:4000/graphql",
@@ -76,6 +77,9 @@ const App = () => {
                         </Route>
                         <Route path="/me">
                             <MePage/>
+                        </Route>
+                        <Route path="/register">
+                            <RegistrationPage/>
                         </Route>
                         <Route path="/">
                             <h1>Welcome to GeoFocus!</h1>

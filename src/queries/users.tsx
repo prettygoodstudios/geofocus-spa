@@ -50,6 +50,8 @@ export const GET_USER = (slug: string) => gql`
                 caption,
                 url,
                 slug,
+                offsetX,
+                offsetY,
                 location {
                     title,
                     slug

@@ -7,25 +7,26 @@ import { PhotoData } from "../types";
 
 import Profile from "./Profile";
 
-
+export const GALLER_IMG_SIZE = 400;
 
 const styles = makeStyles({
     feedBody: {
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: "space-evenly"
+        justifyContent: "space-evenly",
+        width: "calc(100vw - 40px)"
     },
     feedImg: {
         width: "30vw"
     },
     feedImgWrapper: {
-        width: "400px",
-        height: "400px",
+        width: `${GALLER_IMG_SIZE}px`,
+        height: `${GALLER_IMG_SIZE}px`,
         overflow: "hidden"
     },
     card: {
-        width: "400px"
+        width: `${GALLER_IMG_SIZE}px`
     },
     search: {
         padding: "20px",

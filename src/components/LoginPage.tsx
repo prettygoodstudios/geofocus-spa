@@ -1,7 +1,8 @@
 import { useMutation } from "@apollo/client";
 import { makeStyles } from "@material-ui/styles";
 import {ReactElement, useContext, useReducer } from "react";
-import { Redirect } from "react-router";
+import { Redirect} from "react-router";
+import { Link } from "react-router-dom";
 import { SET_USER } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { LOGIN } from "../queries/users";
@@ -111,6 +112,7 @@ const LoginPage = (): ReactElement => {
         <h2>Login</h2>
         <Form inputs={inputs} error={error}/>
         <button onClick={() => submit()}>Login</button>
+        <Link to="/register">Don't have an account? Click here!</Link>
     </div>
 }
 
