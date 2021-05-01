@@ -1,21 +1,26 @@
 import { makeStyles } from "@material-ui/styles";
 import { ReactElement } from "react";
 import { Link } from "react-router-dom";
+import { GALLERY_IMG_SIZE } from "./Gallery";
 
 type StyleType = {
-    size: string, 
+    size: number, 
     font: string, 
     color: string
 }
 
 const useStyles = makeStyles({
     profileImg: ({size}: StyleType) => ({
-        width: size,
-        height: size,
+        width: `${size}px`,
+        height: `${size}px`,
         borderRadius: "50%",
         overflow: "hidden",
-        marginRight: "10px"
+        marginRight: "10px",
+        position: "relative"
     }),
+    img: {
+        position: "absolute"
+    },
     text: ({font}: StyleType) => ({
         fontSize: font
     }),
@@ -37,20 +42,38 @@ const Profile = ({
     size,
     font,
     slug,
+    offsetX,
+    offsetY,
+    zoom,
+    width,
+    height,
     color = "black",
     path = "user"
 }: {
     display: string,
     profileUrl: string,
-    size: string,
+    size: number,
     font: string,
     slug: string,
     color?: string,
-    path?: string
+    path?: string,
+    offsetX: number,
+    offsetY: number,
+    zoom: number,
+    width: number,
+    height: number
 }): ReactElement => {
     const classes = useStyles({size, font, color});
+    const factor = (size/GALLERY_IMG_SIZE);
     return <div className={classes.main}>
-        <img src={profileUrl} className={classes.profileImg}/>
+        <div className={classes.profileImg}>
+            <img src={profileUrl} className={classes.img} style={{
+                marginLeft: offsetX*factor,
+                marginTop: offsetY*factor,
+                width: width*factor*zoom,
+                height: height*factor*zoom
+            }}/>
+        </div>
         <Link to={`/${path}/${slug}`} className={classes.link}>
             <h2 className={classes.text}>{display}</h2>
         </Link>

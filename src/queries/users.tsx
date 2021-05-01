@@ -6,6 +6,11 @@ export const GET_TOP_USERS = gql`
             profile_url,
             display,
             slug,
+            width,
+            height,
+            offsetX,
+            offsetY,
+            zoom,
             photos {
                 caption,
                 url,
@@ -19,7 +24,12 @@ export const GET_TOP_USERS = gql`
                 user {
                     profile_url,
                     display,
-                    slug
+                    slug,
+                    width,
+                    height,
+                    offsetX,
+                    offsetY,
+                    zoom
                 },
                 location {
                     title,
@@ -59,7 +69,12 @@ export const GET_USER = (slug: string) => gql`
                 user {
                     profile_url,
                     display,
-                    slug
+                    slug,
+                    width,
+                    height,
+                    offsetX,
+                    offsetY,
+                    zoom
                 }
             }
         }
@@ -95,7 +110,12 @@ export const LOGIN = gql`
                 user {
                     profile_url,
                     display,
-                    slug
+                    slug,
+                    width,
+                    height,
+                    offsetX,
+                    offsetY,
+                    zoom
                 }
             }
         }
@@ -132,7 +152,12 @@ export const ME = gql`
                 user {
                     profile_url,
                     display,
-                    slug
+                    slug,
+                    width,
+                    height,
+                    offsetX,
+                    offsetY,
+                    zoom
                 }
             }
         }
@@ -174,7 +199,12 @@ export const REGISTER = gql`
                 user {
                     profile_url,
                     display,
-                    slug
+                    slug,
+                    width,
+                    height,
+                    offsetX,
+                    offsetY,
+                    zoom
                 }
             }
         }

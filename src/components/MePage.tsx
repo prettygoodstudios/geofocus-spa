@@ -27,7 +27,7 @@ const MePage = () : ReactElement => {
         return <div>We are currenlty working on finding your info.</div>
     }
 
-    const {user: {photos, display, slug, profile_url}} : {user: ApiData} = state;
+    const {user: {photos, display, slug, profile_url, width, height, zoom, offsetX, offsetY}} : {user: ApiData} = state;
 
     photos.sort((a, b) => b.views - a.views);
 
@@ -44,7 +44,7 @@ const MePage = () : ReactElement => {
 
     return <>
         <Banner photo={photos[0]}>
-            <Profile display={display} profileUrl={profile_url} slug={slug} size="300px" font="40px" color="white"/>
+            <Profile display={display} profileUrl={profile_url} slug={slug} size={300} font="40px" color="white" width={width} height={height} zoom={zoom} offsetX={offsetX} offsetY={offsetY}/>
         </Banner>
         <button onClick={logout}>Log out!</button>
         <Gallery photos={photos} query={true}/>

@@ -40,7 +40,7 @@ const PhotoPage = (): ReactElement =>  {
     return <>
         <div className={classes.imgContainer}>
             <img src={url} className={classes.img}/>
-            <Profile slug={user.slug} display={user.display} profileUrl={user.profile_url} size="20px" font="15px"/>
+            <Profile slug={user.slug} display={user.display} profileUrl={user.profile_url} size={20} font="15px" width={user.width} height={user.height} zoom={user.zoom} offsetX={user.offsetX} offsetY={user.offsetY}/>
             <Link to={`/location/${location.slug}`}>{location.title}</Link> - {views} views - {caption}
         </div>
     </>

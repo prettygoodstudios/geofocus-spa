@@ -1,7 +1,12 @@
 export type UserData = {
     display: string,
     profile_url: string,
-    slug: string
+    slug: string,
+    width: number,
+    height: number,
+    zoom: number,
+    offsetX: number,
+    offsetY: number
 }
 
 export type PhotoData = {
@@ -22,7 +27,12 @@ export type ApiData = {
     display: string,
     profile_url: string,
     slug: string,
-    photos: PhotoData[]
+    photos: PhotoData[],
+    width: number,
+    height: number,
+    zoom: number,
+    offsetX: number,
+    offsetY: number
 }
 
 export type LocationData = {

@@ -80,7 +80,7 @@ const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}
                             marginTop: offsetY
                         }}/>
                     </div>
-                    <Profile display={user.display} profileUrl={user.profile_url} slug={user.slug} size="20px" font="1em"/>
+                    <Profile display={user.display} profileUrl={user.profile_url} slug={user.slug} size={20} font="1em" width={user.width} height={user.height} zoom={user.zoom} offsetX={user.offsetX} offsetY={user.offsetY}/>
                     <p><Link to={`/location/${location.slug}`}>{location.title}</Link> - {views} views - {caption}</p>
                     <Link to={`/photo/${slug}`}>View</Link>
                 </div>
