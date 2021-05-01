@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/styles";
 import { ReactElement, useState } from "react";
 import ReactCrop from "react-image-crop";
+import { GALLER_IMG_SIZE } from "./Gallery";
 
 const useStyles = makeStyles({
     cropper: {
@@ -29,22 +30,28 @@ const PhotoUploader = ({updateState} : {updateState:  (data: any) => void}): Rea
         reader.onload = ({target}) => {
             const newSrc = {
                 url: target!.result!.toString(),
-                file: file
+                file
             }
             setSrc(newSrc);
             updateState({
-                ...newSrc,
-                ...crop
+                file
             });
         }
     }
 
     const updateCrop = (data: any) => {
         setCrop(data);
+        const cropper: HTMLImageElement = document.querySelector(".ReactCrop__image")!;
+        const factor = (cropper.naturalWidth/cropper.width);
+        const zoom = (GALLER_IMG_SIZE/(crop.width*factor));
         updateState({
-            ...src,
-            ...data
-        })
+            file: src.file,
+            width: cropper.naturalWidth,
+            height: cropper.naturalHeight,
+            offsetX: -crop.x*factor*zoom,
+            offsetY: -crop.y*factor*zoom,
+            zoom: zoom
+        });
     }
 
     return <div className={classes.container}>

@@ -4,7 +4,6 @@ import { ReactElement, useState } from "react";
 import 'react-image-crop/lib/ReactCrop.scss';
 import { Redirect, useParams } from "react-router";
 import { UPLOAD_PHOTO } from "../queries/photo";
-import { GALLER_IMG_SIZE } from "../widgets/Gallery";
 import PhotoUploader from "../widgets/PhotoUploader";
 
 const useStyles = makeStyles({
@@ -47,21 +46,11 @@ const PhotoUploadPage = (): ReactElement => {
     const {uploader, error, caption, uploaded} = state;
 
     const uploadFile = () => {
-        const cropper: HTMLImageElement = document.querySelector(".ReactCrop__image")!;
-        const factor = (cropper.naturalWidth/cropper.width);
-        
-
-        const zoom = (GALLER_IMG_SIZE/(uploader.width*factor));
         upload({
             variables: {
-                file: uploader.file,
+                ...uploader,
                 caption: caption,
-                width: cropper.naturalWidth,
-                height: cropper.naturalHeight,
-                offsetX: -uploader.x*factor*zoom,
-                offsetY: -uploader.y*factor*zoom,
-                location: slug,
-                zoom: zoom
+                location: slug
             }
         });
     }
