@@ -38,7 +38,7 @@ const useStyles = makeStyles({
     }
 });
 
-const Banner = ({title, photo, children} : {title?: string|undefined, photo: PhotoData, children?: ReactElement}): ReactElement => {
+const Banner = ({title, photo, children} : {title?: string|undefined, photo: PhotoData|null, children?: ReactElement}): ReactElement => {
     const classes = useStyles();
     return <div className={classes.banner}>
         <img src={photo?.url} className={classes.bannerBackground}/>

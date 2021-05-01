@@ -27,9 +27,13 @@ const MePage = () : ReactElement => {
         return <div>We are currenlty working on finding your info.</div>
     }
 
-    const {user: {photos, display, slug, profile_url, width, height, zoom, offsetX, offsetY}} : {user: ApiData} = state;
+    const {user: {photos=[], display, slug, profile_url, width, height, zoom, offsetX, offsetY}} : {user: ApiData} = state;
 
-    photos.sort((a, b) => b.views - a.views);
+    const processedPhotos = photos ? photos : [];
+    const photo = photos ? processedPhotos[0] : null; 
+
+    processedPhotos.sort((a, b) => b.views - a.views);
+
 
     const logout = () => {
         clearCookies().then(() => {
@@ -43,11 +47,11 @@ const MePage = () : ReactElement => {
     
 
     return <>
-        <Banner photo={photos[0]}>
+        <Banner photo={photo}>
             <Profile display={display} profileUrl={profile_url} slug={slug} size={300} font="40px" color="white" width={width} height={height} zoom={zoom} offsetX={offsetX} offsetY={offsetY}/>
         </Banner>
         <button onClick={logout}>Log out!</button>
-        <Gallery photos={photos} query={true}/>
+        <Gallery photos={processedPhotos} query={true}/>
     </>
 }
 

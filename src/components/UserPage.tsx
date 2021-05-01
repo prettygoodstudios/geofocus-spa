@@ -25,13 +25,16 @@ const UserPage = () : ReactElement => {
 
     const {user: {photos, display, profile_url, width, height, zoom, offsetX, offsetY}} : {user: ApiData} = data;
 
-    photos.sort((a, b) => b.views - a.views);
+    const processedPhotos = photos ? photos : [];
+    const photo = photos ? processedPhotos[0] : null; 
+
+    processedPhotos.sort((a, b) => b.views - a.views);
 
     return <>
-        <Banner photo={photos[0]}>
+        <Banner photo={photo}>
             <Profile display={display} profileUrl={profile_url} slug={slug} size={300} font="40px" color="white" width={width} height={height} zoom={zoom} offsetX={offsetX} offsetY={offsetY}/>
         </Banner>
-        <Gallery photos={photos} query={true}/>
+        <Gallery photos={processedPhotos} query={true}/>
     </>
 }
 
