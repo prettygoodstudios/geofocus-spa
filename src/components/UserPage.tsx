@@ -11,6 +11,7 @@ import Loading from "../widgets/Loading";
 import Profile from "../widgets/Profile";
 
 
+
 const UserPage = () : ReactElement => {
     const {slug} : {slug: string} = useParams();
     const {error, loading, data} = useQuery(GET_USER(slug));
@@ -25,7 +26,7 @@ const UserPage = () : ReactElement => {
 
     const {user: {photos, display, profile_url, width, height, zoom, offsetX, offsetY}} : {user: ApiData} = data;
 
-    const processedPhotos = photos ? photos : [];
+    const processedPhotos = photos ?  [...photos] : [];
     const photo = photos ? processedPhotos[0] : null; 
 
     processedPhotos.sort((a, b) => b.views - a.views);

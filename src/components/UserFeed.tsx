@@ -52,12 +52,12 @@ const UserFeed = (): ReactElement => {
                     }
                 }))
                 return (
-                <>
+                <div key={id}>
                     <div className={classes.feedHead} >
                         <Profile display={display} profileUrl={profile_url} slug={slug} size={50} font="2em" width={width} height={height} zoom={zoom} offsetX={offsetX} offsetY={offsetY}/>
                     </div>
                     <Gallery photos={photos}/>
-                </>
+                </div>
                 )
             }) 
         }

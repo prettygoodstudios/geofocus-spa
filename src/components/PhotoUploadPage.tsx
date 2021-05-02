@@ -22,10 +22,12 @@ const PhotoUploadPage = (): ReactElement => {
 
     const [upload] = useMutation(UPLOAD_PHOTO, {
         onCompleted: ({upload}) => {
-            setState({
-                ...state,
-                uploaded: upload.slug
-            });
+            setTimeout(() => {
+                setState({
+                    ...state,
+                    uploaded: upload.slug
+                });
+            }, 500);
         },
         onError: ({message}) => {
             setState({
@@ -63,9 +65,9 @@ const PhotoUploadPage = (): ReactElement => {
         <h2>Photo Upload</h2>
         <PhotoUploader updateState={updateUploader}/>
         <label htmlFor="caption">Caption:</label>
-        <input type="text" id="caption" onChange={({target}) => setState({
+        <input type="text" id="caption" onChange={({target: {value}}) => setState({
             ...state,
-            caption: target.value
+            caption: value
         })} value={caption}></input>
         <button onClick={uploadFile}>Upload!</button>
         {error && <p>{error}</p>}

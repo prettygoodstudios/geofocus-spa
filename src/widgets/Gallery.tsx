@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/styles";
 import { ReactElement, useState } from "react";
 import {Link} from "react-router-dom";
+import useButtons from "../styles/buttons";
 
 import { PhotoData } from "../types";
 
@@ -21,12 +22,13 @@ const styles = makeStyles({
         width: "30vw"
     },
     feedImgWrapper: {
-        width: `${GALLERY_IMG_SIZE}px`,
-        height: `${GALLERY_IMG_SIZE}px`,
+        width: GALLERY_IMG_SIZE,
+        height: GALLERY_IMG_SIZE,
         overflow: "hidden"
     },
     card: {
-        width: `${GALLERY_IMG_SIZE}px`
+        width: GALLERY_IMG_SIZE,
+        marginBottom: '20px'
     },
     search: {
         padding: "20px",
@@ -48,6 +50,8 @@ const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}
     const classes = styles();
 
     const [queryTerm, setQuery] = useState("");
+
+    const buttons = useButtons();
 
     let filteredPhotos = photos ? photos : [];
 
@@ -82,7 +86,7 @@ const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}
                     </div>
                     <Profile display={user.display} profileUrl={user.profile_url} slug={user.slug} size={20} font="1em" width={user.width} height={user.height} zoom={user.zoom} offsetX={user.offsetX} offsetY={user.offsetY}/>
                     <p><Link to={`/location/${location.slug}`}>{location.title}</Link> - {views} views - {caption}</p>
-                    <Link to={`/photo/${slug}`}>View</Link>
+                    <Link to={`/photo/${slug}`} className={buttons.standard}>View</Link>
                 </div>
                 )
             })}

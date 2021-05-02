@@ -29,7 +29,7 @@ const MePage = () : ReactElement => {
 
     const {user: {photos=[], display, slug, profile_url, width, height, zoom, offsetX, offsetY}} : {user: ApiData} = state;
 
-    const processedPhotos = photos ? photos : [];
+    const processedPhotos = photos ? [...photos] : [];
     const photo = photos ? processedPhotos[0] : null; 
 
     processedPhotos.sort((a, b) => b.views - a.views);

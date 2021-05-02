@@ -44,7 +44,8 @@ const LocationPage = () : ReactElement => {
 
     const {title, address, city, state, photos, country} = location;
 
-    photos.sort((a, b) => b.views - a.views);
+    const mutablePhotos = [...photos];
+    mutablePhotos.sort((a, b) => b.views - a.views);
 
     return <>
         <Banner title={title} photo={photos[0]}/>
@@ -52,7 +53,7 @@ const LocationPage = () : ReactElement => {
         { context.state?.user && <Link to={`/photo/upload/new/${location.slug}`}>Add Photo</Link>}
         { context.state?.user?.slug === location.user?.slug && <button onClick={() => setEditing(!editing)}>{ editing ? "Cancel" : "Edit"}</button>}
         { editing && <LocationFormPage create={false}/> }
-        <Gallery photos={photos} query={true}/>
+        <Gallery photos={mutablePhotos} query={true}/>
     </>
 }
 

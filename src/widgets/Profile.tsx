@@ -11,8 +11,8 @@ type StyleType = {
 
 const useStyles = makeStyles({
     profileImg: ({size}: StyleType) => ({
-        width: `${size}px`,
-        height: `${size}px`,
+        width: size,
+        height: size,
         borderRadius: "50%",
         overflow: "hidden",
         marginRight: "10px",
