@@ -1,27 +1,40 @@
 import gql from "graphql-tag";
 
 
+export const PHOTO_FRAGMENT = gql`
+    fragment PhotoFragment on Photo {
+        url,
+        caption,
+        slug,
+        views,
+        offsetX,
+        offsetY,
+        zoom,   
+        width,
+        height,
+        user {
+            profile_url,
+            display,
+            slug,
+            width,
+            height,
+            offsetX,
+            offsetY,
+            zoom
+        },
+        location {
+            title,
+            slug
+        }   
+    }
+`;
+
+
 export const GET_PHOTO = (slug: string) => gql`
+    ${PHOTO_FRAGMENT}
     query GetPhoto {
         photo(slug: "${slug}") {
-            url,
-            caption,
-            slug,
-            views,
-            user {
-                display,
-                zoom,
-                width,
-                height,
-                profile_url,
-                offsetX,
-                offsetY,
-                slug
-            },
-            location {
-                title,
-                slug
-            }
+            ...PhotoFragment
         }
     }
 `;

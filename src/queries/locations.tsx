@@ -1,101 +1,58 @@
 import {gql} from "@apollo/client";
+import { PHOTO_FRAGMENT } from "./photo";
+
+export const LOCATION_FRAGMENT = gql`
+    ${PHOTO_FRAGMENT}
+    fragment LocationFragment on Location {
+        slug,
+        title,
+        address,
+        state,
+        city,
+        latitude,
+        longitude,
+        country,
+        user {
+            slug
+        },
+        photos {
+            ...PhotoFragment
+        }
+    }
+`;
 
 export const GET_LOCATIONS = gql`
+    ${LOCATION_FRAGMENT}
     query GetLocations {
         locations {
-            slug,
-            title,
-            address,
-            state,
-            city,
-            latitude,
-            longitude,
-            country,
-            photos {
-                url,
-                user {
-                    slug,
-                    bio,
-                    width,
-                    height,
-                    zoom
-                },
-                slug
-            }
+            ...LocationFragment
         }
     }
 `;
 
 export const GET_LOCATION = (slug: string) => gql`
+    ${LOCATION_FRAGMENT}
     query GetLocation {
         location(slug: "${slug}") {
-            slug,
-            title,
-            address,
-            state,
-            city,
-            latitude,
-            longitude,
-            country,
-            user {
-                slug
-            },
-            photos {
-                url,
-                width,
-                height,
-                offsetX,
-                offsetY,
-                zoom,
-                views,
-                user {
-                    slug,
-                    bio,
-                  	display,
-                    width,
-                    height,
-                    offsetX,
-                    offsetY,
-                    zoom,
-                    profile_url
-                },
-                slug,
-              	caption,
-                location {
-                    title,
-                    slug
-                }
-            }
+            ...LocationFragment
         }
     }
 `;
 
 export const UPDATE_LOCATION = gql`
+    ${LOCATION_FRAGMENT}
     mutation updateLocation($title: String!, $address: String!, $city: String!, $state: String!, $country: String!, $slug: String!) {
         updateLocation(title: $title, address: $address, city: $city, state: $state, country: $country, slug: $slug) {
-            slug,
-            title,
-            address,
-            state,
-            city,
-            latitude,
-            longitude,
-            country
-        }
+            ...LocationFragment
+        }   
     }
 `;
 
 export const CREATE_LOCATION = gql`
+    ${LOCATION_FRAGMENT}
     mutation createLocation($title: String!, $address: String!, $city: String!, $state: String!, $country: String!) {
         createLocation(title: $title, address: $address, city: $city, state: $state, country: $country) {
-            slug,
-            title,
-            address,
-            state,
-            city,
-            latitude,
-            longitude,
-            country
+            ...LocationFragment
         }
     }
 `;
