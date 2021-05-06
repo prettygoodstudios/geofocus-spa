@@ -22,6 +22,7 @@ import LocationFormPage from './LocationFormPage';
 import PhotoUploadPage from './PhotoUploadPage';
 import {createUploadLink} from "apollo-upload-client";
 import RegistrationPage from './RegistrationPage';
+import Locations from './Locations';
 
 const link = createUploadLink({
     uri: "http://localhost:4000/graphql",
@@ -82,9 +83,9 @@ const App = () => {
                             <RegistrationPage/>
                         </Route>
                         <Route path="/">
-                            <h1>Welcome to GeoFocus!</h1>
-                            <h2>These are our top users.</h2>
+                            <Locations/>
                             {context.state.user && <Link to="/location/form/create">Create a new Location</Link>}
+                            <h2>Top Users</h2>
                             <UserFeed/>
                         </Route>
                     </Switch>

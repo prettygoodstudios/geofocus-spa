@@ -26,8 +26,6 @@ const LocationPage = () : ReactElement => {
         }
     });
 
-    const [editing, setEditing] = useState(false);
-
     if (error) {
         return <Error/>
     }
@@ -38,11 +36,21 @@ const LocationPage = () : ReactElement => {
 
     const {location} : {location: LocationData} = context.state;
 
+    const setEditing = (state: boolean, location: LocationData) => {
+        context.dispatch({
+            type: SET_LOCATION,
+            payload: {
+                ...location,
+                editing: state
+            }
+        })
+    }
+
     if (!location) {
         return <Loading/>
     }
 
-    const {title, address, city, state, photos, country} = location;
+    const {title, address, city, state, photos, country, editing} = location;
 
     const mutablePhotos = [...photos];
     mutablePhotos.sort((a, b) => b.views - a.views);
@@ -51,7 +59,7 @@ const LocationPage = () : ReactElement => {
         <Banner title={title} photo={photos[0]}/>
         <p>{address}, {city}, {state}, {country}</p>
         { context.state?.user && <Link to={`/photo/upload/new/${location.slug}`}>Add Photo</Link>}
-        { context.state?.user?.slug === location.user?.slug && <button onClick={() => setEditing(!editing)}>{ editing ? "Cancel" : "Edit"}</button>}
+        { context.state?.user?.slug === location.user?.slug && <button onClick={() => setEditing(!editing, location)}>{ editing ? "Cancel" : "Edit"}</button>}
         { editing && <LocationFormPage create={false}/> }
         <Gallery photos={mutablePhotos} query={true}/>
     </>

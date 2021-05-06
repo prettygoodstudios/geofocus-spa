@@ -46,4 +46,5 @@ export type LocationData = {
     slug: string,
     user: UserData,
     country: string
+    editing?: boolean
 }

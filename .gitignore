@@ -3,3 +3,4 @@ node_modules
 .DS_STORE
 dist
 package-lock.json
+secrets.tsx
