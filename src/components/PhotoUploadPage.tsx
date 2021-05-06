@@ -14,7 +14,10 @@ const useStyles = makeStyles({
 });
 
 const PhotoUploadPage = (): ReactElement => {
-    const [state, setState] = useState({} as any);
+    const [state, setState] = useState({
+        caption: "",
+        uploaded: false
+    } as any);
 
     const {slug}: {slug: string} = useParams();
 

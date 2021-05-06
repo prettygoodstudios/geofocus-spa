@@ -54,10 +54,10 @@ export const GET_USER = (slug: string) => gql`
 `;
 
 export const LOGIN = gql`
-    ${PRIVATE_USER_FRAGMENT}
+    ${USER_FRAGMENT}
     mutation Login($email: String!, $password: String!) {
         login(email: $email, password: $password) {
-            ...PrivateUserFragment
+            ...PublicProfile
         }
     }
 `;

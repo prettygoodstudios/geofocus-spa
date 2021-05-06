@@ -55,7 +55,7 @@ const PhotoUploader = ({updateState} : {updateState:  (data: any) => void}): Rea
     return <div className={classes.container}>
         <label htmlFor="photoUpload">Select Photo:</label>
         <input type="file" id="photoUpload" onChange={({target}) => selectPhoto(target!.files![0])}></input>
-        <label>Select thumbnail area:</label>
+        <label>Select thumbnail area:</label> 
         <ReactCrop className={classes.cropper} src={src.url} crop={crop} onChange={updateCrop} minWidth={200} maxHeight={600}/>
     </div>
 }

@@ -14,7 +14,9 @@ import Profile from "../widgets/Profile";
 
 const UserPage = () : ReactElement => {
     const {slug} : {slug: string} = useParams();
-    const {error, loading, data} = useQuery(GET_USER(slug));
+    const {error, loading, data} = useQuery(GET_USER(slug), {
+        fetchPolicy: "network-only"
+    });
 
     if (error){
         return <Error/>

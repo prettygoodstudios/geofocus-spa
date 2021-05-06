@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { makeStyles } from "@material-ui/styles";
 import { ReactElement, useContext } from "react";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import { SET_USER } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { ME } from "../queries/users";
@@ -30,14 +30,25 @@ const Nav = (): ReactElement => {
 
     const {state: {user}, dispatch} = useContext(UserContext);
 
-    const {data, error, loading} = useQuery(ME, {
+    const {data, error, loading, refetch} = useQuery(ME, {
         onCompleted: () => {
             dispatch({
                 type: SET_USER,
                 payload: data.me
             })
-        }
+        },
+        fetchPolicy: "network-only"
     });
+
+    const history = useHistory();
+
+    history.listen((location) => {
+        if(location.pathname.indexOf("/me/") != -1){
+            refetch({
+                fetchPolicy: "network-only"
+            });
+        }
+    })
 
     return <div className={classes.nav}>
         <Link to="/" className={classes.title}>GeoFocus</Link>

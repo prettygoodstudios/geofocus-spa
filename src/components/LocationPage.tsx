@@ -23,7 +23,8 @@ const LocationPage = () : ReactElement => {
                 type: SET_LOCATION,
                 payload: data.location
             });
-        }
+        },
+        fetchPolicy: "network-only"
     });
 
     if (error) {

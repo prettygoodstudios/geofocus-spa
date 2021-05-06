@@ -18,7 +18,9 @@ const useStyles = makeStyles({
 })
 
 const Locations = (): ReactElement => {
-    const {loading, error, data} = useQuery(GET_LOCATIONS);
+    const {loading, error, data} = useQuery(GET_LOCATIONS, {
+        fetchPolicy: "network-only"
+    });
 
     const [map, setMap]:  [mapboxgl.Map|null, Dispatch<SetStateAction<null|mapboxgl.Map>>] = useState(null);
 
@@ -32,14 +34,18 @@ const Locations = (): ReactElement => {
         }));
     }, []);
 
-    const createPopupHtml = (title: string, slug: string): HTMLElement => {
+    const createPopupHtml = (title: string, slug: string, imgUrl: string): HTMLElement => {
         const div = document.createElement("div");
         const titleElement = document.createElement("h2");
         titleElement.innerText = title;
         const link = document.createElement("a");
         link.href = `/location/${slug}`;
         link.innerText = `View`;
+        const img = document.createElement("img");
+        img.src = imgUrl;
+        img.style.maxWidth = "100%";
         div.appendChild(titleElement);
+        div.appendChild(img);
         div.appendChild(link);
         return div;
     }
@@ -47,13 +53,13 @@ const Locations = (): ReactElement => {
     useEffect(() => {
         if(map && data){
             const {locations} : {locations: LocationData[]} = data;
-            locations.forEach(({latitude, longitude, title, slug}) => {
+            locations.forEach(({latitude, longitude, title, slug, photos}) => {
                 if(longitude && latitude) {
                     new mapboxgl.Marker({
                         color: "#ececec"
                     }).setLngLat([longitude, latitude])
                     .addTo(map)
-                    .setPopup(new mapboxgl.Popup().setDOMContent(createPopupHtml(title, slug)));
+                    .setPopup(new mapboxgl.Popup().setDOMContent(createPopupHtml(title, slug, photos[0]?.url)));
                 }
                 
             });
