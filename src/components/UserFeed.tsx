@@ -1,6 +1,8 @@
 import { useQuery } from "@apollo/client";
+import { useTheme} from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { ReactElement } from "react";
+import { ReactElement, useContext } from "react";
+import { UserContext } from "../helpers/UserContext";
 import { GET_TOP_USERS } from "../queries/users";
 import { ApiData } from "../types";
 import Error from "../widgets/Error";
@@ -8,24 +10,31 @@ import Gallery from "../widgets/Gallery";
 import Loading from "../widgets/Loading";
 import Profile from "../widgets/Profile";
 
-const styles = makeStyles({
-    feedHead: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        height: "100px",
-        backgroundColor: "#ececec",
-        borderRadius: "20px",
-        margin: "20px 20px",
-        padding: "0px 20px"
-    }
-});
+
 
 const UserFeed = (): ReactElement => {
     const {loading, error, data} = useQuery(GET_TOP_USERS);
 
-    const classes = styles();
+    const theme = useTheme();
+ 
+    const {state:  {styleTheme}, dispatch} : {state: {styleTheme: string}, dispatch: (action: any) => void} = useContext(UserContext);
+
+    const useStyles = makeStyles({
+        feedHead: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            height: "100px",
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.main,
+            borderRadius: "20px",
+            margin: "20px 20px",
+            padding: "0px 20px"
+        }
+    });
+
+    const classes = useStyles();
 
     if (loading){
         return <Loading/>
@@ -34,6 +43,7 @@ const UserFeed = (): ReactElement => {
     if (error){
         return <Error/>
     }
+
 
     return <div className="user-feed">
         {
@@ -54,7 +64,7 @@ const UserFeed = (): ReactElement => {
                 return (
                 <div key={id}>
                     <div className={classes.feedHead} >
-                        <Profile display={display} profileUrl={profile_url} slug={slug} size={50} font="2em" width={width} height={height} zoom={zoom} offsetX={offsetX} offsetY={offsetY}/>
+                        <Profile display={display} profileUrl={profile_url} color={theme.palette.secondary.main} slug={slug} size={50} font="2em" width={width} height={height} zoom={zoom} offsetX={offsetX} offsetY={offsetY}/>
                     </div>
                     <Gallery photos={photos}/>
                 </div>

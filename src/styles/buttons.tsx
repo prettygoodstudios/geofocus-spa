@@ -1,17 +1,20 @@
+import { Theme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/styles";
 
-const useButtons = makeStyles({
+const useButtons = (theme: Theme) => makeStyles({
     standard: {
-        backgroundColor: "#ececec",
+        backgroundColor: theme.palette.primary.main,
         borderRadius: "30px",
         padding: "10px 20px",
-        fontSize: "1.5em",
+        fontSize: "1em",
         textDecoration: "none",
-        color: "black",
+        color: theme.palette.secondary.main,
         display: "inline-block",
+        border: "none",
         '&:hover': {
-            backgroundColor: "black",
-            color: "#ececec"
+            backgroundColor: theme.palette.secondary.main,
+            color: theme.palette.primary.main,
+            cursor: "pointer"
         }
     }
 });
