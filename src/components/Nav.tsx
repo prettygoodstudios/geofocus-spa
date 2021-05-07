@@ -60,11 +60,11 @@ const Nav = (): ReactElement => {
     })
 
     return <div className={classes.nav}>
-        <Link to="/" className={classes.title}>GeoFocus</Link>
+        <Link to="/" className={classes.title} tabIndex={-1}>GeoFocus</Link>
         {user ? 
             <Profile display={user.display} color={theme.palette.secondary.main} profileUrl={user.profile_url} slug={user.slug} size={30} font="20px" path="me" width={user.width} height={user.height} zoom={user.zoom} offsetX={user.offsetX} offsetY={user.offsetY}/>
             : 
-            !loading && <Link to="/login" className={classes.login}>Login</Link>
+            !loading && <Link to="/login" className={classes.login} tabIndex={-1}>Login</Link>
         }
     </div>
 }

@@ -2,19 +2,19 @@ import { useQuery } from "@apollo/client";
 import { useTheme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import mapboxgl from "mapbox-gl";
-import { Link } from "react-router-dom";
-import { Dispatch, ReactElement, SetStateAction, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { Dispatch, KeyboardEvent, ReactElement, SetStateAction, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { MAPBOX_KEY } from "../helpers/secrets";
 import { UserContext } from "../helpers/UserContext";
 
 import {GET_LOCATIONS} from "../queries/locations";
 import { LocationData } from "../types";
-import useButtons from "../styles/buttons";
-import { isNonEmptyArray } from "@apollo/client/utilities";
+import useButtons from "../styles/buttons"; 
  
 mapboxgl.accessToken = MAPBOX_KEY;
 
 
+const NOT_SELECTED = -11;
 
 
 const Locations = (): ReactElement => {
@@ -93,11 +93,11 @@ const Locations = (): ReactElement => {
             '& h3': {
                 fontSize: "0.6em",
                 margin: 0
-            },
-            '&:hover': {
-                backgroundColor: theme.palette.primary.main,
-                color: theme.palette.secondary.main
             }
+        },
+        selected: {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.secondary.main
         }
     });
 
@@ -105,7 +105,11 @@ const Locations = (): ReactElement => {
 
     const buttons = useButtons(theme)();
 
-    const [query, setQuery] = useState("");
+    const [query, setQuery] = useState({
+        query: "",
+        selectIndex: NOT_SELECTED,
+        redirect: ""
+    });
 
     const createPopupHtml = (title: string, slug: string, imgUrl: string): HTMLElement => {
         const div = document.createElement("div");
@@ -172,25 +176,58 @@ const Locations = (): ReactElement => {
 
     const locations: LocationData[] = data?.locations;
     const filteredLocations = locations ? locations.filter(l => {
-        console.log(computeLocationRank(query, l))
-        return computeLocationRank(query, l) != 0;
+        console.log(computeLocationRank(query.query, l))
+        return computeLocationRank(query.query, l) != 0;
     }) : [];
 
     filteredLocations.sort((l1, l2) => {
-        return computeLocationRank(query, l2) - computeLocationRank(query, l1);
+        return computeLocationRank(query.query, l2) - computeLocationRank(query.query, l1);
     });
 
+    const selectLocation = ({key, preventDefault}: KeyboardEvent<HTMLInputElement>) => {
+        let {selectIndex} = query;
+        switch(key){
+            case "ArrowUp":
+                selectIndex -= 1;
+                break;
+            case "ArrowDown":
+                selectIndex += 1
+                break;
+            case "Enter":
+                setQuery({
+                    ...query,
+                    redirect: filteredLocations[selectIndex].slug
+                });
+                return;
+            default:
+                selectIndex = NOT_SELECTED
+        }
+        if (selectIndex != NOT_SELECTED) {
+            if (selectIndex < 0) {
+                selectIndex = Math.min(filteredLocations.length, 10) - (-selectIndex) % Math.min(filteredLocations.length, 10)
+            }
+            selectIndex %= Math.min(filteredLocations.length, 10);
+        }
+        setQuery({
+            ...query,
+            selectIndex
+        })
+    }
+
+    if(query.redirect) {
+        return <Redirect push to={`/location/${query.redirect}`}/>;
+    }
 
     return <div className={classes.container}>
-        {context.state.user && <Link to="/location/form/create" className={`${classes.create} ${buttons.standard}`}>Create a new Location</Link>}
+        {context.state.user && <Link to="/location/form/create" className={`${classes.create} ${buttons.standard}`} tabIndex={-1}>Create a new Location</Link>}
         <div className={classes.searchContainer}>
-            <input type="text" placeholder="Search" className={classes.search} value={query} onChange={({target}) => setQuery(target?.value)}/>
+            <input type="text" placeholder="Search" className={classes.search} value={query.query} onChange={({target}) => setQuery({...query, query: target?.value})} onKeyDown={selectLocation} tabIndex={0}/>
             { filteredLocations.length > 0 &&
                 <div className={classes.searchResults}>
                     {
                         filteredLocations.slice(0, 10).map((l, i) => {
                             const {title, address, city, state, country, slug} = l;
-                            return <Link key={i} to={`/location/${slug}`} className={classes.result}>
+                            return <Link key={i} to={`/location/${slug}`} className={`${classes.result} ${query.selectIndex === i ? classes.selected : ''}`} onMouseEnter={() => setQuery({...query, selectIndex: i})}>
                             <h3>{title}</h3>
                             <p>{address}, {city}, {state}, {country}</p>  
                             </Link>
