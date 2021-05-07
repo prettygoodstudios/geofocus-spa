@@ -28,6 +28,10 @@ const Nav = (): ReactElement => {
             color: theme.palette.secondary.main,
             fontSize: "2em",
             textDecoration: "none"
+        },
+        login: {
+            color: theme.palette.secondary.main,
+            textDecoration: "none"
         }
     });
 
@@ -60,7 +64,7 @@ const Nav = (): ReactElement => {
         {user ? 
             <Profile display={user.display} color={theme.palette.secondary.main} profileUrl={user.profile_url} slug={user.slug} size={30} font="20px" path="me" width={user.width} height={user.height} zoom={user.zoom} offsetX={user.offsetX} offsetY={user.offsetY}/>
             : 
-            !loading && <Link to="/login">Login</Link>
+            !loading && <Link to="/login" className={classes.login}>Login</Link>
         }
     </div>
 }
