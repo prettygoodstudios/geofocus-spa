@@ -53,18 +53,26 @@ const Locations = (): ReactElement => {
             left: 20,
             zIndex: 1
         },
-        search: {
+        searchContainer: {
            right: 20,
            top: 20,
-           height: 20,
-           position: "absolute",
-           width: 200 
+           position: "absolute"
+        },
+        search: {
+           width: 200,
+           borderRadius: 20,
+           border: `1px solid ${theme.palette.primary.main}`,
+           padding: "10px 20px",
+           color: theme.palette.primary.main,
+           '&::placeholder': {
+                opacity: 1,
+                color: theme.palette.primary.main
+           },
+           '&:focus': {
+               outline: "none"
+           }
         },
         searchResults: {
-            right: 20,
-            top: 60,
-            position: "absolute",
-            width: 200,
             height: 300,
             overflowY: "scroll"
         },
@@ -75,6 +83,7 @@ const Locations = (): ReactElement => {
             border: `1px solid ${theme.palette.primary.main}`,
             borderRadius: 20,
             display: "flex",
+            width: 200,
             flexDirection: "column",
             padding: 10,
             '& p': {
@@ -84,6 +93,10 @@ const Locations = (): ReactElement => {
             '& h3': {
                 fontSize: "0.6em",
                 margin: 0
+            },
+            '&:hover': {
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.secondary.main
             }
         }
     });
@@ -134,20 +147,22 @@ const Locations = (): ReactElement => {
         const {title, address, city, state, country} = location;
         let rank = 0;
         query = query.toLowerCase();
-        if (title.toLowerCase().indexOf(query) != -1) {
-            rank++;
-        }
-        if (address.toLowerCase().indexOf(query) != -1) {
-            rank++;
-        }
-        if (city.toLowerCase().indexOf(query) != -1) {
-            rank++;
-        }
-        if (state.toLowerCase().indexOf(query) != -1) {
-            rank++;
-        }
-        if (country.toLowerCase().indexOf(query) != -1) {
-            rank++;
+        for(let word of query.split(" ")) {
+            if (title.toLowerCase().indexOf(word) != -1) {
+                rank+=2;
+            }
+            if (address.toLowerCase().indexOf(word) != -1) {
+                rank++;
+            }
+            if (city.toLowerCase().indexOf(word) != -1) {
+                rank++;
+            }
+            if (state.toLowerCase().indexOf(word) != -1) {
+                rank++;
+            }
+            if (country.toLowerCase().indexOf(word) != -1) {
+                rank++;
+            }
         }
         if (query === ""){
             rank = 0;
@@ -162,27 +177,28 @@ const Locations = (): ReactElement => {
     }) : [];
 
     filteredLocations.sort((l1, l2) => {
-        return computeLocationRank(query, l1) - computeLocationRank(query, l2);
+        return computeLocationRank(query, l2) - computeLocationRank(query, l1);
     });
 
 
     return <div className={classes.container}>
         {context.state.user && <Link to="/location/form/create" className={`${classes.create} ${buttons.standard}`}>Create a new Location</Link>}
-        <input type="text" placeholder="Search" className={classes.search} value={query} onChange={({target}) => setQuery(target?.value)}/>
-        
-        { filteredLocations.length > 0 &&
-            <div className={classes.searchResults}>
-                {
-                    filteredLocations.slice(0, 10).map((l, i) => {
-                        const {title, address, city, state, country, slug} = l;
-                        return <Link key={i} to={`/location/${slug}`} className={classes.result}>
-                        <h3>{title}</h3>
-                        <p>{address}, {city}, {state}, {country}</p>  
-                        </Link>
-                    })
-                }
-            </div>
-        }
+        <div className={classes.searchContainer}>
+            <input type="text" placeholder="Search" className={classes.search} value={query} onChange={({target}) => setQuery(target?.value)}/>
+            { filteredLocations.length > 0 &&
+                <div className={classes.searchResults}>
+                    {
+                        filteredLocations.slice(0, 10).map((l, i) => {
+                            const {title, address, city, state, country, slug} = l;
+                            return <Link key={i} to={`/location/${slug}`} className={classes.result}>
+                            <h3>{title}</h3>
+                            <p>{address}, {city}, {state}, {country}</p>  
+                            </Link>
+                        })
+                    }
+                </div>
+            }
+        </div>
         <div id="locationMap" className={classes.map}></div>
     </div>;
 }
