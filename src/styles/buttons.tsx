@@ -15,6 +15,9 @@ const useButtons = (theme: Theme) => makeStyles({
             backgroundColor: theme.palette.secondary.main,
             color: theme.palette.primary.main,
             cursor: "pointer"
+        },
+        '&:focus': {
+            outline: "none"
         }
     }
 });

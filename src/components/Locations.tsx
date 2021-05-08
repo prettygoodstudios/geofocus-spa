@@ -45,7 +45,8 @@ const Locations = (): ReactElement => {
         container: {
             position: "relative",
             width: "100%",
-            height: "500px"
+            height: "500px",
+            overflow: "hidden"
         },
         create: {
             position: "absolute",
@@ -56,7 +57,8 @@ const Locations = (): ReactElement => {
         searchContainer: {
            right: 20,
            top: 20,
-           position: "absolute"
+           position: "absolute",
+           zIndex: 1
         },
         search: {
            width: 200,
@@ -98,6 +100,12 @@ const Locations = (): ReactElement => {
         selected: {
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.secondary.main
+        },
+        popupImg: {
+            maxWidth: "100%",
+            maxHeight: 200,
+            marginBottom: 20,
+            display: "block"
         }
     });
 
@@ -118,15 +126,15 @@ const Locations = (): ReactElement => {
         const link = document.createElement("a");
         link.href = `/location/${slug}`;
         link.innerText = `View`;
+        link.className = buttons.standard;
         div.appendChild(titleElement);
 
         if(imgUrl) {
             const img = document.createElement("img");
             img.src = imgUrl;
-            img.style.maxWidth = "100%";
+            img.className = classes.popupImg;
             div.appendChild(img);
         }
-
         div.appendChild(link);
         return div;
     }

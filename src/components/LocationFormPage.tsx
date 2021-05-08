@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { useTheme } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { ReactElement, useContext, useEffect, useReducer } from "react";
 import { Redirect } from "react-router";
 import { SET_LOCATION } from "../helpers/Reducer";
@@ -7,6 +7,16 @@ import { UserContext } from "../helpers/UserContext";
 import { CREATE_LOCATION, UPDATE_LOCATION } from "../queries/locations";
 import useButtons from "../styles/buttons";
 import Form, { FormInput } from "../widgets/Form";
+
+
+const useStyles = makeStyles({
+    container: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "20px"
+    }
+})
 
 
 const LocationFormPage = ({create}: {create: boolean}): ReactElement => {
@@ -90,6 +100,7 @@ const LocationFormPage = ({create}: {create: boolean}): ReactElement => {
     const context = useContext(UserContext);
 
     const theme = useTheme();
+    const classes = useStyles();
     const buttons = useButtons(theme)();
 
     useEffect(() => {
@@ -154,10 +165,10 @@ const LocationFormPage = ({create}: {create: boolean}): ReactElement => {
         return <Redirect to={`/location/${slug}`}/>
     }
 
-    return <>
+    return <div className={classes.container}>
         <Form error={error} inputs={formInputs} />
         <button onClick={create ? () => submit(createLocaton, "createLocation") : () => submit(update, "updateLocation")} className={buttons.standard}>Save!</button>
-    </>
+    </div>
 }
 
 export default LocationFormPage;
