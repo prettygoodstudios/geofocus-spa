@@ -10,6 +10,7 @@ import { PhotoData } from "../types";
 
 import Profile from "./Profile";
 import Loading from "./Loading";
+import useInputs from "../styles/inputs";
 
 export const GALLERY_IMG_SIZE = 400;
 
@@ -34,13 +35,11 @@ const styles = makeStyles({
         marginBottom: '20px'
     },
     search: {
-        padding: "20px",
         width: "80vw",
-        fontSize: "30px",
-        borderRadius: "50px",
-        border: "4px solid black",
-        margin: "20px 0px",
-        outline: "none"
+        fontSize: "20px",
+        borderRadius: "30px !important",
+        borderWidth: "2px !important",
+        margin: "20px 0px"
     },
     container: {
         display: "flex",
@@ -57,6 +56,7 @@ const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}
     const theme = useTheme();
 
     const buttons = useButtons(theme)();
+    const inputs = useInputs(theme);
 
     let filteredPhotos = photos ? photos : [];
 
@@ -75,7 +75,7 @@ const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}
     }
 
     return  <div className={classes.container}>
-        {query && <input type="text" placeholder="Search..." value={queryTerm} onChange={({target}) => setQuery(target.value)} className={classes.search}></input>}
+        {query && <input type="text" placeholder="Search..." value={queryTerm} onChange={({target}) => setQuery(target.value)} className={`${classes.search} ${inputs.pill}`}></input>}
         <div className={classes.feedBody}>
             {filteredPhotos.map(({caption, url, zoom, width, height, offsetX, offsetY, views, user, slug, location}: PhotoData, id: number) => {
                 return (

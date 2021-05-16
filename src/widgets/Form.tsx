@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/styles";
-import { ChangeEventHandler, ReactChild, ReactChildren, ReactElement } from "react";
+import { ChangeEventHandler, Fragment, ReactChild, ReactChildren, ReactElement } from "react";
 
 export type FormInput = {
     label: string,
@@ -24,10 +24,10 @@ const Form = ({error, inputs, children}: {error: string|undefined, inputs: FormI
         {
             inputs.map((input, i) => {
                 const {label, type, value, dispatch} = input;
-                return <>
+                return <Fragment key={i}>
                     <label htmlFor={`${label}_${i}`}>{label}</label>
                     <input id={`${label}_${i}`} type={type} value={value} onChange={dispatch}></input>
-                </>
+                </Fragment>
             })
         }
         {children}

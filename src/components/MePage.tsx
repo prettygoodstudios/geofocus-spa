@@ -1,9 +1,11 @@
 import { useMutation } from "@apollo/client";
+import { useTheme } from "@material-ui/core";
 import { ReactElement, useContext } from "react";
 import { Redirect } from "react-router";
 import { SET_USER } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { LOGOUT } from "../queries/users";
+import useButtons from "../styles/buttons";
 import { ApiData } from "../types";
 import Banner from "../widgets/Banner";
 import Gallery from "../widgets/Gallery";
@@ -16,6 +18,9 @@ const MePage = () : ReactElement => {
     const {state, dispatch} = useContext(UserContext);
 
     const [clearCookies, result] = useMutation(LOGOUT);
+
+    const theme = useTheme();
+    const buttons = useButtons(theme)();
 
     
 
@@ -50,7 +55,7 @@ const MePage = () : ReactElement => {
         <Banner photo={photo}>
             <Profile display={display} profileUrl={profile_url} slug={slug} size={300} font="40px" color="white" width={width} height={height} zoom={zoom} offsetX={offsetX} offsetY={offsetY}/>
         </Banner>
-        <button onClick={logout}>Log out!</button>
+        <button onClick={logout} className={buttons.standard}>Log out!</button>
         <Gallery photos={processedPhotos} query={true}/>
     </>
 }

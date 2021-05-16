@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useTheme } from "@material-ui/core/styles";
-import { ReactElement, useContext, useState } from "react";
+import { ReactElement, useContext  } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { SET_LOCATION } from "../helpers/Reducer";

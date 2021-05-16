@@ -10,6 +10,7 @@ import { UserContext } from "../helpers/UserContext";
 import {GET_LOCATIONS} from "../queries/locations";
 import { LocationData } from "../types";
 import useButtons from "../styles/buttons"; 
+import useInputs from "../styles/inputs";
  
 mapboxgl.accessToken = MAPBOX_KEY;
 
@@ -18,7 +19,7 @@ const NOT_SELECTED = -11;
 
 
 const Locations = (): ReactElement => {
-    const {loading, error, data} = useQuery(GET_LOCATIONS, {
+    const {data} = useQuery(GET_LOCATIONS, {
         fetchPolicy: "network-only"
     });
 
@@ -61,18 +62,7 @@ const Locations = (): ReactElement => {
            zIndex: 1
         },
         search: {
-           width: 200,
-           borderRadius: 20,
-           border: `1px solid ${theme.palette.primary.main}`,
-           padding: "10px 20px",
-           color: theme.palette.primary.main,
-           '&::placeholder': {
-                opacity: 1,
-                color: theme.palette.primary.main
-           },
-           '&:focus': {
-               outline: "none"
-           }
+           width: 200
         },
         searchResults: {
             height: 300,
@@ -112,6 +102,7 @@ const Locations = (): ReactElement => {
     const classes = useStyles();
 
     const buttons = useButtons(theme)();
+    const inputs = useInputs(theme);
 
     const [query, setQuery] = useState({
         query: "",
@@ -183,23 +174,24 @@ const Locations = (): ReactElement => {
     }
 
     const locations: LocationData[] = data?.locations;
-    const filteredLocations = locations ? locations.filter(l => {
-        console.log(computeLocationRank(query.query, l))
-        return computeLocationRank(query.query, l) != 0;
-    }) : [];
+    const filteredLocations: LocationData[] = locations ? locations
+        .map(location => [computeLocationRank(query.query, location), location])
+        .filter(location => location[0] !== 0)
+        .sort((l1, l2) => (l2[0] as number) - (l1[0] as number))
+        .map(location => location[1] as LocationData)
+    : [];
 
-    filteredLocations.sort((l1, l2) => {
-        return computeLocationRank(query.query, l2) - computeLocationRank(query.query, l1);
-    });
-
-    const selectLocation = ({key, preventDefault}: KeyboardEvent<HTMLInputElement>) => {
+    const selectLocation = (event: KeyboardEvent<HTMLInputElement>) => {
+        const {key} = event;
         let {selectIndex} = query;
         switch(key){
             case "ArrowUp":
                 selectIndex -= 1;
+                event.preventDefault();
                 break;
             case "ArrowDown":
                 selectIndex += 1
+                event.preventDefault();
                 break;
             case "Enter":
                 setQuery({
@@ -229,7 +221,7 @@ const Locations = (): ReactElement => {
     return <div className={classes.container}>
         {context.state.user && <Link to="/location/form/create" className={`${classes.create} ${buttons.standard}`} tabIndex={-1}>Create a new Location</Link>}
         <div className={classes.searchContainer}>
-            <input type="text" placeholder="Search" className={classes.search} value={query.query} onChange={({target}) => setQuery({...query, query: target?.value})} onKeyDown={selectLocation} tabIndex={0}/>
+            <input type="text" placeholder="Search" className={`${classes.search} ${inputs.pill}`} value={query.query} onChange={({target}) => setQuery({...query, query: target?.value})} onKeyDown={selectLocation} tabIndex={0}/>
             { filteredLocations.length > 0 &&
                 <div className={classes.searchResults}>
                     {
