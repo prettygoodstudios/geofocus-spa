@@ -15,7 +15,7 @@ import useInputs from "../styles/inputs";
 mapboxgl.accessToken = MAPBOX_KEY;
 
 
-const NOT_SELECTED = -11;
+const NOT_SELECTED = -1;
 
 
 const Locations = (): ReactElement => {
@@ -41,7 +41,8 @@ const Locations = (): ReactElement => {
     const useStyles = makeStyles({
         map: {
             width: "100%",
-            height: "500px"
+            height: "500px",
+            position: "absolute"
         },
         container: {
             position: "relative",
@@ -212,6 +213,15 @@ const Locations = (): ReactElement => {
             ...query,
             selectIndex
         })
+    }
+
+    if(query.selectIndex >= 0 && map){
+        const location = filteredLocations[query.selectIndex];
+        map!.flyTo({
+            center: [location.longitude, location.latitude],
+            speed: 0.5,
+            zoom: 8
+        });
     }
 
     if(query.redirect) {
