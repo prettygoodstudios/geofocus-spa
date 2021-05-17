@@ -27,8 +27,6 @@ const Locations = (): ReactElement => {
 
     const context = useContext(UserContext);
 
-    
-
     useEffect(() => {
         setMap(new mapboxgl.Map({
             container: 'locationMap',
@@ -42,13 +40,13 @@ const Locations = (): ReactElement => {
         map: {
             width: "100%",
             height: "500px",
-            position: "absolute"
+            position: "relative",
+            overflow: "hidden"
         },
         container: {
             position: "relative",
             width: "100%",
-            height: "500px",
-            overflow: "hidden"
+            height: "500px"
         },
         create: {
             position: "absolute",
@@ -205,7 +203,7 @@ const Locations = (): ReactElement => {
         }
         if (selectIndex != NOT_SELECTED) {
             if (selectIndex < 0) {
-                selectIndex = Math.min(filteredLocations.length, 10) - (-selectIndex) % Math.min(filteredLocations.length, 10)
+                selectIndex = Math.min(filteredLocations.length, 10) - (-selectIndex-1) % Math.min(filteredLocations.length, 10)
             }
             selectIndex %= Math.min(filteredLocations.length, 10);
         }
@@ -238,8 +236,8 @@ const Locations = (): ReactElement => {
                         filteredLocations.slice(0, 10).map((l, i) => {
                             const {title, address, city, state, country, slug} = l;
                             return <Link key={i} to={`/location/${slug}`} className={`${classes.result} ${query.selectIndex === i ? classes.selected : ''}`} onMouseEnter={() => setQuery({...query, selectIndex: i})}>
-                            <h3>{title}</h3>
-                            <p>{address}, {city}, {state}, {country}</p>  
+                                <h3>{title}</h3>
+                                <p>{address}, {city}, {state}, {country}</p>  
                             </Link>
                         })
                     }
