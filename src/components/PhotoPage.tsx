@@ -16,7 +16,8 @@ const useStyles = makeStyles({
         transform: "translate(-50%, 0)"
     },
     img: {
-        width: "100%"
+        width: "100%",
+        marginTop: 20
     }
 });
 
@@ -26,7 +27,6 @@ const PhotoPage = (): ReactElement =>  {
     const {error, loading, data} = useQuery(GET_PHOTO(slug));
 
     const classes = useStyles();
-
     if (error) {
         return <Error/>
     }

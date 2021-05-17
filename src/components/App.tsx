@@ -24,6 +24,7 @@ import {createUploadLink} from "apollo-upload-client";
 import RegistrationPage from './RegistrationPage';
 import Locations from './Locations';
 import Styler from './Styler';
+import useStandard from '../styles/standard';
 
 const link = createUploadLink({
     uri: "http://localhost:4000/graphql",
@@ -59,6 +60,8 @@ const App = () => {
 
     const context = useMemo(() => ({state, dispatch}), [state, dispatch]);
 
+    const standard = useStandard(theme);
+
     return (
         <Router>
             <ThemeProvider theme={theme}>
@@ -93,7 +96,7 @@ const App = () => {
                                 </Route>
                                 <Route path="/">
                                     <Locations/>
-                                    <h2>Top Users</h2>
+                                    <h2 className={standard.standardMargin}>Top Users</h2>
                                     <UserFeed/>
                                 </Route>
                             </Switch>

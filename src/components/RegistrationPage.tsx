@@ -1,9 +1,12 @@
 import { useMutation } from "@apollo/client";
+import { useTheme } from "@material-ui/core/styles";
 import { ReactElement, useReducer, useContext } from "react";
 import { Redirect } from "react-router";
 import { SET_USER } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { REGISTER } from "../queries/users";
+import useButtons from "../styles/buttons";
+import useStandard from "../styles/standard";
 import Form, {FormInput} from "../widgets/Form";
 import PhotoUploader from "../widgets/PhotoUploader";
 
@@ -14,6 +17,9 @@ const RegistrationPage = () : ReactElement => {
     const SET_COMPLETED = 'SET_COMPLETED';
 
     const context = useContext(UserContext);
+    const theme = useTheme();
+    const buttons = useButtons(theme)();
+    const standard = useStandard(theme);
 
     const reducer = (state: any, {type, payload}: {type: string, payload: any}) => {
         switch(type){
@@ -132,7 +138,7 @@ const RegistrationPage = () : ReactElement => {
         <Form inputs={formInputs} error={error}>
             <PhotoUploader updateState={updateUploader}/>
         </Form>
-        <button onClick={submit}>Register!</button>
+        <button onClick={submit} className={`${buttons.standard} ${standard.center}`}>Register!</button>
     </>
 }
 

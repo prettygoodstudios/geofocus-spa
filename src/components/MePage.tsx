@@ -6,6 +6,7 @@ import { SET_USER } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { LOGOUT } from "../queries/users";
 import useButtons from "../styles/buttons";
+import useStandard from "../styles/standard";
 import { ApiData } from "../types";
 import Banner from "../widgets/Banner";
 import Gallery from "../widgets/Gallery";
@@ -21,6 +22,7 @@ const MePage = () : ReactElement => {
 
     const theme = useTheme();
     const buttons = useButtons(theme)();
+    const standard = useStandard();
 
     
 
@@ -55,7 +57,7 @@ const MePage = () : ReactElement => {
         <Banner photo={photo}>
             <Profile display={display} profileUrl={profile_url} slug={slug} size={300} font="40px" color="white" width={width} height={height} zoom={zoom} offsetX={offsetX} offsetY={offsetY}/>
         </Banner>
-        <button onClick={logout} className={buttons.standard}>Log out!</button>
+        <button onClick={logout} className={`${buttons.standard} ${standard.standardMargin}`}>Log out!</button>
         <Gallery photos={processedPhotos} query={true}/>
     </>
 }

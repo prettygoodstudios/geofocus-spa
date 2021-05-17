@@ -7,6 +7,7 @@ import { SET_LOCATION } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { GET_LOCATION } from "../queries/locations";
 import useButtons from "../styles/buttons";
+import useStandard from "../styles/standard";
 import { LocationData } from "../types";
 import Authenticated from "../widgets/Authenticated";
 import Banner from "../widgets/Banner";
@@ -22,6 +23,7 @@ const LocationPage = () : ReactElement => {
     const context = useContext(UserContext);
     const theme = useTheme();
     const buttons = useButtons(theme)();
+    const standard = useStandard(theme);
 
 
     const {error, loading} = useQuery(GET_LOCATION(slug), {
@@ -65,11 +67,11 @@ const LocationPage = () : ReactElement => {
 
     return <>
         <Banner title={title} photo={photos[0]}/>
-        <p>{address}, {city}, {state}, {country}</p>
+        <p className={standard.standardMargin}>{address}, {city}, {state}, {country}</p>
         <Authenticated>
-            <Link to={`/photo/upload/new/${location.slug}`} className={buttons.standard}>Add Photo</Link>
+            <Link to={`/photo/upload/new/${location.slug}`} className={`${buttons.standard} ${standard.standardMargin}`}>Add Photo</Link>
             <IsMine ownerSlug={location.user?.slug}>
-                <a onClick={() => setEditing(!editing, location)} className={buttons.standard}>{ editing ? "Cancel" : "Edit"}</a>
+                <a onClick={() => setEditing(!editing, location)} className={`${buttons.standard} ${standard.standardMargin}`}>{ editing ? "Cancel" : "Edit"}</a>
                 { editing && <LocationFormPage create={false}/> }
             </IsMine>
         </Authenticated>

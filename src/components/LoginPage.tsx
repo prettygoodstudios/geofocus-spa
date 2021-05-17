@@ -1,4 +1,5 @@
 import { useMutation } from "@apollo/client";
+import { useTheme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import {ReactElement, useContext, useReducer } from "react";
 import { Redirect} from "react-router";
@@ -6,6 +7,8 @@ import { Link } from "react-router-dom";
 import { SET_USER } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { LOGIN } from "../queries/users";
+import useButtons from "../styles/buttons";
+import useStandard from "../styles/standard";
 import Form, {FormInput} from "../widgets/Form";
 
 const useStyles = makeStyles({
@@ -28,6 +31,9 @@ const LoginPage = (): ReactElement => {
     const classes = useStyles();
 
     const context = useContext(UserContext);
+    const theme = useTheme();
+    const buttons = useButtons(theme)();
+    const standard = useStandard(theme);
     
 
     const reducer = (state: any, {type, payload}: {type: string, payload: any}) : any => {
@@ -111,7 +117,7 @@ const LoginPage = (): ReactElement => {
     return <div className={classes.form}>
         <h2>Login</h2>
         <Form inputs={inputs} error={error}/>
-        <button onClick={() => submit()}>Login</button>
+        <button onClick={() => submit()} className={`${buttons.standard} ${standard.standardMargin}`}>Login</button>
         <Link to="/register">Don't have an account? Click here!</Link>
     </div>
 }
