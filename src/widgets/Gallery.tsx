@@ -80,7 +80,7 @@ const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}
             {filteredPhotos.map(({caption, url, zoom, width, height, offsetX, offsetY, views, user, slug, location}: PhotoData, id: number) => {
                 return (
                 <div key={id} className={classes.card}>
-                    <LazyLoad height={400} placeholder={<Loading/>} offset={300}>
+                    <LazyLoad height={400} placeholder={<Loading size={360}/>} offset={300}>
                         <div className={classes.feedImgWrapper}>
                             <img src={url} className={classes.feedImg} style={{
                                 width: width*zoom,
