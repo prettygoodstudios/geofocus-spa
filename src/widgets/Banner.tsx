@@ -12,7 +12,10 @@ const useStyles = makeStyles({
         backgroundColor: "#ececec",
         position: "relative",
         overflow: "hidden",
-        margin: "0px 0px 20px 0px"
+        margin: "0px 0px 20px 0px",
+        "& h1": {
+            opacity: 1
+        }
     },
     bannerBackground: {
         minWidth: "100vw",

@@ -22,12 +22,15 @@ const useStyles = makeStyles({
         position: "absolute"
     },
     text: ({font}: StyleType) => ({
-        fontSize: font
+        fontSize: font,
+        textAlign: "center"
     }),
     main: {
-        display: "flex",
+        display: "inline-flex",
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
+        flexWrap: "wrap",
+        justifyContent: "center"
     },
     link: ({color}: StyleType) => ({
         color,
