@@ -11,6 +11,7 @@ import useStandard from "../styles/standard";
 import { LocationData } from "../types";
 import Authenticated from "../widgets/Authenticated";
 import Banner from "../widgets/Banner";
+import CenteredLoading from "../widgets/CenteredLoading";
 import Error from "../widgets/Error";
 import Gallery from "../widgets/Gallery";
 import IsMine from "../widgets/IsMine";
@@ -41,7 +42,7 @@ const LocationPage = () : ReactElement => {
     }
 
     if (loading) {
-        return <Loading/>
+        return <CenteredLoading/>
     }
 
     const {location} : {location: LocationData} = context.state;
@@ -57,7 +58,7 @@ const LocationPage = () : ReactElement => {
     }
 
     if (!location) {
-        return <Loading/>
+        return <CenteredLoading/>
     }
 
     const {title, address, city, state, photos, country, editing} = location;

@@ -9,6 +9,7 @@ import useButtons from "../styles/buttons";
 import useStandard from "../styles/standard";
 import { ApiData } from "../types";
 import Banner from "../widgets/Banner";
+import CenteredLoading from "../widgets/CenteredLoading";
 import Gallery from "../widgets/Gallery";
 
 import Profile from "../widgets/Profile";
@@ -31,7 +32,7 @@ const MePage = () : ReactElement => {
     }
 
     if(!state.user){
-        return <div>We are currenlty working on finding your info.</div>
+        return <CenteredLoading/>
     }
 
     const {user: {photos=[], display, slug, profile_url, width, height, zoom, offsetX, offsetY}} : {user: ApiData} = state;

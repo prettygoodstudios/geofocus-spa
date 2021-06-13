@@ -4,9 +4,9 @@ import { useParams } from "react-router";
 import { GET_USER } from "../queries/users";
 import { ApiData } from "../types";
 import Banner from "../widgets/Banner";
+import CenteredLoading from "../widgets/CenteredLoading";
 import Error from "../widgets/Error";
 import Gallery from "../widgets/Gallery";
-import Loading from "../widgets/Loading";
 
 import Profile from "../widgets/Profile";
 
@@ -23,7 +23,7 @@ const UserPage = () : ReactElement => {
     }
 
     if (loading){
-        return <Loading/>
+        return <CenteredLoading/>
     }
 
     const {user: {photos, display, profile_url, width, height, zoom, offsetX, offsetY}} : {user: ApiData} = data;

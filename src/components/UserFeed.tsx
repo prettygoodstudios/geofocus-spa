@@ -5,6 +5,7 @@ import { ReactElement, useContext } from "react";
 import { UserContext } from "../helpers/UserContext";
 import { GET_TOP_USERS } from "../queries/users";
 import { ApiData } from "../types";
+import CenteredLoading from "../widgets/CenteredLoading";
 import Error from "../widgets/Error";
 import Gallery from "../widgets/Gallery";
 import Loading from "../widgets/Loading";
@@ -37,7 +38,7 @@ const UserFeed = (): ReactElement => {
     const classes = useStyles();
 
     if (loading){
-        return <Loading/>
+        return <CenteredLoading/>
     }
 
     if (error){
