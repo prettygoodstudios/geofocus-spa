@@ -28,7 +28,8 @@ const styles = makeStyles({
     feedImgWrapper: {
         width: GALLERY_IMG_SIZE,
         height: GALLERY_IMG_SIZE,
-        overflow: "hidden"
+        overflow: "hidden",
+        borderRadius: 20
     },
     card: {
         width: GALLERY_IMG_SIZE,
@@ -46,6 +47,12 @@ const styles = makeStyles({
         flexDirection: "column",
         alignItems: "center"
     },
+    detailWrapper: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        flexWrap: 'wrap'
+    }
 });
 
 const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}) : ReactElement => {
@@ -90,8 +97,10 @@ const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}
                             }}/>
                         </div>
                     </LazyLoad>
-                    <Profile display={user.display} profileUrl={user.profile_url} slug={user.slug} size={20} font="1em" width={user.width} height={user.height} zoom={user.zoom} offsetX={user.offsetX} offsetY={user.offsetY}/>
-                    <p><Link to={`/location/${location.slug}`}>{location.title}</Link> - {views} views - {caption}</p>
+                    <div className={classes.detailWrapper}>
+                        <Profile display={user.display} spacing={ 3 } profileUrl={user.profile_url} slug={user.slug} size={20} font="1em" width={user.width} height={user.height} zoom={user.zoom} offsetX={user.offsetX} offsetY={user.offsetY}/>
+                        <span style={{marginLeft: 5}}><Link to={`/location/${location.slug}`}>{location.title}</Link> - {views} views - {caption}</span>
+                    </div>
                     <Link to={`/photo/${slug}`} className={buttons.standard}>View</Link>
                 </div>
                 )

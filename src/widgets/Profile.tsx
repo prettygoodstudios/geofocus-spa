@@ -15,7 +15,6 @@ const useStyles = makeStyles({
         height: size,
         borderRadius: "50%",
         overflow: "hidden",
-        marginRight: "10px",
         position: "relative"
     }),
     img: {
@@ -52,7 +51,8 @@ const Profile = ({
     height,
     color = "black",
     path = "user",
-    style = {}
+    style = {},
+    spacing = 10
 }: {
     display?: string,
     profileUrl: string,
@@ -66,12 +66,13 @@ const Profile = ({
     zoom: number,
     width: number,
     height: number,
-    style?: any
+    style?: any,
+    spacing?: number
 }): ReactElement => {
     const classes = useStyles({size, font, color});
     const factor = (size/GALLERY_IMG_SIZE);
     return <div className={classes.main} style={style}>
-        <div className={classes.profileImg}>
+        <div className={classes.profileImg} style={{ marginRight: spacing}}>
             <img src={profileUrl} className={classes.img} style={{
                 marginLeft: offsetX*factor,
                 marginTop: offsetY*factor,
