@@ -56,3 +56,10 @@ export const CREATE_LOCATION = gql`
         }
     }
 `;
+
+export const DELETE_LOCATION = gql`
+    ${LOCATION_FRAGMENT}
+    mutation deleteLocation($slug: String!) {
+        deleteLocation(slug: $slug)
+    }
+`;

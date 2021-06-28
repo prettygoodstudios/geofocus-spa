@@ -48,3 +48,9 @@ export const UPLOAD_PHOTO = gql`
         }
     }
 `;
+
+export const DELETE_PHOTO = gql`
+    mutation DeletePhoto($slug: String!) {
+        deletePhoto(slug: $slug)
+    }
+`;
