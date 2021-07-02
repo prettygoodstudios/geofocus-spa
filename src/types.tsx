@@ -35,6 +35,12 @@ export type ApiData = {
     offsetY: number
 }
 
+export type ReviewData = {
+    score: number,
+    message: string,
+    user: UserData
+}
+
 export type LocationData = {
     title: string,
     address: string,
@@ -47,4 +53,5 @@ export type LocationData = {
     user: UserData,
     country: string
     editing?: boolean
+    reviews: ReviewData[]
 }

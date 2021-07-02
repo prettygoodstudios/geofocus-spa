@@ -15,7 +15,7 @@ import CenteredLoading from "../widgets/CenteredLoading";
 import Error from "../widgets/Error";
 import Gallery from "../widgets/Gallery";
 import IsMine from "../widgets/IsMine";
-import Loading from "../widgets/Loading";
+import Review from "../widgets/Review";
 import LocationFormPage from "./LocationFormPage";
 
 const LocationPage = () : ReactElement => {
@@ -61,7 +61,7 @@ const LocationPage = () : ReactElement => {
         return <CenteredLoading/>
     }
 
-    const {title, address, city, state, photos, country, editing} = location;
+    const {title, address, city, state, photos, country, editing, reviews} = location;
 
     const mutablePhotos = [...photos];
     mutablePhotos.sort((a, b) => b.views - a.views);
@@ -77,6 +77,9 @@ const LocationPage = () : ReactElement => {
             </IsMine>
         </Authenticated>
         <Gallery photos={mutablePhotos} query={true}/>
+        {
+            reviews.map((r, i) => <Review review={r} location={slug} key={i}/>)
+        }
     </>
 }
 

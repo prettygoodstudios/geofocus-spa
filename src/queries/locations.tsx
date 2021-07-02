@@ -1,8 +1,10 @@
 import {gql} from "@apollo/client";
 import { PHOTO_FRAGMENT } from "./photo";
+import { REVIEW_FRAGMENT } from "./reviews";
 
 export const LOCATION_FRAGMENT = gql`
     ${PHOTO_FRAGMENT}
+    ${REVIEW_FRAGMENT}
     fragment LocationFragment on Location {
         slug,
         title,
@@ -17,6 +19,9 @@ export const LOCATION_FRAGMENT = gql`
         },
         photos {
             ...PhotoFragment
+        },
+        reviews {
+            ...ReviewFragment
         }
     }
 `;
@@ -25,7 +30,7 @@ export const GET_LOCATIONS = gql`
     ${LOCATION_FRAGMENT}
     query GetLocations {
         locations {
-            ...LocationFragment
+            ...LocationFragment 
         }
     }
 `;
