@@ -35,6 +35,13 @@ const useStyles = makeStyles((theme) => ({
             width: 60,
             height: 60
         }
+    },
+    body: {
+        display: 'flex',
+        flexDirection: 'column',
+        '& textarea': {
+            width: '100%'
+        }
     }
 }));
 
@@ -66,18 +73,20 @@ export default ({review, location}: {review: ReviewData, location: string} ): Re
                     editing ?
                         <button onClick={() => {
                             update().then(() => {
-                                setState({message, editing: false, score: scr})
+                                setState({message: msg, editing: false, score: scr})
                             });
                         }}>Save</button>
-                    :   <button onClick={() => setState({message, editing: true, score: scr})}>Edit</button>
+                    :   <button onClick={() => setState({message: msg, editing: true, score: scr})}>Edit</button>
                 }
             </IsMine>
         </div>
-        <div>
+        <div className={classes.body}>
             { editing ? 
                 <>
-                    <input type="number" min="0" max="10" value={scr}  onChange={({target: {value}}) => setState({message: msg, editing: true, score: parseFloat(value)})}/>
-                    <textarea onChange={({target: {value}}) => setState({message: value, editing: true, score: scr})} value={msg}></textarea> 
+                    <label htmlFor="score">Score:</label>
+                    <input name="score" type="number" min="0" max="10" value={scr}  onChange={({target: {value}}) => setState({message: msg, editing: true, score: parseFloat(value)})}/>
+                    <label htmlFor="message">Message:</label>
+                    <textarea rows={ 5 } name="message" onChange={({target: {value}}) => setState({message: value, editing: true, score: scr})} value={msg}></textarea> 
                 </>    
                 : msg
             }
