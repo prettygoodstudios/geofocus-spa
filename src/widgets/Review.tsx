@@ -45,35 +45,42 @@ export default ({review, location}: {review: ReviewData, location: string} ): Re
     const {user: {display, profile_url, offsetX, offsetY, width, height, slug, zoom}, message, score } = review;
     const theme = useTheme();
     const classes = useStyles(theme);
-    const [{editing, message: msg}, setState] = useState({
+    const [{editing, message: msg, score: scr}, setState] = useState({
         editing: false,
-        message
+        message,
+        score
     });
     const [update, result] = useMutation(WRITE_REVIEW_MUTATION, {
         variables: {
             message: msg,
             location,
-            score
+            score: scr
         }
     });
     return <div className={classes.wrapper}>
         <div className={classes.header}>
-            <span>{score}</span>
+            <span>{scr}</span>
             <Profile profileUrl={profile_url} offsetX={offsetX} offsetY={offsetY} slug={slug} width={width} height={height} zoom={zoom} color={theme.palette.secondary.main} display={display} size={ 50 } font="2em" />
             <IsMine ownerSlug={slug}>
                 {
                     editing ?
                         <button onClick={() => {
                             update().then(() => {
-                                setState({message, editing: false})
+                                setState({message, editing: false, score: scr})
                             });
                         }}>Save</button>
-                    :   <button onClick={() => setState({message, editing: true})}>Edit</button>
+                    :   <button onClick={() => setState({message, editing: true, score: scr})}>Edit</button>
                 }
             </IsMine>
         </div>
         <div>
-            { editing ? <textarea onChange={({target: {value}}) => setState({message: value, editing: true})}>{msg}</textarea> : msg}
+            { editing ? 
+                <>
+                    <input type="number" min="0" max="10" value={scr}  onChange={({target: {value}}) => setState({message: msg, editing: true, score: parseFloat(value)})}/>
+                    <textarea onChange={({target: {value}}) => setState({message: value, editing: true, score: scr})} value={msg}></textarea> 
+                </>    
+                : msg
+            }
         </div>
     </div>;
 }
