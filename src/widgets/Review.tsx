@@ -1,7 +1,9 @@
 import { useMutation } from "@apollo/client";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { ReactElement, useState } from "react";
-import { WRITE_REVIEW_MUTATION } from "../queries/reviews";
+import { resolveProjectReferencePath } from "typescript";
+import { DELETE_LOCATION } from "../queries/locations";
+import { DELETE_REVIEW_MUTATION, WRITE_REVIEW_MUTATION } from "../queries/reviews";
 import useButtons from "../styles/buttons";
 import { ReviewData } from "../types";
 import IsMine from "./IsMine";
@@ -52,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 ;
 
-export default ({review, location}: {review: ReviewData, location: string} ): ReactElement => {
+export default ({review, location, refetch}: {review: ReviewData, location: string, refetch: () => void} ): ReactElement => {
     const {user: {display, profile_url, offsetX, offsetY, width, height, slug, zoom}, message, score } = review;
     const theme = useTheme();
     const classes = useStyles(theme);
@@ -75,11 +77,16 @@ export default ({review, location}: {review: ReviewData, location: string} ): Re
             score: scr
         }
     });
+    const [deleteReview, deleteResult] = useMutation(DELETE_REVIEW_MUTATION, {
+        variables: {
+            location
+        }
+    });
     return <div className={classes.wrapper}>
         <div className={classes.header}>
             <div>
                 <span>{scr}</span>
-                <Profile profileUrl={profile_url} offsetX={offsetX} offsetY={offsetY} slug={slug} width={width} height={height} zoom={zoom} color={theme.palette.secondary.main} display={display} size={ 50 } font="2em" />
+                <Profile profileUrl={profile_url} offsetX={offsetX} offsetY={offsetY} slug={slug} width={width} height={height} zoom={zoom} color={theme.palette.secondary.main} display={display} size={ 30 } font="1em" />
             </div>
             <IsMine ownerSlug={slug}>
                 {
@@ -96,7 +103,11 @@ export default ({review, location}: {review: ReviewData, location: string} ): Re
                                 });
                             }}>Save</button>
                         </div>
-                    :   <button className={ buttons.lightBorder } onClick={() => setState({message: msg, editing: true, score: scr, error: ""})}>Edit</button>
+                    :   
+                    <div>
+                        <button className={ buttons.lightBorder } onClick={() => deleteReview().then(refetch)}>Delete</button>
+                        <button className={ buttons.lightBorder } onClick={() => setState({message: msg, editing: true, score: scr, error: ""})}>Edit</button>
+                    </div>
                 }
             </IsMine>
         </div>

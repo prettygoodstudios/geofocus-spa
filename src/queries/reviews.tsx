@@ -26,3 +26,9 @@ export const WRITE_REVIEW_MUTATION = gql`
         }
     }
 `;
+
+export const DELETE_REVIEW_MUTATION = gql`
+    mutation writeReview($location: String) {
+        deleteReview(location: $location)
+    }
+`;

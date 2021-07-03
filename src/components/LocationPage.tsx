@@ -86,15 +86,19 @@ const LocationPage = () : ReactElement => {
         }
     });
 
+    const refetchData = () => {
+        refetch().then(({data: {location}}) => {
+            context.dispatch({
+                type: SET_LOCATION,
+                payload: location
+            });
+        });
+    };
+
     const submitReview = () => {
         update().then(() => {
             setInputError("");
-            refetch().then(({data: {location}}) => {
-                context.dispatch({
-                    type: SET_LOCATION,
-                    payload: location
-                });
-            });
+            refetchData();
         }).catch((error) => {
             setInputError(error.message);
         });
@@ -171,9 +175,9 @@ const LocationPage = () : ReactElement => {
                     </>
                 }
             </Authenticated>
-            <h3>Reviews</h3>
+            { reviews.length > 0 ? <h3>Reviews</h3> : <p>There are currently no reviews available for this location.</p> }
             {
-                reviews.map((r, i) => <Review review={r} location={slug} key={i}/>)
+                reviews.map((r, i) => <Review review={r} location={slug} key={i} refetch={refetchData}/>)
             }
         </div>
     </>
