@@ -57,10 +57,16 @@ export default ({review, location}: {review: ReviewData, location: string} ): Re
     const theme = useTheme();
     const classes = useStyles(theme);
     const buttons = useButtons(theme)();
-    const [{editing, message: msg, score: scr}, setState] = useState({
+    const [{editing, message: msg, score: scr, error}, setState] = useState({
         editing: false,
         message,
-        score
+        score,
+        error: ""
+    } as {
+        editing: boolean,
+        message: string,
+        score: number | '',
+        error: string
     });
     const [update, result] = useMutation(WRITE_REVIEW_MUTATION, {
         variables: {
@@ -78,12 +84,19 @@ export default ({review, location}: {review: ReviewData, location: string} ): Re
             <IsMine ownerSlug={slug}>
                 {
                     editing ?
-                        <button className={ buttons.lightBorder } onClick={() => {
-                            update().then(() => {
-                                setState({message: msg, editing: false, score: scr})
-                            });
-                        }}>Save</button>
-                    :   <button className={ buttons.lightBorder } onClick={() => setState({message: msg, editing: true, score: scr})}>Edit</button>
+                        <div>
+                            <button className={ buttons.lightBorder } onClick={() => setState({message: message, editing: false, score: score, error: ""})}>
+                                Cancel
+                            </button>
+                            <button className={ buttons.lightBorder } onClick={() => {
+                                update().then(() => {
+                                    setState({message: msg, editing: false, score: scr, error: ""});
+                                }).catch(({message}) => {
+                                    setState({message: msg, editing: true, score: scr, error: message});
+                                });
+                            }}>Save</button>
+                        </div>
+                    :   <button className={ buttons.lightBorder } onClick={() => setState({message: msg, editing: true, score: scr, error: ""})}>Edit</button>
                 }
             </IsMine>
         </div>
@@ -91,9 +104,10 @@ export default ({review, location}: {review: ReviewData, location: string} ): Re
             { editing ? 
                 <>
                     <label htmlFor="score">Score:</label>
-                    <input name="score" type="number" min="0" max="10" value={scr}  onChange={({target: {value}}) => setState({message: msg, editing: true, score: parseFloat(value)})}/>
+                    <input name="score" type="number" min="0" max="10" value={scr}  onChange={({target: {value}}) => setState({message: msg, editing: true, score: !Number.isNaN(parseFloat(value)) ? parseFloat(value) : '', error: ""})}/>
                     <label htmlFor="message">Message:</label>
-                    <textarea rows={ 5 } name="message" onChange={({target: {value}}) => setState({message: value, editing: true, score: scr})} value={msg}></textarea> 
+                    <textarea rows={ 5 } name="message" onChange={({target: {value}}) => setState({message: value, editing: true, score: scr, error: ""})} value={msg}></textarea> 
+                    { error ? <p>{error}</p> : <></> }
                 </>    
                 : msg
             }
