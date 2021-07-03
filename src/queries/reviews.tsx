@@ -20,7 +20,7 @@ export const REVIEW_FRAGMENT = gql`
 
 export const WRITE_REVIEW_MUTATION = gql`
     ${REVIEW_FRAGMENT}
-    mutation writeReview($location: String, $message: String, $score: Int) {
+    mutation writeReview($location: String, $message: String, $score: Float) {
         review(location: $location, message: $message, score: $score) {
             ...ReviewFragment
         }
