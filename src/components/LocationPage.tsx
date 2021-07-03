@@ -135,7 +135,7 @@ const LocationPage = () : ReactElement => {
 
     const {title, address, city, state, photos, country, editing, reviews} = location;
 
-    const posted = reviews.filter(({user}) => user.slug === me?.slug).length > 0;
+    const posted = reviews?.filter(({user}) => user.slug === me?.slug)?.length > 0;
 
     const mutablePhotos = [...photos];
     mutablePhotos.sort((a, b) => b.views - a.views);
