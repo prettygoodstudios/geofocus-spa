@@ -151,7 +151,7 @@ const LocationPage = () : ReactElement => {
                 { editing && <LocationFormPage create={false}/> }
             </IsMine>
         </Authenticated>
-        <Gallery photos={mutablePhotos} query={true}/>
+        <Gallery photos={mutablePhotos} query={true} refetch={refetchData}/>
         <div className={classes.container}>
             <Authenticated>
                 {

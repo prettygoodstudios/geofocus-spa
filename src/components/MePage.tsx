@@ -59,7 +59,7 @@ const MePage = () : ReactElement => {
             <Profile display={display} profileUrl={profile_url} slug={slug} size={300} font="40px" color="white" width={width} height={height} zoom={zoom} offsetX={offsetX} offsetY={offsetY}/>
         </Banner>
         <button onClick={logout} className={`${buttons.standard} ${standard.standardMargin}`}>Log out!</button>
-        <Gallery photos={processedPhotos} query={true}/>
+        <Gallery photos={processedPhotos} query={true} refetch={() => window.location.reload()}/>
     </>
 }
 

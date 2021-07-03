@@ -14,7 +14,7 @@ import Profile from "../widgets/Profile";
 
 
 const UserFeed = (): ReactElement => {
-    const {loading, error, data} = useQuery(GET_TOP_USERS);
+    const {loading, error, data, refetch} = useQuery(GET_TOP_USERS);
 
     const theme = useTheme();
  
@@ -67,7 +67,7 @@ const UserFeed = (): ReactElement => {
                     <div className={classes.feedHead} >
                         <Profile display={display} profileUrl={profile_url} color={theme.palette.secondary.main} slug={slug} size={50} font="2em" width={width} height={height} zoom={zoom} offsetX={offsetX} offsetY={offsetY}/>
                     </div>
-                    <Gallery photos={photos}/>
+                    <Gallery photos={photos} refetch={refetch}/>
                 </div>
                 )
             }) 

@@ -1,8 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { ReactElement, useState } from "react";
-import { resolveProjectReferencePath } from "typescript";
-import { DELETE_LOCATION } from "../queries/locations";
 import { DELETE_REVIEW_MUTATION, WRITE_REVIEW_MUTATION } from "../queries/reviews";
 import useButtons from "../styles/buttons";
 import { ReviewData } from "../types";
@@ -70,14 +68,14 @@ export default ({review, location, refetch}: {review: ReviewData, location: stri
         score: number | '',
         error: string
     });
-    const [update, result] = useMutation(WRITE_REVIEW_MUTATION, {
+    const [update] = useMutation(WRITE_REVIEW_MUTATION, {
         variables: {
             message: msg,
             location,
             score: scr
         }
     });
-    const [deleteReview, deleteResult] = useMutation(DELETE_REVIEW_MUTATION, {
+    const [deleteReview] = useMutation(DELETE_REVIEW_MUTATION, {
         variables: {
             location
         }

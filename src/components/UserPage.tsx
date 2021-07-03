@@ -14,7 +14,7 @@ import Profile from "../widgets/Profile";
 
 const UserPage = () : ReactElement => {
     const {slug} : {slug: string} = useParams();
-    const {error, loading, data} = useQuery(GET_USER(slug), {
+    const {error, loading, data, refetch} = useQuery(GET_USER(slug), {
         fetchPolicy: "network-only"
     });
 
@@ -37,7 +37,7 @@ const UserPage = () : ReactElement => {
         <Banner photo={photo}>
             <Profile display={display} profileUrl={profile_url} slug={slug} size={300} font="40px" color="white" width={width} height={height} zoom={zoom} offsetX={offsetX} offsetY={offsetY}/>
         </Banner>
-        <Gallery photos={processedPhotos} query={true}/>
+        <Gallery photos={processedPhotos} query={true} refetch={refetch}/>
     </>
 }
 

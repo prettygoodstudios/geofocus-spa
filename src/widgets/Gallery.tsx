@@ -11,10 +11,13 @@ import { PhotoData } from "../types";
 import Profile from "./Profile";
 import Loading from "./Loading";
 import useInputs from "../styles/inputs";
+import IsMine from "./IsMine";
+import { useMutation } from "@apollo/client";
+import { DELETE_PHOTO } from "../queries/photo";
 
 export const GALLERY_IMG_SIZE = 400;
 
-const styles = makeStyles({
+const styles = makeStyles((theme) => ({
     feedBody: {
         display: "flex",
         flexDirection: "row",
@@ -52,18 +55,28 @@ const styles = makeStyles({
         flexDirection: 'row',
         alignItems: 'center',
         flexWrap: 'wrap'
+    },
+    delete: {
+        float: 'right',
+        color: theme.palette.primary.main,
+        margin: 20,
+        '&:hover': {
+            cursor: 'pointer'
+        }
     }
-});
+}));
 
-const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}) : ReactElement => {
-    const classes = styles();
+const Gallery = ({photos, refetch, query = false}: {photos: PhotoData[], query?: boolean, refetch: () => void}) : ReactElement => {
 
     const [queryTerm, setQuery] = useState("");
 
     const theme = useTheme();
+    const classes = styles(theme);
 
     const buttons = useButtons(theme)();
     const inputs = useInputs(theme);
+
+    const [deletePhoto] = useMutation(DELETE_PHOTO);
 
     let filteredPhotos = photos ? photos : [];
 
@@ -102,6 +115,17 @@ const Gallery = ({photos, query = false}: {photos: PhotoData[], query?: boolean}
                         <span style={{marginLeft: 5}}><Link to={`/location/${location.slug}`}>{location.title}</Link> - {views} views - {caption}</span>
                     </div>
                     <Link to={`/photo/${slug}`} className={buttons.standard}>View</Link>
+                    <IsMine ownerSlug={user.slug}>
+                        <a className={classes.delete} onClick={() => {
+                            deletePhoto({
+                                variables: {
+                                    slug
+                                }
+                            }).then(() => {
+                                refetch();
+                            });
+                        }}>Delete</a>
+                    </IsMine>
                 </div>
                 )
             })}
