@@ -89,7 +89,12 @@ const LocationPage = () : ReactElement => {
     const submitReview = () => {
         update().then(() => {
             setInputError("");
-            refetch();
+            refetch().then(({data: {location}}) => {
+                context.dispatch({
+                    type: SET_LOCATION,
+                    payload: location
+                });
+            });
         }).catch((error) => {
             setInputError(error.message);
         });
