@@ -52,12 +52,18 @@ const LocationPage = () : ReactElement => {
 
     const classes = useStyles();
 
+    const [inputError, setInputError]: [any, (state: any) => void] = useState();
+
     const [inputState, setInputs] : [any, (state: any) => void] = useState(
         { 
             'score': {
                 label: 'Score',
                 type: 'number',
-                value: 0 
+                value: 0,
+                extraProps: {
+                    min: 0,
+                    max: 10
+                }
             },
             'message': {
                 label: 'Message',
@@ -82,7 +88,10 @@ const LocationPage = () : ReactElement => {
 
     const submitReview = () => {
         update().then(() => {
+            setInputError("");
             refetch();
+        }).catch((error) => {
+            setInputError(error.message);
         });
     }
 
@@ -117,7 +126,7 @@ const LocationPage = () : ReactElement => {
 
     const {title, address, city, state, photos, country, editing, reviews} = location;
 
-    const posted = reviews.filter(({user}) => user.slug === me.slug).length > 0;
+    const posted = reviews.filter(({user}) => user.slug === me?.slug).length > 0;
 
     const mutablePhotos = [...photos];
     mutablePhotos.sort((a, b) => b.views - a.views);
@@ -151,6 +160,7 @@ const LocationPage = () : ReactElement => {
                             }
                             error={""}
                         >   
+                            { inputError && <p>{inputError}</p> } 
                             <button onClick={submitReview}>Submit</button>
                         </Form>
                     </>

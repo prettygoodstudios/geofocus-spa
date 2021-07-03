@@ -5,7 +5,11 @@ export type FormInput = {
     label: string,
     type: string,
     value: string,
-    dispatch: ChangeEventHandler<HTMLInputElement>
+    dispatch: ChangeEventHandler<HTMLInputElement|HTMLTextAreaElement>,
+    extraProps?: {
+        min?: number,
+        max?: number
+    }
 }
 
 const useStyles = makeStyles({
@@ -16,7 +20,16 @@ const useStyles = makeStyles({
     }
 });
 
-const Form = ({error, inputs, children}: {error: string|undefined, inputs: FormInput[], children?: ReactChildren|ReactChild}): ReactElement => {
+const inputFactory = ({type, label, value, dispatch, extraProps = {}}: FormInput, i: number) => {
+    switch(type){
+        case "textarea":
+            return <textarea id={`${label}_${i}`} value={value} onChange={dispatch}></textarea>;
+        default:
+            return <input id={`${label}_${i}`} type={type} value={value} onChange={dispatch} {...extraProps}></input>;
+    }
+}
+
+const Form = ({error, inputs, children}: {error: string|undefined, inputs: FormInput[], children?: ReactChildren|ReactChild|ReactChildren[]}): ReactElement => {
     
     const classes = useStyles();
 
@@ -26,7 +39,7 @@ const Form = ({error, inputs, children}: {error: string|undefined, inputs: FormI
                 const {label, type, value, dispatch} = input;
                 return <Fragment key={i}>
                     <label htmlFor={`${label}_${i}`}>{label}</label>
-                    <input id={`${label}_${i}`} type={type} value={value} onChange={dispatch}></input>
+                    { inputFactory(input, i) }
                 </Fragment>
             })
         }
