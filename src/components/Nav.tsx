@@ -108,7 +108,7 @@ const Nav = (): ReactElement => {
                     zIndex: 3
                 }} color={theme.palette.secondary.main} profileUrl={user.profile_url} slug={user.slug} size={30} font="20px" path="me" width={user.width} height={user.height} zoom={user.zoom} offsetX={user.offsetX} offsetY={user.offsetY}/>
                 <div className={classes.menu}>
-                    <Link to="/me">{user.display}</Link>
+                    <Link to={`/user/${user.slug}`}>{user.display}</Link>
                     <a onClick={logout}>Log out!</a>
                 </div>
             </div>

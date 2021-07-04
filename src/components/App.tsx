@@ -5,8 +5,7 @@ import UserFeed from './UserFeed';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link
+    Route
 } from "react-router-dom";
 
 import UserPage from './UserPage';
@@ -17,7 +16,6 @@ import LoginPage from './LoginPage';
 import { UserContext } from '../helpers/UserContext';
 import { useMemo, useReducer } from 'react';
 import { reducer } from '../helpers/Reducer';
-import MePage from './MePage';
 import LocationFormPage from './LocationFormPage';
 import PhotoUploadPage from './PhotoUploadPage';
 import {createUploadLink} from "apollo-upload-client";
@@ -87,9 +85,6 @@ const App = () => {
                                 </Route>
                                 <Route path="/login">
                                     <LoginPage/>
-                                </Route>
-                                <Route path="/me">
-                                    <MePage/>
                                 </Route>
                                 <Route path="/register">
                                     <RegistrationPage/>
