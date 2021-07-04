@@ -111,7 +111,7 @@ const Nav = (): ReactElement => {
                     <Link to={`/user/${user.slug}`}>{user.display}</Link>
                     <a onClick={logout}>Log out!</a>
                 </div>
-            </div>
+            </div>  
             : 
             !loading && <Link to="/login" tabIndex={-1}>Login</Link>
         }

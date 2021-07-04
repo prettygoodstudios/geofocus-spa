@@ -36,7 +36,9 @@ const styles = makeStyles((theme) => ({
     },
     card: {
         width: GALLERY_IMG_SIZE,
-        marginBottom: '20px'
+        marginBottom: '20px',
+        pageBreakInside: 'avoid',
+        pageBreakAfter: 'auto'
     },
     search: {
         width: "80vw",
