@@ -80,7 +80,8 @@ export default ({review, location, refetch, me}: {review: ReviewData, location: 
     });
     const [deleteReview] = useMutation(DELETE_REVIEW_MUTATION, {
         variables: {
-            location
+            location,
+            ...adminVariables
         }
     });
     return <div className={classes.wrapper}>

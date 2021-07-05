@@ -28,7 +28,7 @@ export const WRITE_REVIEW_MUTATION = gql`
 `;
 
 export const DELETE_REVIEW_MUTATION = gql`
-    mutation writeReview($location: String) {
-        deleteReview(location: $location)
+    mutation writeReview($location: String, $user: String) {
+        deleteReview(location: $location, user: $user)
     }
 `;
