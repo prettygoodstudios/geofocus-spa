@@ -6,7 +6,7 @@ const IsMine = ({ownerSlug, children}: {ownerSlug: string, children: any}): Reac
 
     const {state} = useContext(UserContext);
 
-    if (ownerSlug != state.user?.slug || !ownerSlug)  {
+    if (state.user?.role !== 'admin' && (ownerSlug != state.user?.slug || !ownerSlug))  {
         return <></>
     }
     return <>

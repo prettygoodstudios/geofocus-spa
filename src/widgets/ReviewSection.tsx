@@ -95,7 +95,7 @@ export default ({reviews, location, refetch, me} : {reviews: ReviewData[], locat
             </Authenticated>
             { reviews.length > 0 ? <h3>Reviews</h3> : <p>There are currently no reviews available for this location.</p> }
             {
-                reviews.map((r, i) => <Review review={r} location={location} key={i} refetch={refetch}/>)
+                reviews.map((r, i) => <Review review={r} location={location} key={i} refetch={refetch} me={me}/>)
             }
         </div>
     );

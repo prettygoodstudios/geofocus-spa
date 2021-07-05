@@ -7,7 +7,6 @@ import { GET_PHOTO } from "../queries/photo";
 import { PhotoData } from "../types";
 import CenteredLoading from "../widgets/CenteredLoading";
 import Error from "../widgets/Error";
-import Loading from "../widgets/Loading";
 import Profile from "../widgets/Profile";
 
 const useStyles = makeStyles({

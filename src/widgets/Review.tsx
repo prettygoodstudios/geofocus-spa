@@ -1,9 +1,10 @@
 import { useMutation } from "@apollo/client";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useState } from "react";
+import { UserContext } from "../helpers/UserContext";
 import { DELETE_REVIEW_MUTATION, WRITE_REVIEW_MUTATION } from "../queries/reviews";
 import useButtons from "../styles/buttons";
-import { ReviewData } from "../types";
+import { ReviewData, UserData } from "../types";
 import IsMine from "./IsMine";
 import Profile from "./Profile";
 
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 ;
 
-export default ({review, location, refetch}: {review: ReviewData, location: string, refetch: () => void} ): ReactElement => {
+export default ({review, location, refetch, me}: {review: ReviewData, location: string, refetch: () => void, me: string} ): ReactElement => {
     const {user: {display, profile_url, offsetX, offsetY, width, height, slug, zoom}, message, score } = review;
     const theme = useTheme();
     const classes = useStyles(theme);
@@ -68,11 +69,13 @@ export default ({review, location, refetch}: {review: ReviewData, location: stri
         score: number | '',
         error: string
     });
+    const adminVariables = me === slug ? {} : { user: slug };
     const [update] = useMutation(WRITE_REVIEW_MUTATION, {
         variables: {
             message: msg,
             location,
-            score: scr
+            score: scr,
+            ...adminVariables
         }
     });
     const [deleteReview] = useMutation(DELETE_REVIEW_MUTATION, {

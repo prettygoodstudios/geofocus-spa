@@ -28,10 +28,9 @@ export const USER_FRAGMENT = gql`
 `;
 
 export const PRIVATE_USER_FRAGMENT = gql`
-    ${PHOTO_FRAGMENT}
     fragment PrivateUserFragment on PrivateUserData {
-        ${STANDARD_USER_FIELDS}
-        ${PHOTOS_SELECTOR}
+        ${STANDARD_USER_FIELDS},
+        role
     }
 `;
 
