@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useTheme } from "@material-ui/core/styles";
-import { ReactElement, useContext } from "react";
+import { ReactElement, useContext, useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { SET_LOCATION } from "../helpers/Reducer";
@@ -15,6 +15,7 @@ import CenteredLoading from "../widgets/CenteredLoading";
 import Error from "../widgets/Error";
 import Gallery from "../widgets/Gallery";
 import IsMine from "../widgets/IsMine";
+import ReportForm from "../widgets/ReportForm";
 import ReviewSection from "../widgets/ReviewSection";
 import LocationFormPage from "./LocationFormPage";
 
@@ -26,6 +27,7 @@ const LocationPage = () : ReactElement => {
     const buttons = useButtons(theme)();
     const standard = useStandard(theme);
 
+    const [reporting, setReporting] = useState(false);
 
     const {error, loading, refetch} = useQuery(GET_LOCATION(slug), {
         onCompleted: (data) => {
@@ -85,6 +87,13 @@ const LocationPage = () : ReactElement => {
                 <a onClick={() => setEditing(!editing, location)} className={`${buttons.standard} ${standard.standardMargin}`}>{ editing ? "Cancel" : "Edit"}</a>
                 { editing && <LocationFormPage create={false}/> }
             </IsMine>
+            {
+                reporting ?
+                    <ReportForm
+                        location={ slug }
+                    />
+                : <a onClick={() => setReporting(true)}>Report</a>
+            }
         </Authenticated>
         <Gallery photos={mutablePhotos} query={true} refetch={refetchData}/>
         <ReviewSection reviews={reviews} location={slug} me={me?.slug} refetch={refetchData}/>
