@@ -1,10 +1,9 @@
 import { useMutation } from "@apollo/client";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { ReactElement, useContext, useState } from "react";
-import { UserContext } from "../helpers/UserContext";
+import { ReactElement, useState } from "react";
 import { DELETE_REVIEW_MUTATION, WRITE_REVIEW_MUTATION } from "../queries/reviews";
 import useButtons from "../styles/buttons";
-import { ReviewData, UserData } from "../types";
+import { ReviewData } from "../types";
 import IsMine from "./IsMine";
 import Profile from "./Profile";
 
