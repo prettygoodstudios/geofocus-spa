@@ -35,7 +35,7 @@ const ReportForm = ({location, photo, review}: {location?: string, photo?: strin
                 ...state,
                 success: true
             });
-        }).catch(({message}) => {
+        }).catch(({ message }) => {
             setState({
                 ...state,
                 error: message
@@ -60,9 +60,8 @@ const ReportForm = ({location, photo, review}: {location?: string, photo?: strin
                 }
             ]}
             error={ error }
-        >
-            <button onClick={ submit } className={ `${buttons.standard} ${standard.center}`} >Report</button>
-        </Form>
+        />
+        <button onClick={ submit } className={ `${buttons.standard} ${standard.center}`} >Report</button>
     </>;
 };
 

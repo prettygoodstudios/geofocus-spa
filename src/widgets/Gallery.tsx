@@ -14,6 +14,8 @@ import useInputs from "../styles/inputs";
 import IsMine from "./IsMine";
 import { useMutation } from "@apollo/client";
 import { DELETE_PHOTO } from "../queries/photo";
+import Authenticated from "./Authenticated";
+import ReportForm from "./ReportForm";
 
 export const GALLERY_IMG_SIZE = 400;
 
@@ -58,7 +60,7 @@ const styles = makeStyles((theme) => ({
         alignItems: 'center',
         flexWrap: 'wrap'
     },
-    delete: {
+    links: {
         float: 'right',
         color: theme.palette.primary.main,
         margin: 20,
@@ -71,7 +73,7 @@ const styles = makeStyles((theme) => ({
 const Gallery = ({photos, refetch, query = false}: {photos: PhotoData[], query?: boolean, refetch: () => void}) : ReactElement => {
 
     const [queryTerm, setQuery] = useState("");
-    const [reportId, setReportId] = useState(-1);
+    const [reportSlug, setReportSlug] = useState("");
 
     const theme = useTheme();
     const classes = styles(theme);
@@ -122,7 +124,7 @@ const Gallery = ({photos, refetch, query = false}: {photos: PhotoData[], query?:
                     </div>
                     <Link to={`/photo/${slug}`} className={buttons.standard}>View</Link>
                     <IsMine ownerSlug={user.slug}>
-                        <a className={classes.delete} onClick={() => {
+                        <a className={classes.links} onClick={() => {
                             deletePhoto({
                                 variables: {
                                     slug
@@ -132,6 +134,18 @@ const Gallery = ({photos, refetch, query = false}: {photos: PhotoData[], query?:
                             });
                         }}>Delete</a>
                     </IsMine>
+                    <Authenticated>
+                        {
+                            slug === reportSlug ?
+                            <ReportForm 
+                                photo={ slug }
+                            />
+                            :
+                            <a className={classes.links} onClick={() => setReportSlug(slug)}>
+                                Report
+                            </a>
+                        }
+                    </Authenticated>
                 </div>
                 )
             })}
