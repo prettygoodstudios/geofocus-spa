@@ -3,6 +3,7 @@ import { useTheme } from "@material-ui/core";
 import { useState } from "react";
 import { CREATE_REPORT } from "../queries/reports";
 import useButtons from "../styles/buttons";
+import useStandard from "../styles/standard";
 import Form from "./Form"
 
 
@@ -17,6 +18,7 @@ const ReportForm = ({location, photo, review}: {location?: string, photo?: strin
 
     const theme = useTheme();
     const buttons = useButtons(theme)();
+    const standard = useStandard(theme);
 
     const [dispatch] = useMutation(CREATE_REPORT, {
         variables: {
@@ -59,7 +61,7 @@ const ReportForm = ({location, photo, review}: {location?: string, photo?: strin
             ]}
             error={ error }
         >
-            <button onClick={ submit } className={ buttons.standard } >Report</button>
+            <button onClick={ submit } className={ `${buttons.standard} ${standard.center}`} >Report</button>
         </Form>
     </>;
 };

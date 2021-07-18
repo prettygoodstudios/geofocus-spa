@@ -1,5 +1,5 @@
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { ReactElement, useState } from "react";
+import { ReactElement, useMemo, useState } from "react";
 import {Link} from "react-router-dom";
 import LazyLoad from "react-lazyload";
 
@@ -71,6 +71,7 @@ const styles = makeStyles((theme) => ({
 const Gallery = ({photos, refetch, query = false}: {photos: PhotoData[], query?: boolean, refetch: () => void}) : ReactElement => {
 
     const [queryTerm, setQuery] = useState("");
+    const [reportId, setReportId] = useState(-1);
 
     const theme = useTheme();
     const classes = styles(theme);
@@ -80,21 +81,24 @@ const Gallery = ({photos, refetch, query = false}: {photos: PhotoData[], query?:
 
     const [deletePhoto] = useMutation(DELETE_PHOTO);
 
-    let filteredPhotos = photos ? photos : [];
+    const filteredPhotos = useMemo(() => {
+        let filteredPhotos = photos ? photos : [];
 
-    if (queryTerm !== "") {
-        filteredPhotos = filteredPhotos.filter((p : PhotoData) => {
-            const {slug, location: {title, state, city}, caption} = p;
-            const search = [slug, title, state, city, caption];
-            let retVal = false;
-            search.forEach(s => {
-                if(s && s.toLowerCase().indexOf(queryTerm.toLowerCase()) != -1) {
-                    retVal = true;
-                }
-            });
-            return retVal;
-        })
-    }
+        if (queryTerm !== "") {
+            filteredPhotos = filteredPhotos.filter((p : PhotoData) => {
+                const {slug, location: {title, state, city}, caption} = p;
+                const search = [slug, title, state, city, caption];
+                let retVal = false;
+                search.forEach(s => {
+                    if(s && s.toLowerCase().indexOf(queryTerm.toLowerCase()) != -1) {
+                        retVal = true;
+                    }
+                });
+                return retVal;
+            })
+        }
+        return filteredPhotos;
+    }, [photos, queryTerm]);
 
     return  <div className={classes.container}>
         {query && <input type="text" placeholder="Search..." value={queryTerm} onChange={({target}) => setQuery(target.value)} className={`${classes.search} ${inputs.pill}`}></input>}
