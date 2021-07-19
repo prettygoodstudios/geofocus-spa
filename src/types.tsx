@@ -38,7 +38,8 @@ export type ApiData = {
 export type ReviewData = {
     score: number,
     message: string,
-    user: UserData
+    user: UserData,
+    slug: string
 }
 
 export type LocationData = {

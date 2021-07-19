@@ -4,8 +4,10 @@ import { ReactElement, useState } from "react";
 import { DELETE_REVIEW_MUTATION, WRITE_REVIEW_MUTATION } from "../queries/reviews";
 import useButtons from "../styles/buttons";
 import { ReviewData } from "../types";
+import Authenticated from "./Authenticated";
 import IsMine from "./IsMine";
 import Profile from "./Profile";
+import ReportForm from "./ReportForm";
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
@@ -57,17 +59,20 @@ export default ({review, location, refetch, me}: {review: ReviewData, location: 
     const theme = useTheme();
     const classes = useStyles(theme);
     const buttons = useButtons(theme)();
-    const [{editing, message: msg, score: scr, error}, setState] = useState({
+    const [state, setState] = useState({
         editing: false,
         message,
         score,
-        error: ""
+        error: "",
+        reporting: false
     } as {
         editing: boolean,
         message: string,
         score: number | '',
-        error: string
+        error: string,
+        reporting: boolean
     });
+    const {editing, message: msg, score: scr, error, reporting} = state;
     const adminVariables = me === slug ? {} : { user: slug };
     const [update] = useMutation(WRITE_REVIEW_MUTATION, {
         variables: {
@@ -93,21 +98,21 @@ export default ({review, location, refetch, me}: {review: ReviewData, location: 
                 {
                     editing ?
                         <div>
-                            <button className={ buttons.lightBorder } onClick={() => setState({message: message, editing: false, score: score, error: ""})}>
+                            <button className={ buttons.lightBorder } onClick={() => setState({...state, message: message, editing: false, score: score, error: ""})}>
                                 Cancel
                             </button>
                             <button className={ buttons.lightBorder } onClick={() => {
                                 update().then(() => {
-                                    setState({message: msg, editing: false, score: scr, error: ""});
+                                    setState({...state, message: msg, error: "", editing: false});
                                 }).catch(({message}) => {
-                                    setState({message: msg, editing: true, score: scr, error: message});
+                                    setState({...state, message: msg, error: message});
                                 });
                             }}>Save</button>
                         </div>
                     :   
                     <div>
                         <button className={ buttons.lightBorder } onClick={() => deleteReview().then(refetch)}>Delete</button>
-                        <button className={ buttons.lightBorder } onClick={() => setState({message: msg, editing: true, score: scr, error: ""})}>Edit</button>
+                        <button className={ buttons.lightBorder } onClick={() => setState({...state, message: msg, editing: true})}>Edit</button>
                     </div>
                 }
             </IsMine>
@@ -116,13 +121,23 @@ export default ({review, location, refetch, me}: {review: ReviewData, location: 
             { editing ? 
                 <>
                     <label htmlFor="score">Score:</label>
-                    <input name="score" type="number" min="0" max="10" value={scr}  onChange={({target: {value}}) => setState({message: msg, editing: true, score: !Number.isNaN(parseFloat(value)) ? parseFloat(value) : '', error: ""})}/>
+                    <input name="score" type="number" min="0" max="10" value={scr}  onChange={({target: {value}}) => setState({...state, score: !Number.isNaN(parseFloat(value)) ? parseFloat(value) : ''})}/>
                     <label htmlFor="message">Message:</label>
-                    <textarea rows={ 5 } name="message" onChange={({target: {value}}) => setState({message: value, editing: true, score: scr, error: ""})} value={msg}></textarea> 
+                    <textarea rows={ 5 } name="message" onChange={({target: {value}}) => setState({...state, message: value})} value={msg}></textarea> 
                     { error ? <p>{error}</p> : <></> }
                 </>    
                 : msg
             }
+            <Authenticated>
+                {
+                    reporting ?
+                        <ReportForm
+                            review={ review.slug }
+                        />
+                    :
+                        <a onClick={() => setState({...state, reporting: true})}>Report</a>
+                }
+            </Authenticated>
         </div>
     </div>;
 }

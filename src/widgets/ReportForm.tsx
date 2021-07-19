@@ -48,8 +48,8 @@ const ReportForm = ({location, photo, review}: {location?: string, photo?: strin
     }
 
     return <>
-        <h2>Report Content</h2>
-        <p>All reported content will be reviewed before any action will be taken.</p>
+        <h2 className={ standard.center }>Report Content</h2>
+        <p className={ standard.center }>All reported content will be reviewed before any action will be taken.</p>
         <Form 
             inputs={[
                 {

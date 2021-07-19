@@ -14,7 +14,8 @@ export const REVIEW_FRAGMENT = gql`
             offsetX,
             offsetY,
             zoom         
-        }
+        },
+        slug
     }
 `;
 
