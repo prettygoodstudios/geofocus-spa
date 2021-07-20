@@ -5,6 +5,7 @@ import {Link, useHistory} from "react-router-dom";
 import { SET_USER } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { LOGOUT, ME } from "../queries/users";
+import IsAdmin from "../widgets/IsAdmin";
 import Profile from "../widgets/Profile";
 
 
@@ -109,6 +110,9 @@ const Nav = (): ReactElement => {
                 }} color={theme.palette.secondary.main} profileUrl={user.profile_url} slug={user.slug} size={30} font="20px" path="me" width={user.width} height={user.height} zoom={user.zoom} offsetX={user.offsetX} offsetY={user.offsetY}/>
                 <div className={classes.menu}>
                     <Link to={`/user/${user.slug}`}>{user.display}</Link>
+                    <IsAdmin>
+                        <Link to="/admin">Admin</Link>
+                    </IsAdmin>
                     <a onClick={logout}>Log out!</a>
                 </div>
             </div>  

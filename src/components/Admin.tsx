@@ -21,7 +21,9 @@ type Report = {
 
 export const Admin = () => {
     
-    const {error, loading, data, refetch} = useQuery(GET_REPORTS);
+    const {error, loading, data, refetch} = useQuery(GET_REPORTS, {
+        fetchPolicy: "network-only"
+    });
 
     const [deleteReport] = useMutation(DELETE_REPORT);
 
@@ -56,7 +58,7 @@ export const Admin = () => {
                 data && data.reports.map(({location, photo, review, message, id}: Report, i: number) => (
                     <li key={i}>
                         {linkFactory({location, photo, review})} 
-                        <button onClick={() => (deleteReport({variables: { id }}) && refetch()) } className={ buttons.standard }>Dismiss</button>
+                        <button onClick={() => deleteReport({variables: { id }}).then(refetch) } className={ buttons.standard }>Dismiss</button>
                         <p>{ message }</p>
                     </li>
                 ))

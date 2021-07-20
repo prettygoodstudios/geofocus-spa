@@ -47,16 +47,16 @@ export const GET_USER = (slug: string) => gql`
     ${USER_FRAGMENT}
     query GetUser {
         user(slug:"${slug}"){
-            ...PublicProfile   
+            ...PublicProfile  
         }
     }
 `;
 
 export const LOGIN = gql`
-    ${USER_FRAGMENT}
+    ${PRIVATE_USER_FRAGMENT}
     mutation Login($email: String!, $password: String!) {
         login(email: $email, password: $password) {
-            ...PublicProfile
+            ...PrivateUserFragment
         }
     }
 `;
@@ -66,7 +66,7 @@ export const ME = gql`
     ${PRIVATE_USER_FRAGMENT}
     query me {
         me {
-            ...PrivateUserFragment  
+            ...PrivateUserFragment
         }
     }
 `;
@@ -78,10 +78,10 @@ export const LOGOUT = gql`
 `;
 
 export const REGISTER = gql`
-    ${USER_FRAGMENT}
+    ${PRIVATE_USER_FRAGMENT}
     mutation register($display: String, $email: String, $password: String, $bio: String, $file: Upload, $offsetX: Float, $offsetY: Float $width: Float, $height: Float, $zoom: Float) {
         register(display: $display, email: $email, password: $password, bio: $bio, file: $file, offsetX: $offsetX, offsetY: $offsetY, width: $width, height: $height, zoom: $zoom) {
-            ...PublicProfile
+            ...PrivateUserFragment
         }
     }
 `;
