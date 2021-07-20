@@ -12,6 +12,7 @@ export const CREATE_REPORT = gql`
 export const GET_REPORTS = gql`
     query getReports {
         reports {
+            id,
             message,
             location {
                 slug,
@@ -29,5 +30,11 @@ export const GET_REPORTS = gql`
                 }
             },
         }
+    }
+`;
+
+export const DELETE_REPORT = gql` 
+    mutation deleteReport($id: Int) {
+        deleteReport(id: $id)
     }
 `;

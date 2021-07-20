@@ -1,6 +1,8 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
+import { useTheme } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { GET_REPORTS } from "../queries/reports";
+import { DELETE_REPORT, GET_REPORTS } from "../queries/reports";
+import useButtons from "../styles/buttons";
 import { PhotoData } from "../types";
 import Error from "../widgets/Error";
 import Loading from "../widgets/Loading";
@@ -13,16 +15,18 @@ type Report = {
         message: string,
         location: Location
     }, 
-    message: string
-} 
- 
-type ReportsData = {
-    reports: Report[]
+    message: string,
+    id: number
 }
 
 export const Admin = () => {
     
-    const {error, loading, data}: {error?: any, loading?: any, data?: ReportsData} = useQuery(GET_REPORTS);
+    const {error, loading, data, refetch} = useQuery(GET_REPORTS);
+
+    const [deleteReport] = useMutation(DELETE_REPORT);
+
+    const theme = useTheme();
+    const buttons = useButtons(theme)();
 
     if (loading) {
         return <Loading/>;
@@ -49,9 +53,10 @@ export const Admin = () => {
         <h2>Reports</h2>
         <ul>
             {
-                data && data.reports.map(({location, photo, review, message}, i) => (
+                data && data.reports.map(({location, photo, review, message, id}: Report, i: number) => (
                     <li key={i}>
                         {linkFactory({location, photo, review})} 
+                        <button onClick={() => (deleteReport({variables: { id }}) && refetch()) } className={ buttons.standard }>Dismiss</button>
                         <p>{ message }</p>
                     </li>
                 ))
