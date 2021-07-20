@@ -51,9 +51,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
-;
-
 export default ({review, location, refetch, me}: {review: ReviewData, location: string, refetch: () => void, me: string} ): ReactElement => {
     const {user: {display, profile_url, offsetX, offsetY, width, height, slug, zoom}, message, score } = review;
     const theme = useTheme();

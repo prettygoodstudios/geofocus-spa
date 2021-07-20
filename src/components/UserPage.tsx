@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useTheme } from "@material-ui/core";
 import { ReactElement, useContext } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { SET_USER } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { GET_USER, LOGOUT } from "../queries/users";
@@ -12,6 +13,7 @@ import Banner from "../widgets/Banner";
 import CenteredLoading from "../widgets/CenteredLoading";
 import Error from "../widgets/Error";
 import Gallery from "../widgets/Gallery";
+import IsAdmin from "../widgets/IsAdmin";
 import IsMine from "../widgets/IsMine";
 
 import Profile from "../widgets/Profile";
@@ -60,6 +62,9 @@ const UserPage = () : ReactElement => {
         <IsMine ownerSlug={slug}>
             <button onClick={logout} className={`${buttons.standard} ${standard.standardMargin}`}>Log out!</button>
         </IsMine>
+        <IsAdmin>
+            <Link to="/admin" className={`${buttons.standard} ${standard.standardMargin}`}>Admin</Link>
+        </IsAdmin>
         <Gallery photos={processedPhotos} query={true} refetch={refetch}/>
     </>
 }

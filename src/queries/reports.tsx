@@ -8,3 +8,26 @@ export const CREATE_REPORT = gql`
     }
 
 `;
+
+export const GET_REPORTS = gql`
+    query getReports {
+        reports {
+            message,
+            location {
+                slug,
+                title
+            },
+            photo {
+                slug,
+                caption
+            },
+            review {
+                slug,
+                message,
+                location {
+                    slug
+                }
+            },
+        }
+    }
+`;

@@ -23,6 +23,7 @@ import RegistrationPage from './RegistrationPage';
 import Locations from './Locations';
 import Styler from './Styler';
 import useStandard from '../styles/standard';
+import Admin from './Admin';
 
 const link = createUploadLink({
     uri: "http://localhost:4000/graphql",
@@ -88,6 +89,9 @@ const App = () => {
                                 </Route>
                                 <Route path="/register">
                                     <RegistrationPage/>
+                                </Route>
+                                <Route path="/admin">
+                                    <Admin/>
                                 </Route>
                                 <Route path="/">
                                     <Locations/>
