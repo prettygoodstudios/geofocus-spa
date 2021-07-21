@@ -89,9 +89,12 @@ const LocationPage = () : ReactElement => {
             </IsMine>
             {
                 reporting ?
-                    <ReportForm
-                        location={ slug }
-                    />
+                    <>
+                        <a onClick={() => setReporting(false)}>Cancel</a>
+                        <ReportForm
+                            location={ slug }
+                        />
+                    </>
                 : <a onClick={() => setReporting(true)}>Report</a>
             }
         </Authenticated>

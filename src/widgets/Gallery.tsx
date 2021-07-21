@@ -137,9 +137,14 @@ const Gallery = ({photos, refetch, query = false}: {photos: PhotoData[], query?:
                     <Authenticated>
                         {
                             slug === reportSlug ?
-                            <ReportForm 
-                                photo={ slug }
-                            />
+                            <>
+                                <a className={classes.links} onClick={() => setReportSlug('')}>
+                                    Cancel
+                                </a>
+                                <ReportForm 
+                                    photo={ slug }
+                                />
+                            </>
                             :
                             <a className={classes.links} onClick={() => setReportSlug(slug)}>
                                 Report

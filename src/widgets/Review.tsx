@@ -128,9 +128,12 @@ export default ({review, location, refetch, me}: {review: ReviewData, location: 
             <Authenticated>
                 {
                     reporting ?
-                        <ReportForm
-                            review={ review.slug }
-                        />
+                        <>
+                            <a onClick={() => setState({...state, reporting: false})}>Cancel</a>
+                            <ReportForm
+                                review={ review.slug }
+                            />
+                        </>
                     :
                         <a onClick={() => setState({...state, reporting: true})}>Report</a>
                 }
