@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { makeStyles } from "@material-ui/styles";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { GET_PHOTO } from "../queries/photo";
@@ -8,6 +8,7 @@ import { PhotoData } from "../types";
 import CenteredLoading from "../widgets/CenteredLoading";
 import Error from "../widgets/Error";
 import Profile from "../widgets/Profile";
+import ReportForm from "../widgets/ReportForm";
 
 const useStyles = makeStyles({
     imgContainer: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles({
 const PhotoPage = (): ReactElement =>  {
     const {slug} : {slug: string} = useParams();
     const {error, loading, data} = useQuery(GET_PHOTO(slug));
+    const [reporting, setReporting] = useState(false);
 
     const classes = useStyles();
     if (error) {
@@ -49,6 +51,15 @@ const PhotoPage = (): ReactElement =>  {
                 <Profile slug={user.slug} display={user.display} profileUrl={user.profile_url} size={20} font="15px" spacing={ 3 } width={user.width} height={user.height} zoom={user.zoom} offsetX={user.offsetX} offsetY={user.offsetY}/>
                 <span style={{marginLeft: 5}}><Link to={`/location/${location.slug}`}>{location.title}</Link> - {views} views - {caption}</span>
             </div>
+            {
+                reporting ?
+                    <ReportForm
+                        cancel={() => setReporting(false)}
+                        photo={data.photo.slug}
+                    />
+                :
+                    <a onClick={() => setReporting(true)}>Report</a>
+            }
         </div>
     </>
 }

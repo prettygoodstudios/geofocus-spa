@@ -7,7 +7,7 @@ import useStandard from "../styles/standard";
 import Form from "./Form"
 
 
-const ReportForm = ({location, photo, review}: {location?: string, photo?: string, review?: string}) => {
+const ReportForm = ({location, photo, review, cancel, cancelClass}: {location?: string, photo?: string, review?: string, cancel: () => void, cancelClass?: string}) => {
     const [state, setState] = useState({
         message: "",
         error: "",
@@ -48,6 +48,7 @@ const ReportForm = ({location, photo, review}: {location?: string, photo?: strin
     }
 
     return <>
+        <a onClick={ cancel } className={ cancelClass }>Cancel</a>
         <h2 className={ standard.center }>Report Content</h2>
         <p className={ standard.center }>All reported content will be reviewed before any action will be taken.</p>
         <Form 
