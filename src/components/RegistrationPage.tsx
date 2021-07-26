@@ -1,7 +1,8 @@
 import { useMutation } from "@apollo/client";
 import { useTheme } from "@material-ui/core/styles";
-import { ReactElement, useReducer, useContext } from "react";
+import { ReactElement, useReducer, useContext, useMemo } from "react";
 import { Redirect } from "react-router";
+import errorParser from "../helpers/errorParser";
 import { SET_USER } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { REGISTER } from "../queries/users";
@@ -63,10 +64,11 @@ const RegistrationPage = () : ReactElement => {
                 payload: data.register
             });
         },
-        onError: ({message}) => {
+        onError: (error) => {
+            debugger;
             dispatch({
                 type: SET_ERROR,
-                payload: message
+                payload: errorParser(error)
             })
         }
     });
@@ -125,7 +127,8 @@ const RegistrationPage = () : ReactElement => {
                     type: SET_INPUT,
                     payload: [input, target.value]
                 })
-            }
+            },
+            key: input
         }
     });
 

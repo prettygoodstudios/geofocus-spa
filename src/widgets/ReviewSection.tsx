@@ -55,10 +55,16 @@ export default ({reviews, location, refetch, me} : {reviews: ReviewData[], locat
 
     const submitReview = () => {
         update().then(() => {
-            setInputError("");
+            setInputError({
+                message: "",
+                fields: {}
+            });
             refetch();
-        }).catch((error) => {
-            setInputError(error.message);
+        }).catch(({message, fields}) => {
+            setInputError({
+                message,
+                fields
+            });
         });
     }
 
@@ -81,13 +87,13 @@ export default ({reviews, location, refetch, me} : {reviews: ReviewData[], locat
                                 Object.keys(inputState).map(input => {
                                     return {
                                         ...inputState[input],
-                                        dispatch: ({target: {value}}) => updateInputs(input, value, inputState[input].type === "number")
+                                        dispatch: ({target: {value}}) => updateInputs(input, value, inputState[input].type === "number"),
+                                        key: input
                                     }
                                 })
                             }
-                            error={""}
+                            error={ inputError }
                         >   
-                            { inputError && <p>{inputError}</p> } 
                             <button onClick={submitReview}>Submit</button>
                         </Form>
                     </>

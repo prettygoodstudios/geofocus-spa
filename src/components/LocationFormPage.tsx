@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { ReactElement, useContext, useEffect, useReducer } from "react";
 import { Redirect } from "react-router";
+import errorParser from "../helpers/errorParser";
 import { SET_LOCATION } from "../helpers/Reducer";
 import { UserContext } from "../helpers/UserContext";
 import { CREATE_LOCATION, UPDATE_LOCATION } from "../queries/locations";
@@ -85,7 +86,10 @@ const LocationFormPage = ({create}: {create: boolean}): ReactElement => {
 
     const initInputs = {
         inputs: generateInputs(),
-        error: "",
+        error: {
+            message: '',
+            fields: {}
+        },
         success: false,
         slug: ""
     };
@@ -142,7 +146,7 @@ const LocationFormPage = ({create}: {create: boolean}): ReactElement => {
         }).catch((error) => {
             dispatch({
                 type: SET_ERROR,
-                payload: error.message
+                payload: errorParser(error)
             });
         });
     }
@@ -157,7 +161,8 @@ const LocationFormPage = ({create}: {create: boolean}): ReactElement => {
                     type: UPDATE_INPUT,
                     payload: [input, target.value]
                 })
-            }
+            },
+            key: input
         }
     }); 
 

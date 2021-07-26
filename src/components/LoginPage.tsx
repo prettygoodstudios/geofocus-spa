@@ -63,7 +63,9 @@ const LoginPage = (): ReactElement => {
     const [state, dispatch] = useReducer(reducer, {
         email: "",
         password: "",
-        error: ""
+        error: {
+            message: ''
+        }
     } as never);
 
     const submit = () => {
@@ -82,7 +84,9 @@ const LoginPage = (): ReactElement => {
         }).catch(({message}) => {
             dispatch({
                 type: SET_ERROR,
-                payload: message
+                payload: {
+                    message
+                }
             })
         });
     }
@@ -101,7 +105,8 @@ const LoginPage = (): ReactElement => {
             dispatch: ({target: {value}}) => dispatch({
                 type: SET_EMAIL,
                 payload: value
-            })
+            }),
+            key: 'email'
         },
         {
             label: "Password",
@@ -110,7 +115,8 @@ const LoginPage = (): ReactElement => {
             dispatch: ({target: {value}}) => dispatch({
                 type: SET_PASSWORD,
                 payload: value
-            })
+            }),
+            key: 'password'
         }
     ];
 

@@ -1,3 +1,4 @@
+import { fromError } from "@apollo/client";
 import { makeStyles } from "@material-ui/styles";
 import { ChangeEventHandler, Fragment, ReactChild, ReactChildren, ReactElement } from "react";
 
@@ -9,6 +10,14 @@ export type FormInput = {
     extraProps?: {
         min?: number,
         max?: number
+    },
+    key: string
+}
+
+type FormError = {
+    message: string;
+    fields?: {
+        [key: string]: string
     }
 }
 
@@ -29,22 +38,23 @@ const inputFactory = ({type, label, value, dispatch, extraProps = {}}: FormInput
     }
 }
 
-const Form = ({error, inputs, children}: {error: string|undefined, inputs: FormInput[], children?: ReactChildren|ReactChild|ReactChildren[]}): ReactElement => {
+const Form = ({error, inputs, children}: {error: undefined|FormError, inputs: FormInput[], children?: ReactChildren|ReactChild|ReactChildren[]}): ReactElement => {
     
     const classes = useStyles();
 
     return <div className={classes.form}>
         {
             inputs.map((input, i) => {
-                const {label, type, value, dispatch} = input;
+                const {label, key} = input;
                 return <Fragment key={i}>
                     <label htmlFor={`${label}_${i}`}>{label}</label>
                     { inputFactory(input, i) }
+                    { error?.fields && error!.fields![key] }
                 </Fragment>
             })
         }
         {children}
-        {error && <p>{error}</p>}
+        {error && <p>{error.message}</p>}
     </div>
 }
 

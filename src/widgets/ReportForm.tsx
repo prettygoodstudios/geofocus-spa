@@ -10,7 +10,10 @@ import Form from "./Form"
 const ReportForm = ({location, photo, review, cancel, cancelClass}: {location?: string, photo?: string, review?: string, cancel: () => void, cancelClass?: string}) => {
     const [state, setState] = useState({
         message: "",
-        error: "",
+        error: {
+            message: '',
+            fields: {}
+        },
         success: false
     });
 
@@ -35,10 +38,13 @@ const ReportForm = ({location, photo, review, cancel, cancelClass}: {location?: 
                 ...state,
                 success: true
             });
-        }).catch(({ message }) => {
+        }).catch(({ message, fields }) => {
             setState({
                 ...state,
-                error: message
+                error: {
+                    message,
+                    fields
+                }
             });
         });
     };
@@ -57,7 +63,8 @@ const ReportForm = ({location, photo, review, cancel, cancelClass}: {location?: 
                     label: 'Message',
                     type: 'textarea',
                     value: message,
-                    dispatch: ({target: {value}}) => setState({...state, message: value})
+                    dispatch: ({target: {value}}) => setState({...state, message: value}),
+                    key: 'message'
                 }
             ]}
             error={ error }
