@@ -65,7 +65,6 @@ const RegistrationPage = () : ReactElement => {
             });
         },
         onError: (error) => {
-            debugger;
             dispatch({
                 type: SET_ERROR,
                 payload: errorParser(error)

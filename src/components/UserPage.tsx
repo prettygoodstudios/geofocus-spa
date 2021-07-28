@@ -59,12 +59,12 @@ const UserPage = () : ReactElement => {
         <Banner photo={photo}>
             <Profile display={display} profileUrl={profile_url} slug={slug} size={300} font="40px" color="white" width={width} height={height} zoom={zoom} offsetX={offsetX} offsetY={offsetY}/>
         </Banner>
-        <IsMine ownerSlug={slug}>
+        <IsMine ownerSlug={ slug } ignoreAdmin={ true }>
             <button onClick={logout} className={`${buttons.standard} ${standard.standardMargin}`}>Log out!</button>
+            <IsAdmin>
+                <Link to="/admin" className={`${buttons.standard} ${standard.standardMargin}`}>Admin</Link>
+            </IsAdmin>
         </IsMine>
-        <IsAdmin>
-            <Link to="/admin" className={`${buttons.standard} ${standard.standardMargin}`}>Admin</Link>
-        </IsAdmin>
         <Gallery photos={processedPhotos} query={true} refetch={refetch}/>
     </>
 }

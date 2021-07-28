@@ -215,7 +215,7 @@ const Locations = (): ReactElement => {
 
     if(query.selectIndex >= 0 && map){
         const location = filteredLocations[query.selectIndex];
-        map!.flyTo({
+        (map as any).flyTo({
             center: [location.longitude, location.latitude],
             speed: 0.5,
             zoom: 8
