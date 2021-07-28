@@ -1,6 +1,6 @@
-import { fromError } from "@apollo/client";
 import { makeStyles } from "@material-ui/styles";
 import { ChangeEventHandler, Fragment, ReactChild, ReactChildren, ReactElement } from "react";
+import { toTitleCase } from "../helpers/titleCase";
 
 export type FormInput = {
     label: string,
@@ -49,7 +49,7 @@ const Form = ({error, inputs, children}: {error: undefined|FormError, inputs: Fo
                 return <Fragment key={i}>
                     <label htmlFor={`${label}_${i}`}>{label}</label>
                     { inputFactory(input, i) }
-                    { error?.fields && error!.fields![key] }
+                    { error?.fields && error.fields[key] && error.fields[key].replace(key, toTitleCase(key)) }
                 </Fragment>
             })
         }

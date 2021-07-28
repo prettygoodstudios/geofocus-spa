@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { useTheme } from "@material-ui/core";
 import { useState } from "react";
+import errorParser from "../helpers/errorParser";
 import { CREATE_REPORT } from "../queries/reports";
 import useButtons from "../styles/buttons";
 import useStandard from "../styles/standard";
@@ -38,13 +39,10 @@ const ReportForm = ({location, photo, review, cancel, cancelClass}: {location?: 
                 ...state,
                 success: true
             });
-        }).catch(({ message, fields }) => {
+        }).catch((error) => {
             setState({
                 ...state,
-                error: {
-                    message,
-                    fields
-                }
+                error: errorParser(error)
             });
         });
     };

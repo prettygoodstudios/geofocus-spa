@@ -1,10 +1,12 @@
 import { useMutation } from "@apollo/client";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { ReactElement, useState } from "react";
+import errorParser from "../helpers/errorParser";
 import { DELETE_REVIEW_MUTATION, WRITE_REVIEW_MUTATION } from "../queries/reviews";
 import useButtons from "../styles/buttons";
 import { ReviewData } from "../types";
 import Authenticated from "./Authenticated";
+import Form from "./Form";
 import IsMine from "./IsMine";
 import Profile from "./Profile";
 import ReportForm from "./ReportForm";
@@ -60,13 +62,20 @@ export default ({review, location, refetch, me}: {review: ReviewData, location: 
         editing: false,
         message,
         score,
-        error: "",
+        error: {
+            message: ''
+        },
         reporting: false
     } as {
         editing: boolean,
         message: string,
         score: number | '',
-        error: string,
+        error: {
+            message: string,
+            fields?: {
+                [key: string]: string
+            }
+        },
         reporting: boolean
     });
     const {editing, message: msg, score: scr, error, reporting} = state;
@@ -95,14 +104,14 @@ export default ({review, location, refetch, me}: {review: ReviewData, location: 
                 {
                     editing ?
                         <div>
-                            <button className={ buttons.lightBorder } onClick={() => setState({...state, message: message, editing: false, score: score, error: ""})}>
+                            <button className={ buttons.lightBorder } onClick={() => setState({...state, message: message, editing: false, score: score, error: { message: ''}})}>
                                 Cancel
                             </button>
                             <button className={ buttons.lightBorder } onClick={() => {
                                 update().then(() => {
-                                    setState({...state, message: msg, error: "", editing: false});
-                                }).catch(({message}) => {
-                                    setState({...state, message: msg, error: message});
+                                    setState({...state, message: msg, error: { message: '' }, editing: false});
+                                }).catch((error) => {
+                                    setState({...state, message: msg, error: errorParser(error)});
                                 });
                             }}>Save</button>
                         </div>
@@ -116,13 +125,25 @@ export default ({review, location, refetch, me}: {review: ReviewData, location: 
         </div>
         <div className={classes.body}>
             { editing ? 
-                <>
-                    <label htmlFor="score">Score:</label>
-                    <input name="score" type="number" min="0" max="10" value={scr}  onChange={({target: {value}}) => setState({...state, score: !Number.isNaN(parseFloat(value)) ? parseFloat(value) : ''})}/>
-                    <label htmlFor="message">Message:</label>
-                    <textarea rows={ 5 } name="message" onChange={({target: {value}}) => setState({...state, message: value})} value={msg}></textarea> 
-                    { error ? <p>{error}</p> : <></> }
-                </>    
+                <Form 
+                    inputs={[
+                        {
+                            key: 'score',
+                            type: 'number',
+                            label: 'Score',
+                            value: scr as string,
+                            dispatch: ({target: {value}}) => setState({...state, score: !Number.isNaN(parseFloat(value)) ? parseFloat(value) : ''})
+                        },
+                        {
+                            key: 'message',
+                            type: 'textarea',
+                            label: 'Message',
+                            value: msg,
+                            dispatch: ({target: {value}}) => setState({...state, message: value})
+                        }
+                    ]}
+                    error={ error }
+                />  
                 : msg
             }
             <Authenticated>
