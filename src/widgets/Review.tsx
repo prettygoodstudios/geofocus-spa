@@ -132,6 +132,10 @@ export default ({review, location, refetch, me}: {review: ReviewData, location: 
                             type: 'number',
                             label: 'Score',
                             value: scr as string,
+                            extraProps: {
+                                min: 0,
+                                max: 10
+                            },
                             dispatch: ({target: {value}}) => setState({...state, score: !Number.isNaN(parseFloat(value)) ? parseFloat(value) : ''})
                         },
                         {

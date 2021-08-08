@@ -9,7 +9,8 @@ export type FormInput = {
     dispatch: ChangeEventHandler<HTMLInputElement|HTMLTextAreaElement>,
     extraProps?: {
         min?: number,
-        max?: number
+        max?: number,
+        inputClassName?: string
     },
     key: string
 }
@@ -32,9 +33,9 @@ const useStyles = makeStyles({
 const inputFactory = ({type, label, value, dispatch, extraProps = {}}: FormInput, i: number) => {
     switch(type){
         case "textarea":
-            return <textarea id={`${label}_${i}`} value={value} onChange={dispatch}></textarea>;
+            return <textarea id={`${label}_${i}`} value={value} onChange={dispatch} className={ extraProps.inputClassName }></textarea>;
         default:
-            return <input id={`${label}_${i}`} type={type} value={value} onChange={dispatch} {...extraProps}></input>;
+            return <input id={`${label}_${i}`} type={type} value={value} onChange={dispatch} {...extraProps} className={ extraProps.inputClassName }></input>;
     }
 }
 

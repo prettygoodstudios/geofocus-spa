@@ -1,7 +1,9 @@
 import { useMutation } from "@apollo/client";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useState } from "react";
+import errorParser from "../helpers/errorParser";
 import { WRITE_REVIEW_MUTATION } from "../queries/reviews";
+import useButtons from "../styles/buttons";
 import { ReviewData } from "../types"
 import Authenticated from "./Authenticated"
 import Form from "./Form"
@@ -14,11 +16,17 @@ const useStyles = makeStyles({
         '@media only screen and (max-width: 500px)': {
             margin: 20
         }
+    },
+    inputs: {
+        width: '100%',
+        margin: '20px 0'
     }
 });
 
 export default ({reviews, location, refetch, me} : {reviews: ReviewData[], location: string, refetch: () => void, me: string}) => {
     const classes = useStyles();
+    const theme = useTheme();
+    const buttons = useButtons(theme)();
     const [inputError, setInputError]: [any, (state: any) => void] = useState();
 
     const [inputState, setInputs] : [any, (state: any) => void] = useState(
@@ -29,13 +37,17 @@ export default ({reviews, location, refetch, me} : {reviews: ReviewData[], locat
                 value: 0,
                 extraProps: {
                     min: 0,
-                    max: 10
+                    max: 10,
+                    inputClassName: classes.inputs
                 }
             },
             'message': {
                 label: 'Message',
                 type: 'textarea',
-                value: ''
+                value: '',
+                extraProps: {
+                    inputClassName: classes.inputs
+                }
             }
         }
     );
@@ -60,11 +72,8 @@ export default ({reviews, location, refetch, me} : {reviews: ReviewData[], locat
                 fields: {}
             });
             refetch();
-        }).catch(({message, fields}) => {
-            setInputError({
-                message,
-                fields
-            });
+        }).catch((error) => {
+            setInputError(errorParser(error));
         });
     }
 
@@ -94,7 +103,7 @@ export default ({reviews, location, refetch, me} : {reviews: ReviewData[], locat
                             }
                             error={ inputError }
                         >   
-                            <button onClick={submitReview}>Submit</button>
+                            <button onClick={submitReview} className={ buttons.standard }>Submit</button>
                         </Form>
                     </>
                 }

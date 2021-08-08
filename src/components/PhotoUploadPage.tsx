@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import { ReactElement, useState } from "react";
 import { Redirect, useParams } from "react-router";
 import { UPLOAD_PHOTO } from "../queries/photo";
+import CenteredLoading from "../widgets/CenteredLoading";
 import PhotoUploader from "../widgets/PhotoUploader";
 
 const useStyles = makeStyles({
@@ -16,7 +17,8 @@ const useStyles = makeStyles({
 const PhotoUploadPage = (): ReactElement => {
     const [state, setState] = useState({
         caption: "",
-        uploaded: false
+        uploaded: false,
+        loading: false
     } as any);
 
     const {slug}: {slug: string} = useParams();
@@ -25,17 +27,17 @@ const PhotoUploadPage = (): ReactElement => {
 
     const [upload] = useMutation(UPLOAD_PHOTO, {
         onCompleted: ({upload}) => {
-            setTimeout(() => {
-                setState({
-                    ...state,
-                    uploaded: upload.slug
-                });
-            }, 500);
+            setState({
+                ...state,
+                uploaded: upload.slug,
+                loading: false
+            });
         },
         onError: ({message}) => {
             setState({
                 ...state,
-                error: message
+                error: message,
+                loading: false
             });
         }
     });
@@ -44,23 +46,37 @@ const PhotoUploadPage = (): ReactElement => {
         setState({
             ...state,
             uploader: data
-        })
+        });
     }
 
-    const {uploader, error, caption, uploaded} = state;
+    const {uploader, error, caption, uploaded, loading} = state;
 
     const uploadFile = () => {
+        setState({
+            ...state,
+            loading: true
+        });
         upload({
             variables: {
                 ...uploader,
                 caption: caption,
                 location: slug
             }
+        }).then(({data: { upload }}) => {
+            setState({
+                ...state,
+                uploaded: upload.slug,
+                loading: false
+            });
         });
     }
 
     if (uploaded) { 
-        return <Redirect to={`/photo/${uploaded}`}/>
+        return <Redirect to={`/photo/${uploaded}`}/>;
+    }
+
+    if (loading) {
+        return <CenteredLoading />;
     }
     
 

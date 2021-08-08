@@ -103,7 +103,7 @@ const Gallery = ({photos, refetch, query = false}: {photos: PhotoData[], query?:
     }, [photos, queryTerm]);
 
     return  <div className={classes.container}>
-        {query && <input type="text" placeholder="Search..." value={queryTerm} onChange={({target}) => setQuery(target.value)} className={`${classes.search} ${inputs.pill}`}></input>}
+        {query && photos.length > 0 && <input type="text" placeholder="Search..." value={queryTerm} onChange={({target}) => setQuery(target.value)} className={`${classes.search} ${inputs.pill}`}></input>}
         <div className={classes.feedBody}>
             {filteredPhotos.map(({caption, url, zoom, width, height, offsetX, offsetY, views, user, slug, location}: PhotoData, id: number) => {
                 return (
