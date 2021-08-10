@@ -1,6 +1,6 @@
 import { FetchResult } from "@apollo/client";
 import { useTheme } from "@material-ui/core";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { Redirect } from "react-router-dom";
 import errorParser from "../helpers/errorParser";
 import useButtons from "../styles/buttons";
@@ -14,14 +14,43 @@ type ProfileFormProps = {
         email: string;
         display: string;
         bio: string;
-    }
+    },
+    submitLabel: string;
 };
 
-const ProfileForm: React.FC<ProfileFormProps> = ({save, data}) => {
+const initStore = (data: any) => {
+    return {
+        inputs: {
+            email: {
+                value: data?.email ? data.email : '',
+                label: "Email",
+                type: "email"
+            },
+            password: {
+                value: "",
+                label: "Password",
+                type: "password"
+            },
+            display: {
+                value: data?.display ? data.display : '',
+                label: "Display",
+                type: "text"
+            },
+            bio: {
+                value: data?.bio ? data.bio : '',
+                label: "Bio",
+                type: "text"
+            }
+        }
+    }
+}
+
+const ProfileForm: React.FC<ProfileFormProps> = ({save, data, submitLabel}) => {
     const SET_INPUT = 'SET_INPUT';
     const UPDATE_UPLOADER = 'UPDATE_UPLOADER';
     const SET_ERROR = 'SET_ERROR';
     const SET_COMPLETED = 'SET_COMPLETED';
+    const INIT_STORE = 'INIT_STORE';
 
     const theme = useTheme();
     const buttons = useButtons(theme)();
@@ -29,6 +58,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({save, data}) => {
 
     const reducer = (state: any, {type, payload}: {type: string, payload: any}) => {
         switch(type){
+            case INIT_STORE:
+                return payload;
             case SET_INPUT:
                 const {inputs} = state;
                 inputs[payload[0]].value = payload[1];
@@ -62,33 +93,19 @@ const ProfileForm: React.FC<ProfileFormProps> = ({save, data}) => {
         dispatch({
             type: UPDATE_UPLOADER,
             payload: data
-        })
+        });
     }
 
-    const [{inputs, uploader, error, completed}, dispatch] = useReducer(reducer, {
-        inputs: {
-            email: {
-                value: data?.email,
-                label: "Email",
-                type: "email"
-            },
-            password: {
-                value: "",
-                label: "Password",
-                type: "password"
-            },
-            display: {
-                value: data?.display,
-                label: "Display",
-                type: "text"
-            },
-            bio: {
-                value: data?.bio,
-                label: "Bio",
-                type: "text"
-            }
-        }
-    });
+    
+
+    const [{inputs, uploader, error, completed}, dispatch] = useReducer(reducer, initStore(data));
+
+    useEffect(() => {
+        dispatch({
+            type: INIT_STORE,
+            payload: initStore(data)
+        })
+    }, [data]);
 
 
     const submit = () => {
@@ -134,7 +151,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({save, data}) => {
         <Form inputs={formInputs} error={error}>
             <PhotoUploader updateState={updateUploader}/>
         </Form>
-        <button onClick={submit} className={`${buttons.standard} ${standard.center}`}>Register!</button>
+        <button onClick={submit} className={`${buttons.standard} ${standard.center}`}>{ submitLabel }</button>
     </>
 };
 

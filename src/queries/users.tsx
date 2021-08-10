@@ -30,7 +30,9 @@ export const USER_FRAGMENT = gql`
 export const PRIVATE_USER_FRAGMENT = gql`
     fragment PrivateUserFragment on PrivateUserData {
         ${STANDARD_USER_FIELDS},
-        role
+        role,
+        bio,
+        email
     }
 `;
 
@@ -79,8 +81,17 @@ export const LOGOUT = gql`
 
 export const REGISTER = gql`
     ${PRIVATE_USER_FRAGMENT}
-    mutation register($display: String, $email: String, $password: String, $bio: String, $file: Upload, $offsetX: Float, $offsetY: Float $width: Float, $height: Float, $zoom: Float) {
+    mutation register($display: String, $email: String, $password: String, $bio: String, $file: Upload, $offsetX: Float, $offsetY: Float, $width: Float, $height: Float, $zoom: Float) {
         register(display: $display, email: $email, password: $password, bio: $bio, file: $file, offsetX: $offsetX, offsetY: $offsetY, width: $width, height: $height, zoom: $zoom) {
+            ...PrivateUserFragment
+        }
+    }
+`;
+
+export const UPDATE_PROFILE = gql`
+    ${PRIVATE_USER_FRAGMENT}
+    mutation editProfile($display: String, $email: String, $password: String, $bio: String, $file: Upload, $offsetX: Float, $offsetY: Float, $width: Float, $height: Float, $zoom: Float) {
+        editProfile(display: $display, email: $email, password: $password, bio: $bio, file: $file, offsetX: $offsetX, offsetY: $offsetY, width: $width, height: $height, zoom: $zoom) {
             ...PrivateUserFragment
         }
     }

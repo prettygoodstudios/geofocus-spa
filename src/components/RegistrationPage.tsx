@@ -19,7 +19,7 @@ const RegistrationPage = () : ReactElement => {
 
     return <>
         <h1>Register</h1>
-        <ProfileForm save={ register } />
+        <ProfileForm save={ register } submitLabel="Register!"/>
     </>
 }
 

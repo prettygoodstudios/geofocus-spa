@@ -24,6 +24,7 @@ import Locations from './Locations';
 import Styler from './Styler';
 import useStandard from '../styles/standard';
 import Admin from './Admin';
+import UpdateProfilePage from './UpdateProfilePage';
 
 const link = createUploadLink({
     uri: "http://localhost:4000/graphql",
@@ -69,6 +70,9 @@ const App = () => {
                         <UserContext.Provider value={context}>
                             <Nav/>
                             <Switch>
+                                <Route path="/profile/update/">
+                                    <UpdateProfilePage/>
+                                </Route>
                                 <Route path="/user/:slug">
                                     <UserPage/>
                                 </Route>
