@@ -61,6 +61,7 @@ const UserPage = () : ReactElement => {
         </Banner>
         <IsMine ownerSlug={ slug } ignoreAdmin={ true }>
             <button onClick={logout} className={`${buttons.standard} ${standard.standardMargin}`}>Log out!</button>
+            <Link className={`${buttons.standard} ${standard.standardMargin}`} to="/profile/update">Update Profile</Link>
             <IsAdmin>
                 <Link to="/admin" className={`${buttons.standard} ${standard.standardMargin}`}>Admin</Link>
             </IsAdmin>

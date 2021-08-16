@@ -140,7 +140,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({save, data, submitLabel}) => {
                     payload: [input, target.value]
                 })
             },
-            key: input
+            key: input,
+            extraProps: {
+                autoComplete: "new-password" 
+            }
         }
     });
 

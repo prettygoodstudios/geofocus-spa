@@ -26,8 +26,10 @@ export interface PhotoCropState {
 
 const generateInitialState = (state?: PhotoCropState): any => {
     if (!state) {
-        return {}
-    }
+        return {
+            aspect: 1
+        };
+    };
     const {width, offsetX, offsetY, zoom} = state as PhotoCropState;
     // zoom = GALLERY_IMG_SIZE/( ( width / cropperDOMWidth ) * cropperSelectionSize )
     // zoom * ( width / cropperDOMWidth ) * cropperSelectionSize = GALLERY_IMG_SIZE

@@ -10,7 +10,8 @@ export type FormInput = {
     extraProps?: {
         min?: number,
         max?: number,
-        inputClassName?: string
+        inputClassName?: string,
+        autoComplete?: string
     },
     key: string
 }
