@@ -6,7 +6,7 @@ import errorParser from "../helpers/errorParser";
 import useButtons from "../styles/buttons";
 import useStandard from "../styles/standard";
 import Form, { FormInput } from "./Form";
-import PhotoUploader from "./PhotoUploader";
+import PhotoUploader, { PhotoCropState } from "./PhotoUploader";
 
 type ProfileFormProps = {
     save: (data: any) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
@@ -14,6 +14,7 @@ type ProfileFormProps = {
         email: string;
         display: string;
         bio: string;
+        cropperData?: PhotoCropState
     },
     submitLabel: string;
 };
@@ -149,7 +150,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({save, data, submitLabel}) => {
 
     return <>
         <Form inputs={formInputs} error={error}>
-            <PhotoUploader updateState={updateUploader}/>
+            <PhotoUploader initialState={data?.cropperData} updateState={updateUploader}/>
         </Form>
         <button onClick={submit} className={`${buttons.standard} ${standard.center}`}>{ submitLabel }</button>
     </>

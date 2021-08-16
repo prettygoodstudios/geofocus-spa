@@ -5,10 +5,11 @@ import { UserContext } from "../helpers/UserContext";
 import { UPDATE_PROFILE } from "../queries/users";
 import CenteredLoading from "../widgets/CenteredLoading";
 import ProfileForm from "../widgets/ProfileForm";
+import { UserData } from "../types";
 
 const UpdateProfilePage: React.FC = () => {
 
-    const {dispatch, state: {user}} = useContext(UserContext);
+    const {dispatch, state: {user}}: {dispatch: (action: {type: string, payload?: any}) => void, state: {user: UserData}} = useContext(UserContext);
     
     const [update] = useMutation(UPDATE_PROFILE, {
         onCompleted: (data) => {
@@ -25,7 +26,7 @@ const UpdateProfilePage: React.FC = () => {
 
     return <>
         <h1>Update Profile</h1>
-        <ProfileForm save={ update } data={ user } submitLabel="Update"/>
+        <ProfileForm save={ update } data={ {...user as any, cropperData: { ...user, url: user.profile_url } } } submitLabel="Update"/>
     </>
 }
 
