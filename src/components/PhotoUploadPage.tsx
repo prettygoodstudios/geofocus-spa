@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { makeStyles } from "@material-ui/styles";
 import { ReactElement, useState } from "react";
 import { Redirect, useParams } from "react-router";
+import errorParser from "../helpers/errorParser";
 import { UPLOAD_PHOTO } from "../queries/photo";
 import CenteredLoading from "../widgets/CenteredLoading";
 import PhotoUploader from "../widgets/PhotoUploader";
@@ -11,6 +12,15 @@ const useStyles = makeStyles({
         display: "flex",
         flexDirection: "column",
         alignItems: "center"
+    },
+    loader: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'white',
+        zIndex: 9999
     }
 });
 
@@ -33,10 +43,10 @@ const PhotoUploadPage = (): ReactElement => {
                 loading: false
             });
         },
-        onError: ({message}) => {
+        onError: (error) => {
             setState({
                 ...state,
-                error: message,
+                error: errorParser(error),
                 loading: false
             });
         }
@@ -75,21 +85,21 @@ const PhotoUploadPage = (): ReactElement => {
         return <Redirect to={`/photo/${uploaded}`}/>;
     }
 
-    if (loading) {
-        return <CenteredLoading />;
-    }
-    
-
     return <div className={classes.container}>
         <h2>Photo Upload</h2>
-        <PhotoUploader updateState={updateUploader}/>
-        <label htmlFor="caption">Caption:</label>
-        <input type="text" id="caption" onChange={({target: {value}}) => setState({
-            ...state,
-            caption: value
-        })} value={caption}></input>
-        <button onClick={uploadFile}>Upload!</button>
-        {error && <p>{error}</p>}
+        <PhotoUploader updateState={updateUploader} errors={error?.fields}/>
+        { loading ? 
+            <div className={ classes.loader }><CenteredLoading/></div>
+            : <>
+                <label htmlFor="caption">Caption:</label>
+                <input type="text" id="caption" onChange={({target: {value}}) => setState({
+                    ...state,
+                    caption: value
+                })} value={caption}></input>
+                <button onClick={uploadFile}>Upload!</button>
+                {error && <p>{error.message}</p>}
+            </>
+        }
     </div>
 }
 

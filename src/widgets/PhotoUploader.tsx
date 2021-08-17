@@ -52,7 +52,7 @@ const generateInitialState = (state?: PhotoCropState): any => {
     };
 };
 
-const PhotoUploader = ({updateState, initialState} : {updateState:  (data: any) => void, initialState?: PhotoCropState}): ReactElement => {
+const PhotoUploader = ({updateState, initialState, errors} : {updateState:  (data: any) => void, initialState?: PhotoCropState, errors?: { [x: string]: string}}): ReactElement => {
 
     const [crop, setCrop] = useState({ 
         aspect: 1
@@ -97,8 +97,10 @@ const PhotoUploader = ({updateState, initialState} : {updateState:  (data: any) 
 
     return <div className={classes.container}>
         <label htmlFor="photoUpload">Select Photo:</label>
+        { errors?.image && <p>{errors.image}</p> }
         <input type="file" id="photoUpload" onChange={({target}) => selectPhoto(target!.files![0])}></input>
         <label>Select thumbnail area:</label> 
+        { errors?.thumbnail && <p>{errors.thumbnail}</p> }
         <ReactCrop className={classes.cropper} src={src.url} crop={crop} onChange={updateCrop} minWidth={200} maxHeight={600}/>
     </div>
 }

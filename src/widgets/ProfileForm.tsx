@@ -153,7 +153,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({save, data, submitLabel}) => {
 
     return <>
         <Form inputs={formInputs} error={error}>
-            <PhotoUploader initialState={data?.cropperData} updateState={updateUploader}/>
+            <PhotoUploader initialState={data?.cropperData} updateState={updateUploader} errors={error?.fields}/>
         </Form>
         <button onClick={submit} className={`${buttons.standard} ${standard.center}`}>{ submitLabel }</button>
     </>
