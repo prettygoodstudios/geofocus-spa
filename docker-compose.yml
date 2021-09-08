@@ -1,0 +1,13 @@
+services:
+  spa:
+    build: .
+    ports: 
+      - 3030:80
+    volumes: 
+      - ./dist:/usr/share/nginx/html/dist
+  backend:
+    build: ../geofocus-backend
+    ports:
+      - 4000:4000
+    volumes:
+      - ../geofocus-backend/dist/:/app/dist
