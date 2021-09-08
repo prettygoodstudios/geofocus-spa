@@ -6,7 +6,9 @@
   "scripts": {
     "start": "webpack serve --config webpack.config.js --port 3030 --host 0.0.0.0",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "docker": "docker run --rm --publish 3030:80 geofocus-spa",
+    "docker-build": "docker build --tag geofocus-spa ."
   },
   "keywords": [],
   "author": "",
