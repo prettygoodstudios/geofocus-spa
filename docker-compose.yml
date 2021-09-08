@@ -3,7 +3,7 @@ services:
     build: .
     ports: 
       - 3030:80
-    volumes: 
+    volumes:
       - ./dist:/usr/share/nginx/html/dist
   backend:
     build: ../geofocus-backend
