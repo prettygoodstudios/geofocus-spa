@@ -68,27 +68,6 @@ const Nav = (): ReactElement => {
     const {state: {user}, dispatch} = useContext(UserContext);
     const [clearCookies, result] = useMutation(LOGOUT);
 
-
-    const {data, error, loading, refetch} = useQuery(ME, {
-        onCompleted: () => {
-            dispatch({
-                type: SET_USER,
-                payload: data.me
-            })
-        },
-        fetchPolicy: "network-only"
-    });
-
-    const history = useHistory();
-
-    history.listen((location) => {
-        if(location.pathname.indexOf("/me/") != -1){
-            refetch({
-                fetchPolicy: "network-only"
-            });
-        }
-    });
-
     const logout = () => {
         clearCookies().then(() => {
             dispatch({
@@ -118,7 +97,7 @@ const Nav = (): ReactElement => {
                 </div>
             </div>  
             : 
-            !loading && <Link to="/login" tabIndex={-1}>Login</Link>
+            !user && <Link to="/login" tabIndex={-1}>Login</Link>
         }
     </div>
 }

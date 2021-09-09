@@ -13,7 +13,6 @@ import PhotoPage from './PhotoPage';
 import Nav from './Nav';
 import LocationPage from './LocationPage';
 import LoginPage from './LoginPage';
-import { UserContext } from '../helpers/UserContext';
 import { useMemo, useReducer } from 'react';
 import { reducer } from '../helpers/Reducer';
 import LocationFormPage from './LocationFormPage';
@@ -25,6 +24,7 @@ import Styler from './Styler';
 import useStandard from '../styles/standard';
 import Admin from './Admin';
 import UpdateProfilePage from './UpdateProfilePage';
+import UserProvider from './UserProvider';
 
 const link = createUploadLink({
     uri: "http://localhost:4000/graphql",
@@ -53,21 +53,14 @@ const theme = createMuiTheme({
 
 const App = () => {
 
-    const [state, dispatch] = useReducer(reducer, {
-        user: null,
-        loaded: false
-    });
-
-    const context = useMemo(() => ({state, dispatch}), [state, dispatch]);
-
     const standard = useStandard(theme);
 
     return (
         <Router>
             <ThemeProvider theme={theme}>
-                <Styler> 
+                <Styler>
                     <ApolloProvider client={client}>
-                        <UserContext.Provider value={context}>
+                        <UserProvider>
                             <Nav/>
                             <Switch>
                                 <Route path="/profile/update/">
@@ -103,7 +96,7 @@ const App = () => {
                                     <UserFeed/>
                                 </Route>
                             </Switch>
-                        </UserContext.Provider>
+                        </UserProvider>
                     </ApolloProvider>
                 </Styler>
             </ThemeProvider>  
