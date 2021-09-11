@@ -1,8 +1,7 @@
 import {  useTheme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { ReactChild, ReactElement } from "react";
 
-const Styler = ({children} : {children: ReactChild}): ReactElement => {
+const Styler: React.FC = ({children})=> {
     const theme =  useTheme();
     const useStyles = makeStyles({
         main: {

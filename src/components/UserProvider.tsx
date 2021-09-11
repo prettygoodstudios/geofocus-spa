@@ -11,7 +11,7 @@ const UserProvider: React.FC<{}> = ({children}) => {
     });
 
     const context = useMemo(() => ({state, dispatch}), [state, dispatch]);
-    useUser();
+    useUser(dispatch);
 
     return (
         <UserContext.Provider value={context}>
