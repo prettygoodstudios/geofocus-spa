@@ -22,35 +22,37 @@ const useStyles = makeStyles({
 
 const LocationFormPage = ({create}: {create: boolean}): ReactElement => {
 
-    const UPDATE_INPUT = 'UPDATE_INPUT';
-    const SET_INPUT = 'SET_INPUT';
-    const SET_ERROR = 'ERROR';
-    const SUCCESS = 'SUCCESS';
-
-    const reducer = (state: any, {type, payload} : {type: string, payload: any}) => {
+    const reducer = (state: any, {type, payload} : {type: 'UPDATE_INPUT' | 'SET_ERROR' | 'ERROR' | 'SUCCESS' | 'SET_INPUT' | 'SET_LOADING', payload?: any}) => {
         switch(type){
-            case UPDATE_INPUT:
+            case 'UPDATE_INPUT':
                 const {inputs} = state;
                 inputs[payload[0]].value = payload[1];
                 return {
                     ...state,
                     ...inputs
                 }
-            case SET_INPUT:
+            case 'SET_INPUT':
                 return {
                     ...state,
                     inputs: payload
                 }
-            case SET_ERROR:
+            case 'SET_ERROR':
                 return {
                     ...state,
-                    error: payload
+                    error: payload,
+                    loading: false
                 }
-            case SUCCESS:
+            case 'SUCCESS':
                 return {
                     ...state,
                     success: true,
-                    slug: payload
+                    slug: payload,
+                    loading: false
+                }
+            case 'SET_LOADING':
+                return {
+                    ...state,
+                    loading: true
                 }
             default: 
                 return {
@@ -96,7 +98,7 @@ const LocationFormPage = ({create}: {create: boolean}): ReactElement => {
 
     const [state, dispatch] = useReducer(reducer, initInputs);
 
-    const { error, inputs, success, slug } = state; 
+    const { error, inputs, success, slug, loading } = state; 
 
     const [update] = useMutation(UPDATE_LOCATION);
     const [createLocaton] = useMutation(CREATE_LOCATION);
@@ -112,7 +114,7 @@ const LocationFormPage = ({create}: {create: boolean}): ReactElement => {
             const {title, address, city, state, country} = context.state.location;
             const inputs = generateInputs(title, address, city, state, country);
             dispatch({
-                type: SET_INPUT,
+                type: 'SET_INPUT',
                 payload: inputs
             })
         }
@@ -139,13 +141,13 @@ const LocationFormPage = ({create}: {create: boolean}): ReactElement => {
                 });
             } else {
                 dispatch({
-                    type: SUCCESS,
+                    type: 'SUCCESS',
                     payload: data[property].slug
                 });
             }
         }).catch((error) => {
             dispatch({
-                type: SET_ERROR,
+                type: "SET_ERROR",
                 payload: errorParser(error)
             });
         });
@@ -158,7 +160,7 @@ const LocationFormPage = ({create}: {create: boolean}): ReactElement => {
             label: inputs[input].label,
             dispatch: ({target}) => {
                 dispatch({
-                    type: UPDATE_INPUT,
+                    type: 'UPDATE_INPUT',
                     payload: [input, target.value]
                 })
             },
@@ -170,9 +172,20 @@ const LocationFormPage = ({create}: {create: boolean}): ReactElement => {
         return <Redirect to={`/location/${slug}`}/>
     }
 
+    const submitHandler = () => {
+        dispatch({
+            type: 'SET_LOADING'
+        });
+        if (create) {
+            submit(createLocaton, "createLocation")
+        } else {
+            submit(update, "updateLocation")
+        }
+    }
+
     return <div className={classes.container}>
-        <Form error={error} inputs={formInputs} />
-        <button onClick={create ? () => submit(createLocaton, "createLocation") : () => submit(update, "updateLocation")} className={buttons.standard}>Save!</button>
+        <Form error={error} inputs={formInputs} loading={ loading }/>
+        <button onClick={ submitHandler } className={buttons.standard}>Save!</button>
     </div>
 }
 

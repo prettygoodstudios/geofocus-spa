@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/styles";
 import { ChangeEventHandler, Fragment, ReactChild, ReactChildren, ReactElement } from "react";
 import { toTitleCase } from "../helpers/titleCase";
+import Loading from "./Loading";
 
 export type FormInput = {
     label: string,
@@ -40,24 +41,27 @@ const inputFactory = ({type, label, value, dispatch, extraProps = {}}: FormInput
     }
 }
 
-const Form = ({error, inputs, children}: {error: undefined|FormError, inputs: FormInput[], children?: ReactChildren|ReactChild|ReactChildren[]}): ReactElement => {
-    
+const Form: React.FC<{error: undefined|FormError, inputs: FormInput[], loading?: boolean}> = ({error, inputs, children, loading}): ReactElement => {
+    if (loading) {
+        return <Loading/>;
+    }
     const classes = useStyles();
-
-    return <div className={classes.form}>
-        {
-            inputs.map((input, i) => {
-                const {label, key} = input;
-                return <Fragment key={i}>
-                    <label htmlFor={`${label}_${i}`}>{label}</label>
-                    { inputFactory(input, i) }
-                    { error?.fields && error.fields[key] && error.fields[key].replace(key, toTitleCase(key)) }
-                </Fragment>
-            })
-        }
-        {children}
-        {error && <p>{error.message}</p>}
-    </div>
+    return (
+        <div className={classes.form}>
+            {
+                inputs.map((input, i) => {
+                    const {label, key} = input;
+                    return <Fragment key={i}>
+                        <label htmlFor={`${label}_${i}`}>{label}</label>
+                        { inputFactory(input, i) }
+                        { error?.fields && error.fields[key] && error.fields[key].replace(key, toTitleCase(key)) }
+                    </Fragment>
+                })
+            }
+            {children}
+            {error && <p>{error.message}</p>}
+        </div>
+    );
 }
 
 export default Form;
